@@ -1,6 +1,5 @@
 /* AIME — component styles copied from LEMONDEAIME src/styles.css (main@f2d2b35). Colours come from tokens.css (--encre, --fond, --carte, --trait, --trait-2, --doux, --dock, --dock-trait). */
 :root { --nacre: radial-gradient(circle at 32% 30%, #ffffff 0%, #d9e8ff 22%, #c9b8ff 48%, #ffd6ec 72%, #b9f0e4 100%); --marge: clamp(16px, 4vw, 56px); font-family: 'Inter Tight', system-ui, sans-serif; color: var(--encre); background: var(--fond); -webkit-font-smoothing: antialiased; }
-}
 * { box-sizing: border-box; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 body { margin: 0; background: var(--fond); }

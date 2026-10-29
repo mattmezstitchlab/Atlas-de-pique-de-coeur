@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le moteur — Atlas de pique de cœur</title>
+<meta name="description" content="Le moteur AIME reconstruit une demande à partir de vos mots, dans l’ordre, et la fonde sur ce que les gens demandent vraiment aux agents IA.">
+<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/composants.css">
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/moteur.css">
+</head>
+<body>
+<a class="lien-evitement" href="#demande">Aller au moteur</a>
+<header class="tete">
+  <nav class="dock-haut" aria-label="Dock du haut">
+    <div class="dock-ligne">
+      <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
+      <span class="separateur" aria-hidden="true"></span>
+      <a class="outil" href="https://www.lemondeaime.com/" style="padding:0 10px" aria-label="AIME, le site"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
+      <div class="rangee"><span class="separateur" aria-hidden="true"></span>
+        <a class="outil" href="index.html">L’atlas</a>
+        <a class="outil" href="moteur.html" aria-current="page">Le moteur</a>
+        <a class="outil" href="https://www.lemondeaime.com/studio/atelier">Studio</a>
+        <a class="outil" href="https://www.lemondeaime.com/boutique">Boutique</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <section id="moteur" class="chapitre premier" aria-labelledby="titre-moteur">
+    <p class="surtitre">Atlas de pique de cœur · le moteur</p>
+    <h1 id="titre-moteur" class="signature titre-moteur">Le moteur</h1>
+    <p class="chapeau">Dites ce que vous voulez avec vos mots, dans le désordre. Le moteur reconnaît ce que vous avez dit, le range dans l’ordre et le présente toujours de la même façon. Il vous dit aussi ce qui manque.</p>
+
+    <div class="atelier">
+      <div class="saisie">
+        <label for="demande" class="etiquette-champ">Votre demande</label>
+        <textarea id="demande" class="champ zone" rows="5" spellcheck="true"></textarea>
+        <div class="carrousel-points" id="exemples" role="group" aria-label="Exemples">
+          <button type="button" data-texte="Ensuite il faut que je prévienne les 148 invités du changement de salle. D’abord trouve-moi un traiteur végétarien à Lyon pour le 12 septembre, budget 40 € par personne. Et aussi écris un petit discours pour mes témoins, pas plus de 3 minutes, sur un ton drôle.">Un mariage</button>
+          <button type="button" data-texte="Je suis stressée, le mariage approche et je n’arrive plus à dormir.">Une inquiétude</button>
+          <button type="button" data-texte="Mon site bugue sur iPhone : corrige le formulaire d’inscription avant demain.">Un souci technique</button>
+          <button type="button" data-texte="Fais une affiche pour la marche du 5 avril à Nantes">Une affiche</button>
+          <button type="button" data-texte="Explique-moi comment fonctionne le Passeport AIME pour une association, puis rédige un e-mail pour nos bénévoles, en liste.">Une association</button>
+        </div>
+        <div class="actions">
+          <button type="button" class="bouton noir" id="reconstruire">Reconstruire la demande</button>
+          <div class="sens" id="sens" role="group" aria-label="Dans quel ordre">
+            <button type="button" class="opt" data-sens="normal" aria-pressed="true">Du plus important</button>
+            <button type="button" class="opt" data-sens="inverse" aria-pressed="false">Le moins important d’abord</button>
+          </div>
+        </div>
+      </div>
+      <div class="vos-mots">
+        <p class="etiquette-champ">Ce que le moteur a reconnu</p>
+        <div class="studio-papier papier-mots" id="surligne"></div>
+        <p class="legende-mots"><mark class="info-remplie vient">l’intention et l’ordre</mark> <mark class="info-remplie">qui, quand, où, combien, conditions, forme</mark></p>
+      </div>
+    </div>
+
+    <p class="resume" id="resume" role="status" aria-live="polite"></p>
+    <ol class="journee demandes-reconstruites" id="resultat"></ol>
+    <p class="note-source">L’ordre suit d’abord vos mots (« d’abord », « ensuite », « enfin »), puis l’urgence (aujourd’hui, demain, une date), puis l’ordre où vous l’avez dit. Rien n’est envoyé : le moteur tourne dans votre navigateur.</p>
+  </section>
+
+  <section id="demandes" class="chapitre" aria-labelledby="t-demandes">
+    <p class="date-chapitre">Mesuré · 2025 – 2026</p>
+    <h2 id="t-demandes" class="grand-mot">Les demandes</h2>
+    <p class="chapeau">Ce que les gens demandent vraiment aux agents IA, d’après les conversations elles-mêmes, du plus fréquent au moins fréquent.</p>
+    <div class="echelle" aria-hidden="true"><span style="left:0">0</span><span style="left:33.33%">10 %</span><span style="left:66.67%">20 %</span><span style="left:100%">30 %</span></div>
+    <ul class="barres" id="barres"></ul>
+    <p class="note-source">Barre pleine : la valeur la plus basse rapportée. Partie claire : l’écart entre les comptes rendus de la même étude.</p>
+    <h3 class="sous-titre">La forme de la demande</h3>
+    <div class="formes" id="formes"></div>
+    <h3 class="sous-titre">Ailleurs</h3>
+    <ul class="tuiles" id="reperes"></ul>
+  </section>
+
+  <section id="envies" class="chapitre" aria-labelledby="t-envies">
+    <p class="date-chapitre">Déclaré · juin 2025</p>
+    <h2 id="t-envies" class="grand-mot">Les envies</h2>
+    <p class="chapeau">Ce que les gens veulent confier à un agent, quand on leur demande métier par métier : moins de travail répétitif, plus de temps pour ce qui compte, et garder la main.</p>
+    <ul class="tuiles" id="envies"></ul>
+  </section>
+</main>
+
+<section id="ordre-inverse" class="bande-sombre" aria-labelledby="t-inverse">
+  <p class="date-chapitre">Le moins important devient le plus important</p>
+  <h2 id="t-inverse" class="grand-mot">L’ordre inversé</h2>
+  <p class="chapeau">Ce que les gens racontent faire avec l’IA et ce que les études mesurent ne se ressemblent pas. Les trois usages dont on parle le plus pèsent quelques pour cent des conversations. Ils sont rares parce qu’ils sont mal servis : c’est là qu’il faut commencer.</p>
+  <ol class="etapes inverse" id="inverse"></ol>
+  <p class="chapeau">C’est le sens du bouton « Le moins important d’abord » : la dernière demande passe devant, et dans chaque demande, ce que vous n’avez pas dit vient avant ce que vous avez dit.</p>
+</section>
+
+<section id="sources" class="chapitre sources" aria-labelledby="t-sources">
+  <p class="date-chapitre">Recherche du 29 octobre 2026</p>
+  <h2 id="t-sources" class="titre">Les sources</h2>
+  <ul class="liste-sources" id="sources"></ul>
+  <p class="note-source">Chaque étude mesure un public différent (ChatGPT, Claude, Copilot, un sondage, des travailleurs, des forums) : leurs chiffres se lisent côte à côte, jamais additionnés.</p>
+</section>
+
+<footer class="pied">
+  <a href="https://www.lemondeaime.com/" aria-label="AIME, le site" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
+  <p class="note" style="margin:0;max-width:60ch;color:var(--encre-2)">Construit avec le design system AIME.</p>
+  <div class="bas"><p style="margin:0">AIME® est la marque mère. LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+</footer>
+
+<nav class="dock-bas" aria-label="Les lieux de la page">
+  <div id="dock">
+    <span class="orbe-dock" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44"><defs><radialGradient id="ir" cx="35%" cy="32%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#d9e8ff"/><stop offset="60%" stop-color="#c9b8ff"/><stop offset="80%" stop-color="#ffd6ec"/><stop offset="100%" stop-color="#b9f0e4"/></radialGradient></defs>
+        <g id="arcs"></g>
+        <circle cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
+        <circle id="progres" cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="0 69.1" transform="rotate(-90 22 22)"/>
+        <circle cx="22" cy="22" r="5.5" fill="url(#ir)"/></svg>
+    </span>
+    <a class="lieu" href="#moteur" aria-current="false">Le moteur</a>
+    <a class="lieu" href="#demandes" aria-current="false">Les demandes</a>
+    <a class="lieu" href="#envies" aria-current="false">Les envies</a>
+    <a class="lieu" href="#ordre-inverse" aria-current="false">L’ordre inversé</a>
+    <a class="lieu" href="#sources" aria-current="false">Sources</a>
+  </div>
+</nav>
+
+<script src="data/lexique.js"></script>
+<script src="data/statistiques.js"></script>
+<script src="js/moteur.js"></script>
+</body>
+</html>
