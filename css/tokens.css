@@ -1,0 +1,102 @@
+/* AIME — generated from tokens.json */
+
+:root, [data-theme="clair"] {
+  --encre: #0b0b0c;
+  --encre-2: #3a3a3f;
+  --encre-3: #55555a;
+  --fond: #f6f6f4;
+  --carte: #ffffff;
+  --doux: #f1f1ee;
+  --papier: #ecece8;
+  --cadre: #e9e9e5;
+  --trait: #e2e2de;
+  --trait-2: #cfcfcb;
+  --trait-champ: #bdbdb8;
+  --dock: #1b1b1a;
+  --dock-trait: #3a3a38;
+  --dock-survol: #2a2a28;
+  --sombre: var(--encre);
+  --sombre-bulle: #24242a;
+  --sombre-champ: #17171b;
+  --blanc: #ffffff;
+  --blanc-2: rgba(255,255,255,.75);
+  --blanc-3: rgba(255,255,255,.6);
+  --voile: rgba(11,11,12,.14);
+  --erreur: #a3122a;
+  --libre: #4fd69a;
+  --option-fond: #fff3d6;
+  --option-trait: #f5b754;
+  --prise: #8a8a86;
+  --nacre-blanc: #ffffff;
+  --nacre-ciel: #d9e8ff;
+  --nacre-lilas: #c9b8ff;
+  --nacre-rose: #ffd6ec;
+  --nacre-menthe: #b9f0e4;
+  --nacre-brume: #ede7f7;
+  --dossier-archives: #e4e4e1;
+  --info-remplie: #ece4ff;
+  --info-remplie-trait: #a98be0;
+  --info-vient: #ffe9a8;
+  --info-vient-trait: #c79a1e;
+  --orbe-lecture-1: #4f7bff;
+  --orbe-lecture-2: #4fd6e8;
+  --orbe-grand-1: #f5b754;
+  --orbe-grand-2: #ff9a3c;
+  --orbe-calme: var(--libre);
+  --orbe-ecoute: #a46bff;
+  --ombre-dock: 0 14px 36px rgba(11,11,12,.12);
+  --ombre-dock-ouvert: 0 30px 80px rgba(11,11,12,.22);
+  --ombre-menu: 0 24px 60px rgba(11,11,12,.2);
+  --ombre-dock-bas: 0 12px 32px rgba(0,0,0,.28);
+  --ombre-ecran: 0 40px 100px rgba(11,11,12,.14);
+  --ombre-papier: 0 1px 0 #e2e2de, 0 18px 40px rgba(11,11,12,.10);
+  --ombre-bascule: 0 1px 3px rgba(0,0,0,.12);
+}
+
+:root {
+  --espace-1: 6px;
+  --espace-2: 8px;
+  --espace-3: 14px;
+  --espace-4: 16px;
+  --espace-5: 24px;
+  --espace-6: 28px;
+  --espace-7: 48px;
+  --marge: 56px;
+  --espace-8: 96px;
+  --espace-section: 140px;
+  --rayon-xs: 5px;
+  --rayon-sm: 10px;
+  --rayon-champ: 12px;
+  --rayon-bouton: 13px;
+  --rayon-md: 14px;
+  --rayon-dock: 16px;
+  --rayon-lg: 18px;
+  --rayon-carte: 20px;
+  --rayon-xl: 24px;
+  --rayon-pilule: 999px;
+  --hauteur-champ: 52px;
+  --hauteur-lieu: 50px;
+  --hauteur-outil: 48px;
+  --hauteur-option: 44px;
+  --hauteur-min: 40px;
+  --font-sans: "Inter Tight", system-ui, sans-serif;
+}
+
+.signature { font-family: var(--font-sans); font-size: 196px; line-height: 0.86; font-weight: 900; letter-spacing: -0.035em; text-transform: uppercase; }
+.grand-mot { font-family: var(--font-sans); font-size: 168px; line-height: 0.86; font-weight: 600; letter-spacing: -0.045em; text-transform: uppercase; }
+.titre { font-family: var(--font-sans); font-size: 68px; line-height: 1; font-weight: 600; letter-spacing: -0.035em; }
+.legende { font-family: var(--font-sans); font-size: 38px; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; }
+.titre-carte { font-family: var(--font-sans); font-size: 32px; line-height: 1.15; font-weight: 600; letter-spacing: -0.025em; }
+.titre-bloc { font-family: var(--font-sans); font-size: 28px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
+.ensemble { font-family: var(--font-sans); font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; }
+.chapeau { font-family: var(--font-sans); font-size: 23px; line-height: 1.45; font-weight: 400; }
+.texte { font-family: var(--font-sans); font-size: 21px; line-height: 1.6; font-weight: 400; }
+.corps { font-family: var(--font-sans); font-size: 17px; line-height: 1.5; font-weight: 400; }
+.note { font-family: var(--font-sans); font-size: 15px; line-height: 1.45; font-weight: 400; }
+.menu { font-family: var(--font-sans); font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -0.02em; }
+.marque { font-family: var(--font-sans); font-size: 18px; line-height: 1; font-weight: 800; letter-spacing: -0.02em; }
+.bouton { font-family: var(--font-sans); font-size: 16px; line-height: 1; font-weight: 600; }
+.outil { font-family: var(--font-sans); font-size: 15px; line-height: 1; font-weight: 500; }
+.etiquette { font-family: var(--font-sans); font-size: 14px; line-height: 1.3; font-weight: 600; }
+.surtitre { font-family: var(--font-sans); font-size: 13px; line-height: 1.3; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+.bientot { font-family: var(--font-sans); font-size: 11px; line-height: 1.3; font-weight: 700; }
