@@ -1,4 +1,4 @@
-/* L’éditeur de la chronologie (admin.html). Local : tout reste dans ce navigateur (localStorage + coffre IndexedDB).
+/* L’éditeur de la chronologie (administration.html). Local : tout reste dans ce navigateur (localStorage + coffre IndexedDB).
    Publier = enregistrer une version ; exporter = produire data/chronologie.js (public, filtré) et un corpus LIFEBOOK (privé).
    Aucune fausse connexion : il n’y a ni serveur ni authentification tant que docs/ADMINISTRATION.md n’est pas réalisé. */
 (function () {
@@ -89,7 +89,7 @@
         return '<li><label><input type="checkbox" data-archive-liee="' + esc(a.id) + '"' + ((e.archiveIds || []).indexOf(a.id) !== -1 ? ' checked' : '') + '> ' + esc(a.title) + ' <i class="statut ' + esc(a.privacy) + '">' + esc(a.privacy === 'prive' ? 'Privé' : a.privacy === 'publiable' ? 'Publiable' : 'Publié') + '</i></label></li>'; }).join('') + '</ul>' : '<p>Aucune archive. Ajoutez-en dans l’onglet Archives.</p>') +
       '<small>Une même archive peut appartenir à plusieurs événements : elle n’est jamais dupliquée.</small></fieldset>' +
       '<fieldset class="bloc-admin"><legend>LIFEBOOK</legend>' + champ('Référence LIFEBOOK (identifiant d’événement)', texte('lifebookRef', e.lifebookRef, 'evt_…'), 'Privée : elle ne part jamais dans le fichier public. Exemple existant dans LIFEBOOK : <code>evt_saint-luc</code>.') + '</fieldset>' +
-      '<div class="actions-admin"><button type="button" class="bouton" data-apercu-ici>Prévisualiser sur la page d’accueil</button><button type="button" class="lien-retirer" data-supprimer-entree>Supprimer cet événement</button></div>' +
+      '<div class="actions-admin"><button type="button" class="bouton" data-apercu-ici>Prévisualiser sur la chronologie</button><button type="button" class="lien-retirer" data-supprimer-entree>Supprimer cet événement</button></div>' +
       '</form><section class="apercu-admin" aria-label="La composition, telle qu’elle paraîtra"><p class="surtitre">La composition, en direct</p><div class="avant apercu-zone" id="apercu-entree"></div></section>';
   }
   function apercuEntree(e) {
@@ -193,7 +193,7 @@
     return { format: 'atlas-chronologie', schemaVersion: 1, publieLe: jour(), version: S.versions.length, titre: d.titre, chapeau: d.chapeau, entrees: entrees, archives: arch, relations: rel };
   }
   function fichierPublic(d) {
-    return '/* La chronologie publiée : produite par l’éditeur (admin.html), version ' + d.version + ' du ' + d.publieLe + '.\n   Ce fichier est PUBLIC : seules les entrées et archives publiées y figurent. Le schéma est décrit dans docs/ADMINISTRATION.md. */\nwindow.ATLAS = window.ATLAS || {};\nwindow.ATLAS.chronologie = ' + JSON.stringify(d, null, 2) + ';\n';
+    return '/* La chronologie publiée : produite par l’éditeur (administration.html), version ' + d.version + ' du ' + d.publieLe + '.\n   Ce fichier est PUBLIC : seules les entrées et archives publiées y figurent. Le schéma est décrit dans docs/ADMINISTRATION.md. */\nwindow.ATLAS = window.ATLAS || {};\nwindow.ATLAS.chronologie = ' + JSON.stringify(d, null, 2) + ';\n';
   }
   function telecharger(nom, contenu, type) {
     var url = URL.createObjectURL(new Blob([contenu], { type: type || 'text/plain' })), a = document.createElement('a');
@@ -286,7 +286,7 @@
     else if (b.hasAttribute('data-exporter-lifebook')) { telecharger('corpus.json', JSON.stringify(corpusLifebook(), null, 2), 'application/json'); noter('Corpus LIFEBOOK exporté (privé).'); sauver(); }
   });
 
-  function apercu(id) { sauver(); window.open('index.html?apercu=1' + (id ? '#' + id : '#avant'), '_blank', 'noopener'); }
+  function apercu(id) { sauver(); window.open('chronologie.html?apercu=1' + (id ? '#' + id : '#avant'), '_blank', 'noopener'); }
   document.getElementById('apercu').addEventListener('click', function () { apercu(S.choix); });
   document.getElementById('publier').addEventListener('click', function () {
     var p = publique(D()), n = S.versions.length + 1, note = prompt('Publier : une note pour cette version (facultatif)', '') ;

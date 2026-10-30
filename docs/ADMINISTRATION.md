@@ -2,13 +2,13 @@
 
 ## Ce qui existe aujourd’hui
 
-- **`admin.html`** est un éditeur **local**. Il n’existe encore ni serveur ni authentification pour l’atlas. L’éditeur ne simule donc aucune connexion.
+- **`administration.html` (adresse `/administration`)** est un éditeur **local**. Il n’existe encore ni serveur ni authentification pour l’atlas. L’éditeur ne simule donc aucune connexion.
 - Les modifications, les brouillons, les archives privées et les références LIFEBOOK restent dans le navigateur qui les a saisies :
   - le texte dans `localStorage`, sous la clé `atlas-admin-v1` ;
   - les images dans IndexedDB (base `atlas-coffre`, voir `js/coffre.js`).
 - **Publier** enregistre une version dans l’éditeur. Le bouton télécharge aussi `chronologie.js`, filtré : seules les entrées et les archives publiées y figurent, et les références LIFEBOOK et les pièces privées n’y entrent jamais. Ce fichier remplace `data/chronologie.js` par une pull request, puis Vercel le met en ligne.
-- **Prévisualiser** ouvre `index.html?apercu=1`. Seul le navigateur de l’éditeur lit le brouillon ; un bandeau l’annonce.
-- `/admin` est servi avec `X-Robots-Tag: noindex` et `Cache-Control: no-store`. La page ne contient aucun secret. Un visiteur qui l’ouvre n’édite que son propre navigateur.
+- **Prévisualiser** ouvre `chronologie.html?apercu=1`. Seul le navigateur de l’éditeur lit le brouillon ; un bandeau l’annonce.
+- `/administration` est servi avec `X-Robots-Tag: noindex` et `Cache-Control: no-store`. La page ne contient aucun secret. Un visiteur qui l’ouvre n’édite que son propre navigateur.
 
 ## Le parcours demandé, étape par étape
 

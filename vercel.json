@@ -46,5 +46,32 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/metamorphose",
+      "destination": "/composition",
+      "permanent": true
+    },
+    {
+      "source": "/metamorphose.html",
+      "destination": "/composition",
+      "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "/administration",
+      "permanent": true
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/administration",
+      "permanent": true
+    },
+    {
+      "source": "/atlas",
+      "destination": "/chronologie",
+      "permanent": false
+    }
   ]
 }

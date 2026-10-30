@@ -57,7 +57,7 @@
     return '<p class="surtitre" id="achevement" style="margin-top:96px;color:rgba(255,255,255,.65)">L’achèvement</p><h3 class="titre" style="color:#fff">Ce qui peut être construit</h3>' +
       '<p class="chapeau">' + fr(ACH.principe) + '</p><div class="apercu-achevement" role="list">' +
       ACH.briques.map(function (b) { return '<article role="listitem" class="bloc brique ' + b.style + '" style="grid-column:' + (b.x + 1) + ' / span ' + b.w + ';grid-row:' + (b.y + 1) + ' / span ' + b.h + '">' + A.bloc.brique(b, 'apercu') + '</article>'; }).join('') +
-      '</div><p class="lien-metamorphose"><a class="bouton" href="metamorphose.html">Ouvrir la Métamorphose : déplacer les briques, glisser les 643 projets</a></p>';
+      '</div><p class="lien-metamorphose"><a class="bouton" href="composition.html">Ouvrir la Métamorphose : déplacer les briques, glisser les 643 projets</a></p>';
   }
 
   /* l'écosystème : filtre par état avec les boutons d'option (.opt) */
