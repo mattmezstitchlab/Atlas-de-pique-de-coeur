@@ -1,0 +1,56 @@
+{
+  "format": "atlas-creation",
+  "version": 1,
+  "id": "demonstration-un-concert-en-deux-demandes-c010df",
+  "titre": "Essai de refus (essai-privee)",
+  "description": "Fichier d’essai : il doit être refusé à la lecture. Ce n’est pas une création.",
+  "publieLe": "2026-10-30",
+  "visibility": "prive",
+  "publicationStatus": "publie",
+  "blocs": [
+    {
+      "uid": "p1",
+      "type": "module",
+      "ref": "missions",
+      "x": 0,
+      "y": 0,
+      "w": 4,
+      "h": 5
+    },
+    {
+      "uid": "p2",
+      "type": "module",
+      "ref": "musique",
+      "x": 4,
+      "y": 0,
+      "w": 4,
+      "h": 5,
+      "intentions": [
+        "image"
+      ]
+    },
+    {
+      "uid": "p3",
+      "type": "brique",
+      "ref": "edition",
+      "x": 0,
+      "y": 5,
+      "w": 6,
+      "h": 2,
+      "intentions": [
+        "image"
+      ]
+    }
+  ],
+  "liens": [
+    [
+      "p1",
+      "p2"
+    ],
+    [
+      "p2",
+      "p3"
+    ]
+  ],
+  "mise": null
+}

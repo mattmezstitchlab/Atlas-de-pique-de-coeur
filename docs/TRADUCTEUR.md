@@ -16,12 +16,6 @@ Une seule transformation, de bout en bout, sans nouveau moteur :
 - **Les informations reconnues ne remplissent pas les formulaires des modules.** Elles sont gardées dans la fiche du bloc ; les reporter dans un module reste un geste de la personne.
 - **Tout reste sur l’appareil.** Rien n’est envoyé ; aucune composition n’a encore d’adresse publique.
 
-## Vers .0NE : ce qui manque pour « retrouver depuis .0NE » (proposition, non construite)
+## Vers .0NE
 
-.0NE pourrait ouvrir une création publique d’ATLAS par son adresse, sans recopier les moteurs ni partager de données personnelles :
-
-- une composition **publiée volontairement** devient un fichier public `atlas-recette` v1 servi à une adresse stable (par exemple `/composition?recette=<id>`), en lecture seule ;
-- elle ne contient que les blocs (type, référence, place), les liens et les phrases reconstruites ; **jamais** les données saisies dans les modules (invités, montants, documents, photos) ni les archives privées ;
-- .0NE ne lit que cette adresse ; ATLAS n’embarque pas le Disque et .0NE ne réécrit rien dans ATLAS.
-
-La publication suppose un stockage côté serveur et une décision explicite de la personne : rien de cela n’existe encore (voir `docs/ADMINISTRATION.md`).
+C'est maintenant construit : la publication volontaire, à `/composition/<id>`, en lecture seule. Voir `docs/PUBLICATION.md`.

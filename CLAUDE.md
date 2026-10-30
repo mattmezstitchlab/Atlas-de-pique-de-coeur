@@ -11,7 +11,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 ## Les règles qui font la différence
 
 - **Rien hors de l’atlas** : pas de lien vers le studio de broderie ni la boutique ; pas de Disque reconstruit ici. Une seule sortie : le lien « Retour à AIME · .0NE » (pied de page, et le cercle de l’accueil). Le bouton ATLAS du dock du haut ramène à l’accueil.
-- **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Aussi : `/importer` (l’import : les fichiers dans le Cube), `/vue-cube` (la vue Cube, en verre), `/cube` (le Cube de Saint-Luc, maquette), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/#chapitre`) redirigent.
+- **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Une création publiée : `/composition/<id>`, en lecture seule. Aussi : `/importer` (l’import : les fichiers dans le Cube), `/vue-cube` (la vue Cube, en verre), `/cube` (le Cube de Saint-Luc, maquette), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/#chapitre`) redirigent.
 - **En français**, vouvoiement, phrases entières, typographie française (espace insécable avant `:` `;` `?` `!`, apostrophe ’, « guillemets »).
 - **L’encre sur le papier** : `encre` sur `fond`, surfaces en `carte`, filets en `trait`. La couleur vient des photos et de la nacre de l’orbe, jamais des boutons.
 - **Un seul caractère**, Inter Tight. Titres en 600. Le 900 une seule fois par page, pour sa signature.
@@ -57,6 +57,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `js/traducteur.js` · `data/traduction.js` | Le « + » de la Composition : `traduire(analyse)` (pure) propose des fragments et des modules à partir de la lecture du moteur ; après confirmation, `ATLAS.grille.poser()` les pose, reliés. Une composition structurée, rien n’est exécuté (`docs/TRADUCTEUR.md`) |
+| `js/publication.js` · `js/publier.js` · `creation.html` · `js/creation.js` · `creations/` | La publication volontaire : la section « Publier » de la Composition prépare un fichier `atlas-creation` (seulement la forme de la grille) ; ajouté dans `creations/`, il se lit en lecture seule à `/composition/<id>` (`docs/PUBLICATION.md`) |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
 
@@ -70,6 +71,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
 - **Un module** : une entrée dans `data/modules.js` (avec ses capacités sources) et sa fonction dans `CORPS` de `js/modules.js`.
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
+- **Publier une composition** : le fichier préparé dans « Publier » est ajouté sans modification dans `creations/` ; jamais de publication automatique (`docs/PUBLICATION.md`).
 - **Un mot que le traducteur ne relie à aucun fragment** : l’ajouter dans `data/traduction.js`, sans accents, sous le module ou la brique voulus.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
