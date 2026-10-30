@@ -87,3 +87,15 @@ main { display: block; }
 #demain .etapes li { grid-template-columns: minmax(0, 1fr); justify-items: center; }
 #demain .etapes li::before { padding-top: 0; }
 #demain .nouveau { text-align: left; }
+
+/* Les bandeaux : entre chaque époque, un grand visuel sur toute la largeur, le titre en blanc dessus (data/visuels.js) */
+#chapitres .chapitre.a-bandeau { padding-top: 0; border-top: 0; }
+#chapitres .chapitre.premier.a-bandeau { padding-top: var(--espace-8); }
+#demain.a-bandeau { padding-top: 0; }
+.bandeau { position: relative; display: flex; align-items: center; justify-content: center; min-height: clamp(420px, 78vh, 860px); margin: 0 calc(-1 * var(--marge)) var(--espace-7); overflow: hidden; background: #111; color: var(--blanc); text-align: center; }
+.bandeau > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bandeau::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.28), rgba(0,0,0,.18) 40%, rgba(0,0,0,.6)); pointer-events: none; }
+.bandeau-texte { position: relative; z-index: 1; padding: var(--espace-8) var(--marge); }
+.bandeau .date-chapitre { color: rgba(255,255,255,.88); }
+#chapitres .bandeau .grand-mot, #demain .bandeau .grand-mot { color: var(--blanc); font-size: clamp(56px, 13vw, 220px); line-height: .95; text-wrap: balance; text-shadow: 0 2px 40px rgba(0,0,0,.25); }
+#chapitres .moment, #fiches, #achevement { scroll-margin-top: 120px; }

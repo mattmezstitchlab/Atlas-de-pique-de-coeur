@@ -1,6 +1,7 @@
 /* L’histoire de l’écosystème AIME, chapitre par chapitre.
    Chaque chapitre devient une section de la page et un lieu du dock du bas.
    Un moment : { quand, titre, texte, puces?, source? }. Un visuel : { src, alt, accroche, legende }.
+   « bandeau » : l’identifiant d’un visuel de data/visuels.js, posé en grand avant le chapitre, le titre en blanc dessus.
    Sources : les dates de création des 643 applications Base44 du compte (API Base44, relevé du 30 octobre 2026),
    l’application « Atlas Base44 Matt Mez » (171 fiches, 28 capacités), l’historique git d’Aime-wedding et de LEMONDEAIME,
    l’archive « AIME PROJETS.zip ». Ne rien inventer : une date sans source n’entre pas ici. */
@@ -14,7 +15,7 @@ window.ATLAS.histoire = {
   ],
   chapitres: [
     {
-      id: 'novembre', lieu: 'Novembre', date: '10 – 30 novembre 2025 · 99 applications', titre: 'Le premier soir',
+      id: 'novembre', bandeau: 'union', lieu: 'Novembre', date: '10 – 30 novembre 2025 · 99 applications', titre: 'Le premier soir',
       chapeau: 'Le 10 novembre 2025, à 17 h 53, une première application : « Rainbow Synchronicity ». En vingt jours, quatre-vingt-dix-neuf autres suivent. Les thèmes de tout ce qui viendra sont déjà là : le mariage, la musique, la mémoire, la broderie.',
       moments: [
         { quand: '10 nov.', titre: 'Signature Vibratoire',
@@ -38,7 +39,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'decembre', lieu: 'Décembre', date: 'Décembre 2025 · 103 applications', titre: 'Le nom AIME',
+      id: 'decembre', bandeau: 'sculpture', lieu: 'Décembre', date: 'Décembre 2025 · 103 applications', titre: 'Le nom AIME',
       chapeau: 'Le laboratoire prend un nom, Matt Mez Lab, le 6 décembre. Deux semaines plus tard, le 20, apparaît pour la première fois le mot AIME : AIME Magazine.',
       moments: [
         { quand: '6 déc.', titre: 'Matt Mez Lab',
@@ -58,7 +59,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'hiver', lieu: 'Janv. – mars', date: 'Janvier – mars 2026 · 128 applications', titre: 'Le Monde AIME',
+      id: 'hiver', bandeau: 'sous-la-mer', lieu: 'Janv. – mars', date: 'Janvier – mars 2026 · 128 applications', titre: 'Le Monde AIME',
       chapeau: 'AIME se décline, puis s’élargit : le 15 janvier naît LE MONDE AIME. Le temps devient une matière (Timeheart, Time Circle) et la présence une forme (BLOOM).',
       moments: [
         { quand: '11 janv.', titre: 'AI + ME',
@@ -81,7 +82,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'avril', lieu: 'Avril', date: 'Avril 2026 · 100 applications', titre: 'Apprendre des autres',
+      id: 'avril', bandeau: 'laverie', lieu: 'Avril', date: 'Avril 2026 · 100 applications', titre: 'Apprendre des autres',
       chapeau: 'Avril est un mois d’étude : des dizaines de sites de référence sont reconstitués pour comprendre comment ils sont faits (Linear, Runey, Perplexity, Webflow, The Knot, Shopify, Awwwards…). AIME en sort avec ses outils de mariage.',
       moments: [
         { quand: '14 avr.', titre: 'La timeline du mariage',
@@ -97,7 +98,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'mai', lieu: 'Mai', date: 'Mai 2026 · 61 applications', titre: 'Le Point',
+      id: 'mai', bandeau: 'grille-roses', lieu: 'Mai', date: 'Mai 2026 · 61 applications', titre: 'Le Point',
       chapeau: 'Mai donne une forme aux idées : un prototype de plateforme du mariage, un registre de preuves, la timeline du Jour J, et le 31, Point Zéro by AIME.',
       moments: [
         { quand: '6 mai', titre: 'Univers AIME, le prototype AIME PRO',
@@ -115,7 +116,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'juin', lieu: 'Juin', date: 'Juin 2026 · 66 applications', titre: 'L’atlas',
+      id: 'juin', bandeau: 'fondateur', lieu: 'Juin', date: 'Juin 2026 · 66 applications', titre: 'L’atlas',
       chapeau: 'Juin rassemble. Les portfolios et les marques sont reconstruits, et le 29 juin naît l’Atlas : la carte de tout ce qui a été fait, pour que rien ne se perde et que tout serve.',
       moments: [
         { quand: '2 – 5 juin', titre: 'Maison Mémoire, Notice, AccessiAudit',
@@ -132,7 +133,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'juillet', lieu: 'Juillet', date: 'Juillet 2026 · 41 applications', titre: 'Le cockpit',
+      id: 'juillet', bandeau: 'collection-forets', lieu: 'Juillet', date: 'Juillet 2026 · 41 applications', titre: 'Le cockpit',
       chapeau: 'Le mariage devient un cockpit vivant, l’écosystème un monde (AIME WORLD OS, AIME® ORBIT), et le portail Aime-wedding passe sur GitHub.',
       moments: [
         { quand: '3 – 21 juil.', titre: 'AIME® Wedding, le cockpit intelligent',
@@ -156,7 +157,7 @@ window.ATLAS.histoire = {
       ]
     },
     {
-      id: 'aout', lieu: 'Août – sept.', date: 'Août – septembre 2026 · 32 applications', titre: 'Les quatre projets',
+      id: 'aout', bandeau: 'facade', lieu: 'Août – sept.', date: 'Août – septembre 2026 · 32 applications', titre: 'Les quatre projets',
       chapeau: 'En août, l’écosystème est remis à plat en quatre projets nommés par des lettres ; HERA naît le 16. Puis le travail passe sur GitHub.',
       moments: [
         { quand: '10 – 11 août', titre: 'Lumina et GAÏA',
@@ -172,10 +173,10 @@ window.ATLAS.histoire = {
         { quand: '29 sept.', titre: 'Lumina Wedding OS', texte: 'Le retour de Lumina, en système complet du mariage.', source: 'Base44, date de création' }
       ]
     },
-    { id: 'ecosysteme', lieu: 'L’écosystème', date: '2026 · état déclaré', titre: 'L’écosystème', projets: true,
+    { id: 'ecosysteme', bandeau: 'scene', lieu: 'L’écosystème', date: '2026 · état déclaré', titre: 'L’écosystème', projets: true,
       chapeau: 'Dix-neuf projets, une même architecture : relier les personnes, les événements, les mémoires et les relais.' },
     {
-      id: 'octobre', lieu: 'Octobre', date: 'Octobre 2026 · 13 applications', titre: 'Octobre',
+      id: 'octobre', bandeau: 'dessiner', lieu: 'Octobre', date: 'Octobre 2026 · 13 applications', titre: 'Octobre',
       chapeau: 'New York Wedding OS ouvre le mois ; lemondeaime.com sort en une journée le 28 ; le lendemain, la charte devient un design system et l’atlas une page.',
       moments: [
         { quand: '1er oct.', titre: 'NEW YORK WEDDING OS', texte: 'Avec L’Atelier des Noces et AIMEWEDDINGMEMORY, le même jour ; World Grid le 3.', source: 'Base44, dates de création' },
@@ -192,7 +193,7 @@ window.ATLAS.histoire = {
     }
   ],
   demain: {
-    id: 'demain', lieu: 'Demain', date: 'Après le 30 octobre 2026', titre: 'Demain',
+    id: 'demain', bandeau: 'wagon', lieu: 'Demain', date: 'Après le 30 octobre 2026', titre: 'Demain',
     chapeau: 'La suite proposée dans la cartographie de l’écosystème. Proposée, pas encore engagée : chaque étape attend sa validation.',
     etapes: [
       ['Recette des domaines et des noms', 'Avec de vrais utilisateurs ; fil d’Ariane et source Point Zéro, sans toucher aux moteurs.'],

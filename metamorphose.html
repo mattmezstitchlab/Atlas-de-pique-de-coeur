@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
+<link rel="stylesheet" href="css/disque.css">
 </head>
 <body>
 <a class="lien-evitement" href="#atelier">Aller à la grille</a>
@@ -26,6 +27,7 @@
         <a class="outil" href="index.html">L’atlas</a>
         <a class="outil" href="moteur.html">Le moteur</a>
         <a class="outil" href="metamorphose.html" aria-current="page">Métamorphose</a>
+        <button type="button" class="outil" data-disque>Le Disque</button>
       </div>
     </div>
   </nav>
@@ -35,7 +37,7 @@
   <section id="principe" class="chapitre premier entete-meta" aria-labelledby="titre-meta">
     <p class="surtitre">Atlas de pique de cœur · Demain</p>
     <h1 id="titre-meta" class="signature titre-meta">Métamorphose</h1>
-    <p class="chapeau">Les 643 applications de l’écosystème deviennent des fragments. Glissez-les de l’arbre vers la grille : elles s’aimantent aux cases et prennent la forme de la Charte AIME. Ou composez l’achèvement, d’un geste.</p>
+    <p class="chapeau">Les 643 applications de l’écosystème deviennent des fragments, et la photographie de la marque une bibliothèque de visuels. Glissez-les de l’arbre vers la grille : ils s’aimantent aux cases et prennent la forme de la Charte AIME. Touchez un bloc pour l’agrandir par ses coins, changer son style ou lire ce qu’il raconte.</p>
   </section>
 
   <section id="repetitions" class="chapitre" aria-labelledby="t-rep">
@@ -49,24 +51,35 @@
   <section id="atelier" class="chapitre atelier-meta" aria-labelledby="t-atelier">
     <p class="date-chapitre">Glisser · déposer · composer</p>
     <h2 id="t-atelier" class="grand-mot">La grille</h2>
-    <div class="barre-outils" role="toolbar" aria-label="Composer">
-      <button type="button" class="bouton noir" id="composer">Composer l’achèvement</button>
+    <div class="barre-outils" role="toolbar" aria-label="Mises en page" id="mises">
+      <span class="barre-titre">Mises en page</span>
+      <button type="button" class="opt" data-mise="achevement" aria-pressed="false">L’achèvement</button>
+      <button type="button" class="opt" data-mise="une" aria-pressed="false">À la une</button>
+      <button type="button" class="opt" data-mise="magazine" aria-pressed="false">Magazine</button>
+      <button type="button" class="opt" data-mise="bento" aria-pressed="false">Bento</button>
+      <button type="button" class="opt" data-mise="mosaique" aria-pressed="false">Mosaïque</button>
+      <button type="button" class="opt" data-mise="colonne" aria-pressed="false">Colonne</button>
+    </div>
+    <div class="barre-outils barre-seconde" role="toolbar" aria-label="Composer">
+      <button type="button" class="bouton noir" data-disque>Ouvrir le Disque</button>
       <button type="button" class="opt" id="inverser" aria-pressed="false">Le moins important d’abord</button>
       <button type="button" class="bouton" id="vider">Vider la grille</button>
       <p class="compte" id="compte" role="status" aria-live="polite"></p>
     </div>
     <div class="plan">
       <aside class="arbre" aria-labelledby="t-arbre">
-        <h3 id="t-arbre" class="arbre-titre">Les 643 <span>par famille</span></h3>
+        <h3 id="t-arbre" class="arbre-titre">Les 643 <span>et les visuels</span></h3>
         <label for="filtre" class="sr-only">Filtrer les projets</label>
-        <input id="filtre" class="champ" type="search" placeholder="Filtrer : mariage, sax, point…" autocomplete="off">
+        <input id="filtre" class="champ" type="search" placeholder="Filtrer : mariage, sax, mer…" autocomplete="off">
         <div id="familles" class="familles"></div>
       </aside>
       <div class="zone" id="zone">
         <div class="grille-aimantee" id="grille" aria-label="Grille magnétique" role="region">
           <div class="aimant" id="aimant" hidden></div>
         </div>
-        <p class="aide" id="aide">Glissez un fragment depuis l’arbre, ou touchez-le pour le poser à la première place libre. Sur un bloc : flèches pour le déplacer, « Taille » pour l’élargir, Suppr pour le retirer.</p>
+        <div class="barre-bloc" id="barre-bloc" role="toolbar" aria-label="Actions du bloc choisi" hidden></div>
+        <p class="aide" id="aide">Glissez un fragment ou un visuel depuis l’arbre, ou touchez-le pour le poser. Touchez un bloc pour le choisir : tirez ses coins pour l’agrandir, ses actions apparaissent dessous. Au clavier : Entrée choisit, flèches déplacent, Maj + flèches agrandissent, Suppr retire.</p>
+        <section class="fiche-bloc" id="fiche" aria-live="polite" aria-label="Ce que raconte le bloc choisi" hidden></section>
       </div>
     </div>
   </section>
@@ -89,7 +102,10 @@
 
 <script src="data/applications.js"></script>
 <script src="data/achevement.js"></script>
+<script src="data/visuels.js"></script>
+<script src="data/histoire.js"></script>
 <script src="js/briques.js"></script>
+<script src="js/disque.js"></script>
 <script src="js/metamorphose.js"></script>
 </body>
 </html>
