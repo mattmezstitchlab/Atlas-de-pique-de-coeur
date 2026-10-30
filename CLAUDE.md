@@ -11,7 +11,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 ## Les règles qui font la différence
 
 - **Rien hors de l’atlas** : pas de lien vers le studio de broderie ni la boutique ; pas de Disque reconstruit ici. Une seule sortie : le lien « Retour à AIME · .0NE » (pied de page, et le cercle de l’accueil). Le bouton ATLAS du dock du haut ramène à l’accueil.
-- **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Aussi : `/cube` (le Cube de Saint-Luc, maquette), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/#chapitre`) redirigent.
+- **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Aussi : `/vue-cube` (la vue Cube, en verre), `/cube` (le Cube de Saint-Luc, maquette), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/#chapitre`) redirigent.
 - **En français**, vouvoiement, phrases entières, typographie française (espace insécable avant `:` `;` `?` `!`, apostrophe ’, « guillemets »).
 - **L’encre sur le papier** : `encre` sur `fond`, surfaces en `carte`, filets en `trait`. La couleur vient des photos et de la nacre de l’orbe, jamais des boutons.
 - **Un seul caractère**, Inter Tight. Titres en 600. Le 900 une seule fois par page, pour sa signature.
@@ -28,6 +28,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `chronologie.html` | La Chronologie : le hero, 1999 – 2025, les époques 2025 – 2026, la conclusion |
 | `composition.html` | La Composition (Métamorphose) : l’arbre, la grille, les modules, les relations, les fusions, les recettes |
 | `cube.html` · `data/cube.js` · `js/cube-saint-luc.js` · `css/cube-saint-luc.css` | Le Cube de Saint-Luc (maquette) : cinq faces en grilles mosaïques, la sixième ouverte sur la chronologie intérieure, une seule mémoire de fragments (chaque fragment posé au plus une fois ; la rotation ne touche jamais aux données), le Cube à plat sans 3D. Les noms des faces sont une hypothèse (`data/cube.js`) |
+| `vue-cube.html` · `js/vue-cube.js` · `css/vue-cube.css` | La vue Cube : le Cube en verre, ses six faces remplies des vrais fragments (une grille n × n par face), l’orbe au centre et les trois axes des faces opposées (Temps : Chronologie ↔ Archives ; Structure : Composition ↔ Relations ; Usage : Modules ↔ Écosystème). Choisir une case : l’orbe la relie, par des fils, à ce qui la touche dans les données ; la toucher ramène au centre. Le panneau est aussi la vue sans 3D. Une vue spéciale, pas l’accueil ; ce n’est pas le Disque |
 | `ecosysteme.html` | Les projets de l’écosystème et leur état (`data/projets.js`) |
 | `administration.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
 | `metamorphose.html` · `admin.html` | Renvois vers les nouvelles adresses, pour les anciens liens hors Vercel |
