@@ -1,0 +1,35 @@
+/* L’import : l’étape 1 posée sur la scène du Cube (importer, décrire), puis la barre des exports. Par-dessus la vue Cube. */
+.imp-etape1 { position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -46%); width: min(92%, 620px); max-height: calc(100% - 200px); overflow: auto;
+  display: grid; gap: var(--espace-3); padding: var(--espace-6); border-radius: var(--rayon-carte); background: var(--carte); color: var(--encre); text-align: left; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+.imp-etape1[hidden] { display: none; }
+.imp-etapes { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); }
+.imp-etapes b, .imp-suite { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 4px; border-radius: 50%; background: var(--encre); color: var(--carte); font-size: 12px; }
+.imp-suite { background: transparent; color: var(--encre-3); box-shadow: inset 0 0 0 1px var(--trait-2); }
+.imp-titre { margin: 0; font-size: clamp(26px, 3vw, 38px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+.imp-depot { display: grid; gap: 4px; place-items: center; min-height: 128px; padding: var(--espace-5); border-radius: var(--rayon-md); border: 1.5px dashed var(--trait-2); background: var(--fond); text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.imp-depot:hover, .imp-depot.survol, .imp-depot:focus-within { border-color: var(--encre); background: var(--carte); }
+.imp-depot-mot { font-size: 17px; font-weight: 600; } .imp-depot small { font-size: 13.5px; color: var(--encre-3); max-width: 46ch; }
+.imp-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 180px; overflow: auto; }
+.imp-liste li { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 4px 4px 4px 12px; border-radius: 10px; border: 1px solid var(--trait); }
+.imp-liste span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14.5px; font-weight: 500; } .imp-liste small { color: var(--encre-3); font-size: 13px; }
+.imp-retirer { min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: var(--encre-2); font: inherit; font-size: 13px; cursor: pointer; }
+.imp-retirer:hover, .imp-retirer:focus-visible { background: var(--fond); }
+.imp-actions { display: flex; flex-wrap: wrap; gap: var(--espace-2); margin: 0; }
+.imp-statut { margin: 0; min-height: 1.4em; font-size: 14px; color: var(--encre-2); }
+/* après la métamorphose : la barre du document, au-dessus du Cube */
+.imp-barre { position: relative; z-index: 2; display: grid; gap: 8px; justify-items: center; }
+.imp-barre[hidden] { display: none; }
+.imp-resume { margin: 0; font-size: 15px; color: rgba(255,255,255,.85); } .imp-resume b { color: var(--blanc); }
+.imp-exports { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0; }
+.imp-bouton { min-height: 40px; padding: 0 14px; border-radius: 11px; border: 1px solid rgba(255,255,255,.4); background: rgba(255,255,255,.08); color: var(--blanc); font: 600 14px/1 var(--font-sans); cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.imp-bouton:hover, .imp-bouton:focus-visible { background: var(--blanc); color: #0b0b0c; }
+.imp-discret { border-color: transparent; background: transparent; }
+body.importer:not(.imp-fait) .vc-scene { opacity: .35; filter: blur(1px); pointer-events: none; }
+/* la visionneuse du fichier choisi, dans le panneau */
+.vc-detail { display: grid; gap: 8px; margin-top: 6px; }
+.imp-vue { width: 100%; max-height: 320px; object-fit: contain; border-radius: 12px; background: var(--fond); border: 1px solid var(--trait); }
+.imp-texte { margin: 0; max-height: 220px; overflow: auto; padding: 10px 12px; border-radius: 10px; background: var(--fond); font-size: 13.5px; line-height: 1.5; color: var(--encre-2); white-space: pre-wrap; }
+.imp-tableau { max-height: 240px; overflow: auto; border: 1px solid var(--trait); border-radius: 10px; }
+.imp-tableau table { border-collapse: collapse; font-size: 13px; width: 100%; } .imp-tableau th, .imp-tableau td { padding: 4px 8px; border-bottom: 1px solid var(--trait); text-align: left; white-space: nowrap; }
+.imp-alertes { margin: 0; padding: 10px 12px 10px 28px; border-radius: 10px; background: var(--att-fond, #f6ecd9); color: #6b4300; font-size: 13.5px; }
+@media (max-width: 960px) { .imp-etape1 { position: relative; left: auto; top: auto; transform: none; width: 100%; max-height: none; } body.importer:not(.imp-fait) .vc-scene { display: none; } }
