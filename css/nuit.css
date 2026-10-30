@@ -45,3 +45,4 @@ html[data-mode="nuit"] .ecran-bascule[aria-pressed="true"], html[data-mode="nuit
 html[data-mode="nuit"] .bientot, html[data-mode="nuit"] .ecran-dossiers button[aria-current="true"] { color: #0b0b0c; }
 html[data-mode="nuit"] .bloc .actions-bloc button, html[data-mode="nuit"] .barre-bloc { background: var(--carte); }
 html[data-mode="nuit"] .lien-evitement { color: #0b0b0c; }
+@media (max-width: 480px) { .dock-haut .carre-orbe, .dock-haut .carre-orbe + .separateur { display: none; } .dock-haut .outil { padding: 0 8px; font-size: 14px; } .theme-btn { min-width: 40px; padding: 0 6px; font-size: 12px; } }

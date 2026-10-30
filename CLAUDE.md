@@ -10,7 +10,8 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 ## Les règles qui font la différence
 
-- **Rien hors de l’atlas** : pas de lien vers lemondeaime.com, le studio de broderie, la boutique ; pas de Disque. Le bouton AIME du dock du haut ramène à l’accueil de l’atlas.
+- **Rien hors de l’atlas** : pas de lien vers le studio de broderie ni la boutique ; pas de Disque reconstruit ici. Une seule sortie : le lien « Retour à AIME · .0NE » (pied de page, et le cercle de l’accueil). Le bouton ATLAS du dock du haut ramène à l’accueil.
+- **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Aussi : `/cube` (le Cube de Saint-Luc, maquette), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/#chapitre`) redirigent.
 - **En français**, vouvoiement, phrases entières, typographie française (espace insécable avant `:` `;` `?` `!`, apostrophe ’, « guillemets »).
 - **L’encre sur le papier** : `encre` sur `fond`, surfaces en `carte`, filets en `trait`. La couleur vient des photos et de la nacre de l’orbe, jamais des boutons.
 - **Un seul caractère**, Inter Tight. Titres en 600. Le 900 une seule fois par page, pour sa signature.
@@ -23,9 +24,13 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 | Chemin | Ce que c’est |
 | --- | --- |
-| `index.html` | La page de l’atlas : le hero, la chronologie 1999 – 2025, les époques 2025 – 2026, la conclusion |
-| `admin.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
-| `metamorphose.html` | La Métamorphose : les 643 projets en fragments à glisser sur une grille magnétique, et l’achèvement |
+| `index.html` | L’accueil « Voir l’invisible » : le Cube (`js/cube.js`), les trois espaces, Saint-Luc, du fragment à la composition, l’essai (vrais modules), les preuves, le carré / le cercle / le Point |
+| `chronologie.html` | La Chronologie : le hero, 1999 – 2025, les époques 2025 – 2026, la conclusion |
+| `composition.html` | La Composition (Métamorphose) : l’arbre, la grille, les modules, les relations, les fusions, les recettes |
+| `cube.html` · `data/cube.js` · `js/cube-saint-luc.js` · `css/cube-saint-luc.css` | Le Cube de Saint-Luc (maquette) : cinq faces en grilles mosaïques, la sixième ouverte sur la chronologie intérieure, une seule mémoire de fragments (chaque fragment posé au plus une fois ; la rotation ne touche jamais aux données), le Cube à plat sans 3D. Les noms des faces sont une hypothèse (`data/cube.js`) |
+| `ecosysteme.html` | Les projets de l’écosystème et leur état (`data/projets.js`) |
+| `administration.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
+| `metamorphose.html` · `admin.html` | Renvois vers les nouvelles adresses, pour les anciens liens hors Vercel |
 | `moteur.html` | Le moteur : reconstruit une demande à partir des mots de la personne, et les statistiques qui le fondent |
 | `css/tokens.css` | Les jetons compilés (générés depuis `design-system/tokens.json`) |
 | `css/composants.css` | Les composants du site lemondeaime.com (boutons, champs, docks, cartes, pastilles…) |
@@ -46,6 +51,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `js/chronologie.js` | L’affichage de la chronologie : sept modèles (papier, magazine, téléviseur, archive, duo, lacune, bandeau), l’axe des relations |
 | `js/admin.js` · `js/coffre.js` | L’éditeur, et le coffre local des images (IndexedDB) |
 | `js/theme.js` · `css/nuit.css` | Jour, Nuit, Auto |
+| `js/cube.js` · `js/accueil.js` · `css/accueil.css` | Le Cube (vraie 3D CSS, pointeur, toucher, clavier, liste des faces sans 3D) et l’accueil |
 | `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `media/` | La photographie de la marque |
@@ -53,7 +59,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 ## Mettre l’atlas à jour
 
-- **La chronologie 1999 – 2025** : par l’éditeur (`admin.html`), puis « Publier », et le fichier exporté remplace `data/chronologie.js`. Une date non documentée reste « à vérifier » ; une relation porte toujours sa justification ; une archive privée ne sort jamais de l’éditeur.
+- **La chronologie 1999 – 2025** : par l’éditeur (`administration.html`), puis « Publier », et le fichier exporté remplace `data/chronologie.js`. Une date non documentée reste « à vérifier » ; une relation porte toujours sa justification ; une archive privée ne sort jamais de l’éditeur.
 - **Un nouveau moment** : une entrée dans le chapitre voulu de `data/histoire.js`, avec sa source.
 - **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
@@ -63,6 +69,6 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
-- **Une nouvelle page** : partir de `index.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.
+- **Une nouvelle page** : partir de `chronologie.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.
 
-Le site est statique, sans étape de construction : on ouvre `index.html`, ou on le sert tel quel (Vercel, GitHub Pages).
+Le site est statique, sans étape de construction : on ouvre `index.html` (l’accueil), ou on le sert tel quel (Vercel, GitHub Pages).

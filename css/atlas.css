@@ -99,3 +99,13 @@ main { display: block; }
 .bandeau .date-chapitre { color: rgba(255,255,255,.88); }
 #chapitres .bandeau .grand-mot, #demain .bandeau .grand-mot { color: var(--blanc); font-size: clamp(56px, 13vw, 220px); line-height: .95; text-wrap: balance; text-shadow: 0 2px 40px rgba(0,0,0,.25); }
 #chapitres .moment, #fiches, #achevement { scroll-margin-top: 120px; }
+
+/* le plan du site, dans le pied de page */
+.pied-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--espace-5); margin: 0 0 var(--espace-7); }
+.pied-nav div { display: grid; align-content: start; gap: 6px; }
+.pied-titre { margin: 0 0 4px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); }
+.pied-nav a { display: inline-flex; align-items: center; min-height: 40px; color: var(--encre); font-size: 16px; font-weight: 500; text-decoration: none; }
+.pied-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.eco { text-align: center; } .eco .chapeau { margin-inline: auto; } .eco .filtres { justify-content: center; } .eco .fiche { text-align: left; } .eco .note-source { margin-inline: auto; }
+.eco-titre { font-size: clamp(48px, 11vw, 190px); overflow-wrap: anywhere; }
+.eco-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--espace-3); margin-top: var(--espace-6); }

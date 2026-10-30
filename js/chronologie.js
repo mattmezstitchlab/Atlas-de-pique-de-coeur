@@ -37,7 +37,7 @@
   function cible(v) {
     var p = v.split(':');
     if (p[0] === 'chapitre') { var c = H && H.chapitres.filter(function (x) { return x.id === p[1]; })[0]; return c ? { titre: c.titre, date: c.date, lien: '#' + c.id } : null; }
-    if (p[0] === 'page' && p[1] === 'metamorphose') return { titre: 'La Métamorphose', date: 'Octobre 2026', lien: 'metamorphose.html' };
+    if (p[0] === 'page' && p[1] === 'metamorphose') return { titre: 'La Métamorphose', date: 'Octobre 2026', lien: 'composition.html' };
     return null;
   }
   function relations(e, d) {
@@ -116,7 +116,7 @@
     rendre: function (d, zone, opts) {
       opts = opts || {}; var medias = opts.medias || {};
       var liste = d.entrees.filter(function (e) { return opts.apercu ? e.publicationStatus !== 'archive' : e.publicationStatus === 'publie' && e.visibility === 'public'; });
-      zone.innerHTML = (opts.apercu ? '<p class="bandeau-apercu" role="status">Aperçu local : la version de l’éditeur, sur cet appareil. Le public ne voit pas ces changements tant qu’ils ne sont pas publiés.</p>' : '') +
+      zone.innerHTML = (opts.apercu ? '<p class="bandeau-apercu" role="status">Aperçu local : la version de l’éditeur, sur cet appareil seulement. Le public ne voit pas ces changements tant qu’ils ne sont pas publiés.</p>' : '') +
         '<div class="avant-tete"><p class="date-chapitre">1999 – 2025</p><h2 id="t-avant" class="grand-mot">' + fr(d.titre) + '</h2><p class="chapeau">' + fr(d.chapeau) + '</p></div>' +
         '<p class="annee-courante" aria-hidden="true"><span></span></p>' +
         liste.map(function (e) { return '<article class="entree-chrono modele-' + esc(e.layoutVariant) + (e.fond ? ' fond-' + esc(e.fond) : '') + '" id="' + esc(e.id) + '" data-annee="' + esc(annee(e)) + '">' + (MODELES[e.layoutVariant] || MODELES.papier)(e, d, medias, opts) + relations(e, d) + '</article>'; }).join('') +

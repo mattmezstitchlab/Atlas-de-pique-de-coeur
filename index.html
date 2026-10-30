@@ -3,86 +3,173 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Atlas de pique de cœur — À la recherche du temps créé</title>
-<meta name="description" content="L’histoire de tous les projets de l’écosystème AIME, du premier soir de novembre 2025 à la feuille de route : 643 applications, 171 fiches, 138 dépôts.">
+<title>ATLAS — Voir l’invisible</title>
+<meta name="description" content="ATLAS, à la recherche du temps créé : le Cube mosaïque, vingt-cinq ans de fragments, et trois espaces pour comprendre, explorer et créer.">
 <link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<script>
+  /* les anciens liens « /#chapitre » de l’atlas mènent désormais à la chronologie */
+  (function () { var h = location.hash.slice(1); if (/^(avant|novembre|decembre|hiver|avril|mai|juin|juillet|aout|ecosysteme|octobre|demain|conclusion|achevement|fiches|e-[\w-]+)$/.test(h)) location.replace('chronologie.html' + location.search + location.hash); })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
-<!-- Le design system AIME, dans cet ordre : les jetons, les composants du site, puis la mise en page de l'atlas. -->
+<!-- Le design system AIME, dans cet ordre : les jetons, les composants, la mise en page de l’atlas ; puis l’accueil. -->
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
-<link rel="stylesheet" href="css/chronologie.css">
+<link rel="stylesheet" href="css/accueil.css">
 <link rel="stylesheet" href="css/nuit.css">
 <script src="js/theme.js"></script>
 </head>
-<body>
-<a class="lien-evitement" href="#avant">Aller à l’histoire</a>
+<body class="accueil">
+<a class="lien-evitement" href="#espaces">Aller aux trois espaces</a>
 <header class="tete">
   <nav class="dock-haut" aria-label="Dock du haut">
     <div class="dock-ligne">
       <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
       <span class="separateur" aria-hidden="true"></span>
-      <a class="outil" href="index.html" style="padding:0 10px" aria-label="AIME, l’accueil de l’atlas"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil" aria-current="page"><span class="marque">ATLAS</span></a>
       <div class="rangee"><span class="separateur" aria-hidden="true"></span>
-        <a class="outil" href="index.html" aria-current="page">L’atlas</a>
-        <a class="outil" href="moteur.html">Le moteur</a>
-        <a class="outil" href="metamorphose.html">Métamorphose</a>
+        <a class="outil" href="chronologie.html">Chronologie</a>
+        <a class="outil" href="composition.html">Composition</a>
       </div>
     </div>
   </nav>
 </header>
 
 <main>
-  <section class="hero" aria-labelledby="titre-page">
-    <img src="media/phare.jpg" alt="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
-    <div class="hero-contenu">
-      <p class="surtitre">Atlas · 1999 – 2026</p>
-      <h1 id="titre-page" class="signature hero-titre">À la recherche<br>du temps créé</h1>
-      <p class="hero-sous-titre">Portfolio de recherche, archives vivantes et chronologie éditable&nbsp;: des ateliers de Saint-Luc aux 643 applications de l’écosystème AIME, dans l’ordre où ils sont nés.</p>
-      <ul class="chiffres" id="chiffres" aria-label="En chiffres"></ul>
+  <!-- 1. Le Cube -->
+  <section class="scene-cube" id="cube" aria-labelledby="titre-page">
+    <div class="lumieres" aria-hidden="true"></div>
+    <div class="scene-texte">
+      <p class="surtitre">ATLAS · À la recherche du temps créé</p>
+      <h1 id="titre-page" class="signature titre-invisible">Voir<br>l’invisible</h1>
+      <p class="scene-sous">Vingt-cinq ans de fragments. Une grille pour les relier.</p>
+      <p class="scene-actions"><a class="bouton bouton-clair" href="#espaces">Explorer ATLAS</a> <a class="bouton bouton-verre" href="composition.html">Créer avec les blocs</a> <a class="bouton bouton-verre" href="cube.html">Le Cube de Saint-Luc</a></p>
+    </div>
+    <div class="cube-zone">
+      <div class="cube-scene" id="cube-scene" tabindex="0" role="group" aria-roledescription="cube à tourner" aria-label="Le Cube d’ATLAS. Flèches pour le tourner, Entrée pour ouvrir la face visible." aria-describedby="cube-face">
+        <div class="cube" id="le-cube"></div>
+      </div>
+      <p class="cube-face" id="cube-face" aria-live="polite"></p>
+      <nav class="faces-liste" aria-label="Les six faces du Cube"><ul id="faces-liste"></ul></nav>
     </div>
   </section>
-  <section class="avant page" id="avant" aria-labelledby="t-avant"></section>
-  <div class="page" id="chapitres"></div>
-  <section class="bande-sombre" id="demain" aria-labelledby="t-demain"></section>
-  <section class="conclusion" id="conclusion" aria-label="Conclusion">
-    <blockquote><p>«&nbsp;Pendant vingt-cinq ans, j’ai créé des fragments. Aujourd’hui, j’ai trouvé comment les relier.&nbsp;»</p><footer>Matthieu Lecointre</footer></blockquote>
-    <p class="conclusion-liens"><a class="bouton" href="#avant">Revoir les fragments</a> <a class="bouton noir" href="metamorphose.html">Les relier dans la Métamorphose</a></p>
+
+  <!-- 2. Les trois espaces -->
+  <section class="espaces" id="espaces" aria-labelledby="t-espaces">
+    <h2 id="t-espaces" class="sr-only">Trois espaces</h2>
+    <a class="espace espace-comprendre" href="#saint-luc">
+      <img src="media/sculpture.jpg" alt="Sculpture abstraite en métal, faite de blocs imbriqués, éclairée par un faisceau chaud sur fond sombre" loading="lazy">
+      <span class="espace-texte"><span class="espace-n">Accueil</span><b>Comprendre</b><span class="espace-sous">Le Cube, la mémoire, les fragments.</span></span>
+    </a>
+    <a class="espace espace-explorer" href="chronologie.html">
+      <img src="media/phare.jpg" alt="Un couple au pied d’un phare face à la mer agitée au coucher du soleil" loading="lazy">
+      <span class="espace-texte"><span class="espace-n">Chronologie</span><b>Explorer</b><span class="espace-sous">Saint-Luc, les œuvres, les preuves, 1999 – 2026.</span></span>
+    </a>
+    <a class="espace espace-creer" href="composition.html">
+      <span class="mosaique-vive" id="mosaique-vive" aria-hidden="true"></span>
+      <span class="espace-texte"><span class="espace-n">Composition</span><b>Créer</b><span class="espace-sous">La grille, les blocs, les relations, les recettes.</span></span>
+    </a>
+  </section>
+
+  <!-- 3. Saint-Luc -->
+  <section class="saint-luc" id="saint-luc" aria-labelledby="t-saint-luc">
+    <p class="annees-geantes" aria-hidden="true">1999<span>—</span>2005</p>
+    <div class="saint-luc-tete">
+      <p class="surtitre">Les archives</p>
+      <h2 id="t-saint-luc" class="grand-mot">Saint-Luc</h2>
+      <p class="chapeau">Six années de formation, à Tournai. Le carré, le cube, la mosaïque, l’image en mouvement.</p>
+    </div>
+    <div class="planche">
+      <a class="piece piece-video" href="chronologie.html#e-clip-saint-luc">
+        <span class="piece-ecran"><img src="https://i.ytimg.com/vi/XgKcenvjMdI/hqdefault.jpg" alt="Image du clip UPTOWN de Matt Mez, une mosaïque de figures répétées" loading="lazy" onerror="this.remove()"><span class="piece-lire" aria-hidden="true">▶</span></span>
+        <span class="piece-legende"><b>UPTOWN</b><small>Clip · années de Saint-Luc</small></span>
+      </a>
+      <a class="piece piece-attente" href="chronologie.html#e-1999-comines"><span class="piece-place">À déposer</span><span class="piece-legende"><b>Comines, 1999</b><small>La première exposition</small></span></a>
+      <a class="piece piece-attente" href="chronologie.html#e-cube-grille"><span class="piece-place">À déposer</span><span class="piece-legende"><b>Travaux d’atelier</b><small>Carré, cube, mosaïque</small></span></a>
+    </div>
+    <p class="saint-luc-liens"><a class="bouton bouton-clair" href="chronologie.html#avant">Ouvrir les archives</a></p>
+  </section>
+
+  <!-- 4. Du fragment à la composition -->
+  <section class="devenir" id="fragments" aria-labelledby="t-devenir">
+    <h2 id="t-devenir" class="grand-mot">Du fragment<br>à la composition</h2>
+    <ol class="etapes-devenir">
+      <li><span class="schema schema-fragment" aria-hidden="true"><i></i></span><b>Un fragment</b><span>Une idée, une application, une archive.</span></li>
+      <li><span class="schema schema-bloc" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>Un bloc</b><span>Les fragments d’une même famille.</span></li>
+      <li><span class="schema schema-compo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Une composition</b><span>Les blocs reliés, sur la grille.</span></li>
+    </ol>
+  </section>
+
+  <!-- 5. Essayer : deux vrais modules, reliés -->
+  <section class="essai" id="essai" aria-labelledby="t-essai">
+    <div class="essai-tete">
+      <p class="surtitre">Métamorphose</p>
+      <h2 id="t-essai" class="grand-mot">Essayez</h2>
+      <p class="chapeau">Deux vrais modules, reliés. Posez un moment dans la Timeline : il s’allume dans l’Agenda.</p>
+    </div>
+    <div class="essai-grille grille-aimantee" id="essai-grille" aria-label="Démonstration : Timeline et Agenda reliés"></div>
+    <p class="essai-liens"><a class="bouton noir" href="composition.html">Continuer dans la Composition</a></p>
+  </section>
+
+  <!-- 6. La chronologie et ses preuves -->
+  <section class="preuves" id="preuves" aria-labelledby="t-preuves">
+    <p class="surtitre">Chronologie</p>
+    <h2 id="t-preuves" class="grand-mot">Chaque date<br>a sa preuve</h2>
+    <ul class="preuves-chiffres" id="preuves-chiffres"></ul>
+    <p class="preuves-liens"><a class="bouton noir" href="chronologie.html">Explorer la chronologie</a></p>
+  </section>
+
+  <!-- 7. Le carré, le cercle, le Point -->
+  <section class="formes" id="formes" aria-labelledby="t-formes">
+    <h2 id="t-formes" class="sr-only">Le carré, le cercle et le Point</h2>
+    <a class="forme forme-carre" href="composition.html"><span class="figure" aria-hidden="true"><i></i></span><b>Le carré</b><span>ATLAS · la grille rassemble ce qui a été créé.</span></a>
+    <a class="forme forme-cercle" href="https://preview.lemondeaime.com/studio/one/univers" rel="noopener"><span class="figure" aria-hidden="true"></span><b>Le cercle</b><span>.0NE · le Disque fait tourner les univers. Ouvrir .0NE&nbsp;↗</span></a>
+    <span class="forme forme-point"><span class="figure" aria-hidden="true"></span><b>Le Point</b><span>AIME · tout part d’un point.</span></span>
+  </section>
+
+  <!-- 8. L’instrument -->
+  <section class="instrument" id="instrument" aria-label="Le Cube, instrument de création">
+    <ul class="intentions">
+      <li>Les archives racontent.</li><li>Les fragments composent.</li><li>Les relations transforment.</li><li>La grille rassemble.</li>
+    </ul>
+    <blockquote><p>«&nbsp;Pendant vingt-cinq ans, j’ai créé des fragments. Aujourd’hui, j’ai trouvé comment les relier.&nbsp;»</p></blockquote>
+    <p class="instrument-liens"><a class="bouton" href="#cube">Revenir au Cube</a> <a class="bouton" href="chronologie.html">Explorer</a> <a class="bouton noir" href="composition.html">Créer</a></p>
   </section>
 </main>
 
 <footer class="pied">
-  <a href="index.html" aria-label="AIME, l’accueil de l’atlas" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
-  <p class="note" style="margin:0 0 16px;max-width:60ch;color:var(--encre-2)"><a href="admin.html" rel="nofollow">Administration · Chronologie</a></p>
-  <p class="note" style="margin:0;max-width:60ch;color:var(--encre-2)">Construit avec le design system AIME, d’après les dépôts LEMONDEAIME et Aime-wedding.</p>
-  <div class="bas"><p style="margin:0">AIME® est la marque mère. LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <nav class="pied-nav" aria-label="Plan du site">
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="cube.html">Le Cube de Saint-Luc (maquette)</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">L’écosystème AIME</p><a href="https://preview.lemondeaime.com/studio/one/univers" rel="noopener">Retour à AIME · .0NE, le Disque</a></div>
+  </nav>
+  <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
 </footer>
 
-<nav class="dock-bas" aria-label="Les époques">
+<nav class="dock-bas" aria-label="Les lieux de la page">
   <div id="dock">
-    <span class="orbe-dock" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44"><defs><radialGradient id="ir" cx="35%" cy="32%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#d9e8ff"/><stop offset="60%" stop-color="#c9b8ff"/><stop offset="80%" stop-color="#ffd6ec"/><stop offset="100%" stop-color="#b9f0e4"/></radialGradient></defs>
-        <g id="arcs"></g>
-        <circle cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
-        <circle id="progres" cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="0 69.1" transform="rotate(-90 22 22)"/>
-        <circle cx="22" cy="22" r="5.5" fill="url(#ir)"/></svg>
-    </span>
+    <a class="lieu" href="#cube">Le Cube</a>
+    <a class="lieu" href="#espaces">Trois espaces</a>
+    <a class="lieu" href="#saint-luc">Saint-Luc</a>
+    <a class="lieu" href="#fragments">Fragments</a>
+    <a class="lieu" href="#essai">Essayer</a>
+    <a class="lieu" href="#preuves">Preuves</a>
+    <a class="lieu" href="#formes">Le carré</a>
+    <a class="lieu" href="#instrument">L’instrument</a>
   </div>
 </nav>
 
-<!-- Les données, puis l'affichage. Les données sont des scripts (et non du JSON) pour que la page s'ouvre aussi d'un double clic. -->
-<script src="data/projets.js"></script>
-<script src="data/histoire.js"></script>
 <script src="data/applications.js"></script>
 <script src="data/achevement.js"></script>
-<script src="data/visuels.js"></script>
+<script src="data/modules.js"></script>
 <script src="data/chronologie.js"></script>
 <script src="js/briques.js"></script>
-<script src="js/coffre.js"></script>
-<script src="js/chronologie.js"></script>
-<script src="js/atlas.js"></script>
+<script src="js/modules.js"></script>
+<script src="js/cube.js"></script>
+<script src="js/accueil.js"></script>
 </body>
 </html>

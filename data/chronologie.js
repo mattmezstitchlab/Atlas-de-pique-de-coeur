@@ -1,6 +1,6 @@
 /* La chronologie publiée (1999 – 2025) : ce qui précède l’inventaire Base44 de novembre 2025.
    Ce fichier est PUBLIC : il ne contient que les entrées publiées et les archives publiées.
-   Il est produit par l’éditeur (admin.html → « Exporter la version publiée »). Les brouillons, les archives privées
+   Il est produit par l’éditeur (administration.html → « Exporter la version publiée »). Les brouillons, les archives privées
    et les références LIFEBOOK restent dans l’éditeur, jamais ici.
 
    TimelineEntry : { id, title, dateStart, dateEnd, datePrecision, educationPeriod, narrative, people, mediaIds, archiveIds,

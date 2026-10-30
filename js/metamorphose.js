@@ -223,7 +223,7 @@
       var g = groupes[b.ref], e = etude(g), noms = Object.keys(g.noms);
       h = '<p class="surtitre">' + B.pastille(g.famille) + ' ' + B.fr(B.nomFamille(g.famille)) + ' · ' + e.total + ' noms dans la famille</p><h3 class="titre">' + B.fr(g.nom) + '</h3>' +
         '<dl class="etude-liste"><div><dt>Versions</dt><dd>' + g.n + '</dd></div><div><dt>Première</dt><dd>' + B.date(g.premier) + '</dd></div><div><dt>Dernière</dt><dd>' + B.date(g.dernier) + '</dd></div>' +
-        (e.chapitre ? '<div><dt>Époque</dt><dd><a href="index.html#' + e.chapitre.id + '">' + B.fr(e.chapitre.titre) + '</a></dd></div>' : '') + '</dl>' +
+        (e.chapitre ? '<div><dt>Époque</dt><dd><a href="chronologie.html#' + e.chapitre.id + '">' + B.fr(e.chapitre.titre) + '</a></dd></div>' : '') + '</dl>' +
         '<p>' + B.fr(e.phrase) + '</p><p>' + B.fr(e.sens) + '</p>' +
         (noms.length > 1 ? '<ul class="puces">' + noms.map(function (n) { return '<li>' + B.fr(n) + '</li>'; }).join('') + '</ul>' : '') +
         '<p class="note-source">D’après les dates de création Base44 (data/applications.js). Le sens vient de la brique de sa famille (data/achevement.js) : une lecture, pas un état.</p>';
