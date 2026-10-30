@@ -65,3 +65,25 @@ main { display: block; }
 .dock-bas { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
 .lieu { cursor: pointer; }
 @media (max-width: 720px) { .dock-haut .rangee .outil:nth-child(n+4) { display: none; } .moment-num { min-width: 0; } .chapitre { padding-block: 88px; } }
+
+/* La chronologie au centre : le grand titre, la date, le chapeau, chaque moment, demain.
+   Limité à l’atlas (#chapitres, #demain, .hero) pour ne pas déplacer le moteur. */
+.hero { justify-content: center; text-align: center; }
+.hero-contenu { display: flex; flex-direction: column; align-items: center; }
+.hero-titre { margin-top: .14em; }
+.hero-sous-titre { margin-inline: auto; }
+.hero .chiffres { justify-content: center; }
+#chapitres .chapitre, #demain { text-align: center; }
+#chapitres .chapitre > .chapeau, #demain > .chapeau { margin-inline: auto; }
+#chapitres .journee, #demain .etapes { margin-inline: auto; }
+#chapitres .moment-tete { flex-direction: column; align-items: center; gap: var(--espace-2); }
+#chapitres .moment-tete > div { flex: none; width: 100%; }
+#chapitres .moment-num { min-width: 0; padding-top: 0; }
+#chapitres .moment-tete p { margin-inline: auto; }
+#chapitres .puces, #chapitres .filtres { justify-content: center; }
+#chapitres .fiche { text-align: left; }
+#chapitres .fiche .puces { justify-content: flex-start; }
+#chapitres .note-source { margin-inline: auto; }
+#demain .etapes li { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+#demain .etapes li::before { padding-top: 0; }
+#demain .nouveau { text-align: left; }
