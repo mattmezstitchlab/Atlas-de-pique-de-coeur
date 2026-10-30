@@ -1,5 +1,5 @@
-/* L’accueil : la mosaïque vive de « Créer », deux vrais modules reliés (Timeline et Agenda, js/modules.js),
-   les chiffres de la chronologie et de ses preuves (data/chronologie.js), le dock du bas. */
+/* L’accueil : une section par face du Cube (js/cube.js). La mosaïque vive de la Composition, deux vrais modules reliés
+   (Timeline et Agenda, js/modules.js), les chiffres de la chronologie (data/chronologie.js) et des projets (data/projets.js), le dock du bas. */
 (function () {
   var A = window.ATLAS, B = A.bloc;
 
@@ -33,6 +33,14 @@
     var attente = C.archives.filter(function (a) { return a.attente; }).length;
     pc.innerHTML = [[C.entrees.length, 'moments publiés', '1999 – 2025'], [n('document'), 'établis par document', 'une pièce les prouve'], [n('declare'), 'déclarés par l’auteur', 'en attente de leur pièce'],
       [n('a-verifier'), 'à vérifier', 'dits comme tels'], [C.relations.length, 'relations justifiées', 'jamais déduites'], [attente, 'archives à déposer', 'leur place est réservée']]
+      .map(function (c, i) { return '<li style="--i:' + i + '"><b>' + c[0] + '</b><span>' + B.fr(c[1]) + '</span><small>' + B.fr(c[2]) + '</small></li>'; }).join('');
+  }
+
+  /* l’écosystème : les projets comptés par état, dans data/projets.js */
+  var pe = document.getElementById('projets-etats'), P = A.projets;
+  if (pe && P) {
+    var etats = {}; P.forEach(function (p) { etats[p.etat] = (etats[p.etat] || 0) + 1; });
+    pe.innerHTML = [[P.length, 'projets', 'dans l’écosystème']].concat(Object.keys(etats).map(function (k) { return [etats[k], k.toLowerCase(), 'état déclaré dans la fiche']; }))
       .map(function (c, i) { return '<li style="--i:' + i + '"><b>' + c[0] + '</b><span>' + B.fr(c[1]) + '</span><small>' + B.fr(c[2]) + '</small></li>'; }).join('');
   }
 

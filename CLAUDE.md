@@ -24,7 +24,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 | Chemin | Ce que c’est |
 | --- | --- |
-| `index.html` | L’accueil « Voir l’invisible » : le Cube (`js/cube.js`), les trois espaces, Saint-Luc, du fragment à la composition, l’essai (vrais modules), les preuves, le carré / le cercle / le Point |
+| `index.html` | L’accueil : le Cube au centre (`js/cube.js`), « MATT MEZ » derrière lui et grossi par le verre (la loupe), puis une section par face du Cube : Chronologie, Composition, Archives, Relations, Modules, Écosystème, chacune avec ses entrées. Pas de boutons : le dock du bas porte les six faces (survol = le Cube tourne, clic = la section) ; le patron (le Cube déplié) dit où l’on est |
 | `chronologie.html` | La Chronologie : le hero, 1999 – 2025, les époques 2025 – 2026, la conclusion |
 | `composition.html` | La Composition (Métamorphose) : l’arbre, la grille, les modules, les relations, les fusions, les recettes |
 | `cube.html` · `data/cube.js` · `js/cube-saint-luc.js` · `css/cube-saint-luc.css` | Le Cube de Saint-Luc (maquette) : cinq faces en grilles mosaïques, la sixième ouverte sur la chronologie intérieure, une seule mémoire de fragments (chaque fragment posé au plus une fois ; la rotation ne touche jamais aux données), le Cube à plat sans 3D. Les noms des faces sont une hypothèse (`data/cube.js`) |
@@ -51,7 +51,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `js/chronologie.js` | L’affichage de la chronologie : sept modèles (papier, magazine, téléviseur, archive, duo, lacune, bandeau), l’axe des relations |
 | `js/admin.js` · `js/coffre.js` | L’éditeur, et le coffre local des images (IndexedDB) |
 | `js/theme.js` · `css/nuit.css` | Jour, Nuit, Auto |
-| `js/cube.js` · `js/accueil.js` · `css/accueil.css` | Le Cube (vraie 3D CSS, pointeur, toucher, clavier, liste des faces sans 3D) et l’accueil |
+| `js/cube.js` · `js/accueil.js` · `css/accueil.css` | Le Cube (vraie 3D CSS, saisi partout dans la scène, toucher, clavier ; une face touchée descend vers sa section), la loupe (enveloppe des sommets projetés → `clip-path`), les repères (dock, patron) et l’accueil |
 | `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `js/traducteur.js` · `data/traduction.js` | Le « + » de la Composition : `traduire(analyse)` (pure) propose des fragments et des modules à partir de la lecture du moteur ; après confirmation, `ATLAS.grille.poser()` les pose, reliés. Une composition structurée, rien n’est exécuté (`docs/TRADUCTEUR.md`) |
