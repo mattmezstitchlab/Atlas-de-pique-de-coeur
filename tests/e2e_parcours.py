@@ -30,7 +30,7 @@ with sync_playwright() as pw:
         b = getattr(pw, nav).launch()
         ctx = b.new_context(viewport={'width': 1280, 'height': 900})
         pg = ctx.new_page(); erreurs = []
-        pg.on('pageerror', lambda e: erreurs.append(str(e)))
+        pg.on('pageerror', lambda e: erreurs.append(str(e)) if 'access control checks' not in str(e) else None)  # le bandeau d’authentification des aperçus Vercel
 
         if 'adresses' in ETAPES:
             for p, titre in [('/', 'ATLAS'), ('/chronologie', 'Chronologie'), ('/composition', 'Métamorphose'), ('/cube', 'Cube'), ('/ecosysteme', ''), ('/moteur', ''), ('/administration', '')]:
@@ -78,18 +78,18 @@ with sync_playwright() as pw:
             demo = os.environ.get('DEMO', 'demonstration-un-concert-en-deux-demandes')
             r = pg.goto(url('/composition/' + demo))
             ok(r.status == 200, f'{N} 7. /composition/{demo} répond')
-            pg.wait_for_selector('.creation-etat', timeout=15000)
+            pg.wait_for_selector('.creation-etat[data-code]', timeout=15000)
             ok(pg.locator('.creation-grille .bloc').count() >= 2, f'{N} 7. la création publiée s’affiche ({pg.locator(".creation-grille .bloc").count()} blocs)')
             ok(pg.locator('.creation-grille [draggable=true], .creation-grille .poignee, #barre-bloc').count() == 0, f'{N} 7. en lecture seule (ni poignée ni barre d’outils)')
             ls = pg.evaluate("localStorage.getItem('atlas-metamorphose-v1')")
-            pg.goto(url('/composition/' + demo)); pg.wait_for_selector('.creation-etat')
+            pg.goto(url('/composition/' + demo)); pg.wait_for_selector('.creation-etat[data-code]')
             ok(pg.evaluate("localStorage.getItem('atlas-metamorphose-v1')") == ls, f'{N} 7. ouvrir une création ne touche pas à votre composition')
             if CAP: pg.screenshot(path=f'{CAP}/creation-{nav}.png', full_page=True)
             for ident, attendu in [('inconnue-0000', 'absente'), ('Pas..valide', 'invalide'), ('essai-privee', 'privée'), ('essai-brouillon', 'pas publiée')]:
-                pg.goto(url('/composition/' + ident)); pg.wait_for_selector('.creation-etat')
+                pg.goto(url('/composition/' + ident)); pg.wait_for_selector('.creation-etat[data-code]')
                 t = pg.locator('.creation-etat').inner_text()
                 ok(attendu in t and pg.locator('.creation-grille .bloc').count() == 0, f'{N} refus propre « {ident} » : {t[:70]}')
-            pg.goto(url('/creation?id=' + demo)); pg.wait_for_selector('.creation-etat')
+            pg.goto(url('/creation?id=' + demo)); pg.wait_for_selector('.creation-etat[data-code]')
             ok(pg.locator('.creation-grille .bloc').count() >= 2, f'{N} adresse de secours /creation?id=')
 
         if CAP: pg.screenshot(path=f'{CAP}/fin-{nav}.png')
