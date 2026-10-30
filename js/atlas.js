@@ -31,6 +31,18 @@
       '<p class="chapeau">' + fr(ch.chapeau) + '</p>' + moments + eco + visuels + '</section>';
   }).join('');
 
+  /* avant l’inventaire (1999 – 2025) : la chronologie publiée, ou le brouillon de l’éditeur en aperçu */
+  var zoneAvant = document.getElementById('avant');
+  if (zoneAvant && A.chrono && A.chronologie) {
+    var apercu = /[?&]apercu=1/.test(location.search), brouillon = null;
+    if (apercu) { try { brouillon = JSON.parse(localStorage.getItem('atlas-admin-v1') || 'null'); } catch (e) { brouillon = null; } }
+    if (brouillon && brouillon.donnees) {
+      var medias = {}, ids = brouillon.donnees.archives.map(function (a) { return a.id; });
+      Promise.all(ids.map(function (id) { return A.coffre ? A.coffre.lire(id).then(function (d) { if (d) medias[id] = d; }) : null; }))
+        .then(function () { A.chrono.rendre(brouillon.donnees, zoneAvant, { apercu: true, medias: medias }); });
+    } else A.chrono.rendre(A.chronologie, zoneAvant, {});
+  }
+
   /* demain, sur la bande noire */
   var D = H.demain;
   if (VIS[D.bandeau]) document.getElementById('demain').classList.add('a-bandeau');
@@ -71,7 +83,7 @@
 
   /* le dock du bas : un lieu par chapitre, un arc par lieu, l'anneau suit la lecture (comme le DockBas du design system) */
   var dock = document.getElementById('dock');
-  var tous = H.chapitres.concat([D]);
+  var tous = (zoneAvant ? [{ id: 'avant', lieu: '1999 – 2025' }] : []).concat(H.chapitres, [D]);
   dock.insertAdjacentHTML('beforeend', tous.map(function (c) { return '<a class="lieu" href="#' + esc(c.id) + '" aria-current="false">' + esc(c.lieu) + '</a>'; }).join(''));
   var lieux = Array.prototype.slice.call(dock.querySelectorAll('.lieu'));
   var arcs = document.getElementById('arcs'), progres = document.getElementById('progres');

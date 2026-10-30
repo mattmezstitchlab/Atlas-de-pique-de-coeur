@@ -1,0 +1,52 @@
+/* L’éditeur de la chronologie (admin.html) : la Charte, en outil. */
+.admin { padding: 120px var(--marge) var(--espace-8); max-width: 1320px; margin: 0 auto; }
+.outil-noir { background: var(--encre); color: var(--blanc); font-weight: 600; } .outil-noir:hover { background: var(--encre); color: var(--blanc); opacity: .9; }
+.titre-admin { margin: 6px 0 var(--espace-4); font-size: clamp(40px, 6vw, 84px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+.avertissement { max-width: 900px; padding: var(--espace-4) var(--espace-5); border-radius: var(--rayon-carte); background: var(--info-vient); box-shadow: inset 0 0 0 1px var(--info-vient-trait); font-size: 15px; line-height: 1.55; }
+.avertissement b { display: block; margin-bottom: 4px; font-size: 16px; }
+.etat-sauvegarde { margin: var(--espace-3) 0 0; font-size: 14px; color: var(--encre-3); min-height: 1.4em; }
+.onglets { display: flex; flex-wrap: wrap; gap: var(--espace-2); margin: var(--espace-6) 0 var(--espace-5); }
+.onglets .opt[aria-selected="true"] { border: 2px solid var(--encre); background: var(--encre); color: var(--blanc); font-weight: 700; }
+.deux-col { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: var(--espace-6); align-items: start; }
+@media (max-width: 900px) { .deux-col { grid-template-columns: minmax(0, 1fr); } }
+.col-liste { position: sticky; top: 104px; display: grid; gap: var(--espace-3); }
+@media (max-width: 900px) { .col-liste { position: static; } }
+.liste-admin { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 62vh; overflow: auto; }
+.liste-admin li { display: flex; align-items: stretch; gap: 4px; border-radius: var(--rayon-md); }
+.liste-admin li.actif .ligne { background: var(--encre); color: var(--blanc); } .liste-admin li.actif .an { color: var(--blanc-3); }
+.ligne { flex: 1; min-width: 0; display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--trait); border-radius: var(--rayon-md); background: var(--carte); color: var(--encre); font: inherit; text-align: left; cursor: pointer; }
+.ligne b { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ligne .an { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--encre-3); }
+.statut { justify-self: start; font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--rayon-xs); background: var(--papier); color: var(--encre); }
+.statut.publie { background: var(--libre); } .statut.brouillon, .statut.publiable { background: var(--info-remplie); } .statut.prive { background: var(--encre); color: var(--blanc); } .statut.archive { background: var(--trait-2); }
+.ordre { display: grid; gap: 4px; } .ordre button { width: 40px; flex: 1; min-height: 20px; border: 1px solid var(--trait); border-radius: var(--rayon-sm); background: var(--carte); cursor: pointer; font: inherit; }
+.ordre button:disabled { opacity: .3; cursor: default; }
+.form-admin { display: grid; gap: var(--espace-3); }
+.grille-champs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--espace-3); }
+.champ-admin { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
+.champ-admin small { font-weight: 500; color: var(--encre-3); line-height: 1.4; }
+.champ-admin .champ { height: 46px; font-size: 16px; }
+.champ-admin .zone { height: auto; padding: 10px 14px; line-height: 1.5; resize: vertical; }
+.bloc-admin { margin: 0; padding: var(--espace-4); border: 1px solid var(--trait); border-radius: var(--rayon-carte); background: var(--carte); display: grid; gap: var(--espace-3); }
+.bloc-admin legend { padding: 0 6px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-3); }
+.personne-admin { padding: var(--espace-3); border-radius: var(--rayon-md); background: var(--doux); display: grid; gap: var(--espace-2); }
+.cases-admin { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cases-admin label { display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: 15px; } .cases-admin input { width: 20px; height: 20px; accent-color: var(--encre); }
+.actions-admin { display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-3); }
+.lien-retirer { min-height: 40px; padding: 0 10px; border: 0; background: none; color: var(--erreur); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; justify-self: start; }
+.apercu-admin { margin-top: var(--espace-6); padding: var(--espace-4); border-radius: var(--rayon-xl); background: var(--papier); }
+.apercu-zone { padding: 0 var(--espace-3) var(--espace-5); background: none; }
+.apercu-zone .entree-chrono { margin-top: 0; padding-top: var(--espace-4); border-top: 0; }
+.apercu-zone .annee-courante { display: none; }
+.vignette-admin { max-width: 280px; max-height: 220px; border-radius: var(--rayon-md); object-fit: cover; }
+.intro-admin { max-width: 70ch; font-size: 17px; line-height: 1.55; color: var(--encre-2); }
+.relations-admin, .versions-admin, .journal-admin { list-style: none; margin: 0 0 var(--espace-5); padding: 0; display: grid; gap: var(--espace-2); }
+.relations-admin li, .versions-admin li { padding: var(--espace-3) var(--espace-4); border-radius: var(--rayon-md); background: var(--carte); border: 1px solid var(--trait); }
+.relations-admin p, .versions-admin p { margin: 6px 0; font-size: 15px; color: var(--encre-2); }
+.relations-admin .nature { padding: 2px 8px; border-radius: var(--rayon-pilule); background: var(--info-remplie); font-size: 13px; font-weight: 600; }
+.versions-admin span { display: block; font-size: 13px; color: var(--encre-3); }
+.versions-admin .bouton { height: 40px; font-size: 14px; padding: 0 14px; margin-top: 6px; }
+.journal-admin { max-height: 60vh; overflow: auto; font-size: 14px; }
+.journal-admin li { padding: 6px 0; border-bottom: 1px solid var(--trait); } .journal-admin time { font-weight: 600; color: var(--encre-3); margin-right: 6px; }
+.faits-admin { max-width: 80ch; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; color: var(--encre-2); }
+.lifebook-admin .bouton { margin-top: var(--espace-3); }

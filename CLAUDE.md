@@ -23,7 +23,8 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 | Chemin | Ce que c’est |
 | --- | --- |
-| `index.html` | La page de l’atlas : la structure et les docks |
+| `index.html` | La page de l’atlas : le hero, la chronologie 1999 – 2025, les époques 2025 – 2026, la conclusion |
+| `admin.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
 | `metamorphose.html` | La Métamorphose : les 643 projets en fragments à glisser sur une grille magnétique, et l’achèvement |
 | `moteur.html` | Le moteur : reconstruit une demande à partir des mots de la personne, et les statistiques qui le fondent |
 | `css/tokens.css` | Les jetons compilés (générés depuis `design-system/tokens.json`) |
@@ -35,18 +36,24 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `data/projets.js` | Les projets de l’écosystème et leur état |
 | `data/lexique.js` | Les mots que le moteur reconnaît (intentions, moments, lieux, conditions, ordre) |
 | `data/visuels.js` | La bibliothèque des visuels (photo, texte alt, famille) : les bandeaux de la chronologie et les blocs « visuel » de la Métamorphose |
+| `data/chronologie.js` | La chronologie **publiée** 1999 – 2025 (entrées, archives, relations) : public, produit par l’éditeur |
 | `data/statistiques.js` | Ce que les gens demandent aux agents IA et ce qu’ils veulent en faire, avec leurs sources |
 | `js/atlas.js` | L’affichage des données et le dock du bas |
 | `js/briques.js` | La forme d’un bloc dans la Charte (fragment ou brique), partagée par l’atlas et la Métamorphose |
 | `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier), le bloc choisi (coins, actions, réglages d’image, fiche), les liens arc-en-ciel et la fusion, les mises en page |
-| `data/modules.js` | Les modules vivants (Timeline, Agenda, Facture, Intermittent, Documents, Invités), d’après les capacités de l’atlas Base44 et les noms répétés |
+| `data/modules.js` | Les modules vivants (Timeline, Agenda, Facture, Intermittent, Documents, Invités, Musique, Galerie, Missions), d’après les capacités de l’atlas Base44 et les noms répétés |
 | `js/modules.js` | Les modules dans la Charte : leurs formulaires, le calendrier, ce qu’ils partagent quand ils sont reliés |
+| `js/chronologie.js` | L’affichage de la chronologie : sept modèles (papier, magazine, téléviseur, archive, duo, lacune, bandeau), l’axe des relations |
+| `js/admin.js` · `js/coffre.js` | L’éditeur, et le coffre local des images (IndexedDB) |
+| `js/theme.js` · `css/nuit.css` | Jour, Nuit, Auto |
+| `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
 
 ## Mettre l’atlas à jour
 
+- **La chronologie 1999 – 2025** : par l’éditeur (`admin.html`), puis « Publier », et le fichier exporté remplace `data/chronologie.js`. Une date non documentée reste « à vérifier » ; une relation porte toujours sa justification ; une archive privée ne sort jamais de l’éditeur.
 - **Un nouveau moment** : une entrée dans le chapitre voulu de `data/histoire.js`, avec sa source.
 - **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.

@@ -30,5 +30,17 @@ window.ATLAS.modules = [
   { id: 'invites', titre: 'Invités', famille: 'mariage', w: 4, h: 5,
     role: 'Qui vient, qui ne vient pas, qui n’a pas répondu : la liste qui fait la table.',
     motif: /invit|guest|rsvp/i, exemples: [],
-    capacites: ['Profil enrichi des invités', 'Missions collaboratives du mariage', 'Galerie collaborative des invités'] }
+    capacites: ['Profil enrichi des invités', 'Missions collaboratives du mariage', 'Galerie collaborative des invités'] },
+  { id: 'musique', titre: 'Musique', famille: 'musique', w: 4, h: 5,
+    role: 'La bande originale rangée par moment : chaque moment de la Timeline devient un créneau.',
+    motif: /playlist|\bdj\b|music|musique/i, exemples: ['AIME DJ', 'Music Box', 'L’Eden Musical'],
+    capacites: ['Timeline musicale de mariage', 'Propositions musicales des invités', 'Mémoire attachée à la musique'] },
+  { id: 'galerie', titre: 'Galerie', famille: 'memoire', w: 4, h: 5,
+    role: 'Les photos déposées par chacun, avec une légende qui dit qui et où.',
+    motif: /galer|album|photo/i, exemples: [],
+    capacites: ['Galerie collaborative des invités', 'Galerie média responsive'] },
+  { id: 'missions', titre: 'Missions', famille: 'mariage', w: 4, h: 5,
+    role: 'Des tâches confiées aux proches, et des voix pour choisir ensemble.',
+    motif: /mission|t[aâ]che|todo/i, exemples: [],
+    capacites: ['Missions collaboratives du mariage'] }
 ];
