@@ -75,7 +75,7 @@ with sync_playwright() as pw:
             MARIAGE = apercu
 
         if 'lecture' in ETAPES or 'publication' in ETAPES:
-            demo = os.environ.get('DEMO', 'demonstration-un-concert-en-deux-demandes')
+            demo = os.environ.get('DEMO', 'demonstration-un-concert-en-deux-demandes-c010df')
             r = pg.goto(url('/composition/' + demo))
             ok(r.status == 200, f'{N} 7. /composition/{demo} répond')
             pg.wait_for_selector('.creation-etat[data-code]', timeout=15000)
