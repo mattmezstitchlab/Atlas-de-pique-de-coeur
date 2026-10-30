@@ -1,31 +1,41 @@
-/* L’accueil d’ATLAS : « Voir l’invisible ». Le Cube, trois espaces, Saint-Luc, du fragment à la composition,
-   l’essai, les preuves, le carré, le cercle et le Point, l’instrument. Par-dessus tokens, composants, atlas, metamorphose. */
+/* L’accueil d’ATLAS : le Cube au centre, « MATT MEZ » derrière lui (grossi par le verre), puis une section par face du Cube :
+   Chronologie, Composition, Archives, Relations, Modules, Écosystème. Le dock du bas porte les faces. Par-dessus tokens, composants, atlas, metamorphose. */
 .accueil main { overflow-x: clip; }
-.accueil .bouton-clair { background: var(--blanc); color: #0b0b0c; border-color: var(--blanc); }
-.accueil .bouton-verre { background: rgba(255,255,255,.06); color: var(--blanc); border-color: rgba(255,255,255,.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .accueil .grand-mot { font-size: clamp(48px, 9vw, 150px); }
 
 /* ---------- 1. la scène du Cube ---------- */
-.scene-cube { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: var(--espace-6);
-  min-height: 100svh; padding: 130px var(--marge) var(--espace-8); background: #050506; color: var(--blanc); overflow: hidden; }
+.scene-cube { --c: clamp(200px, min(27vw, 37vh), 380px); position: relative; isolation: isolate; display: grid; justify-items: center; align-content: center; gap: var(--espace-4);
+  min-height: 100svh; padding: 96px var(--marge) 112px; background: #050506; color: var(--blanc); overflow: hidden; text-align: center; }
 .lumieres { position: absolute; inset: -20%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: .75;
-  background: radial-gradient(28% 32% at 72% 42%, rgba(201,184,255,.55), transparent 70%), radial-gradient(22% 26% at 60% 70%, rgba(255,214,236,.35), transparent 70%),
-    radial-gradient(24% 26% at 84% 26%, rgba(185,240,228,.28), transparent 70%), radial-gradient(30% 30% at 20% 80%, rgba(217,232,255,.12), transparent 70%);
+  background: radial-gradient(26% 30% at 50% 46%, rgba(201,184,255,.5), transparent 70%), radial-gradient(20% 24% at 38% 66%, rgba(255,214,236,.3), transparent 70%),
+    radial-gradient(22% 24% at 64% 30%, rgba(185,240,228,.26), transparent 70%), radial-gradient(30% 30% at 20% 80%, rgba(217,232,255,.12), transparent 70%);
   animation: lumieres 18s ease-in-out infinite alternate; }
-@keyframes lumieres { to { transform: translate3d(-4%, 3%, 0) rotate(6deg); } }
-.scene-texte .surtitre { color: rgba(255,255,255,.7); }
-.titre-invisible { margin-top: .1em; font-size: clamp(52px, 7.4vw, 150px); line-height: .9; color: var(--blanc); }
-.scene-sous { margin: var(--espace-5) 0 0; max-width: 26ch; font-size: clamp(19px, 1.8vw, 26px); line-height: 1.35; color: rgba(255,255,255,.82); }
-.scene-actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); margin: var(--espace-7) 0 0; }
-.cube-zone { --c: clamp(220px, 26vw, 400px); display: grid; justify-items: center; gap: var(--espace-5); }
-.cube-zone .cube-face { margin-top: calc(var(--c) * .14); }
-
-/* le Cube : six faces de verre nacré, neuf cases chacune, le Point au centre */
-.cube-scene { width: var(--c); height: var(--c); perspective: calc(var(--c) * 3.4); touch-action: none; cursor: grab; border-radius: 12px; outline-offset: 24px; }
-.cube-scene:active { cursor: grabbing; }
+@keyframes lumieres { to { transform: translate3d(-3%, 2%, 0) rotate(5deg); } }
+/* la scène : le titre au fond, la loupe, le Cube au centre ; on saisit le Cube partout dans la scène */
+.scene { position: relative; width: 100%; height: calc(var(--c) * 1.45); touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+.scene.glisse { cursor: grabbing; }
+.titre-plan { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.titre-pseudo { font-size: clamp(84px, 17vw, 330px); line-height: .82; letter-spacing: -0.05em; color: var(--blanc); white-space: nowrap; }
+.titre-pseudo span { display: inline-block; }
+/* la loupe : la même ligne, grossie et nacrée, visible seulement à travers le Cube (clip-path posé par js/cube.js) */
+.loupe { position: absolute; inset: 0; pointer-events: none; clip-path: polygon(0 0, 0 0, 0 0); }
+.loupe .titre-plan { transform: scale(1.3); }
+.loupe .titre-pseudo { background: linear-gradient(120deg, #fff 18%, var(--nacre-lilas) 38%, var(--nacre-ciel) 52%, var(--nacre-menthe) 64%, #fff 82%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 18px rgba(201,184,255,.35)); }
+.cube-scene { position: absolute; left: 50%; top: 50%; width: var(--c); height: var(--c); margin: calc(var(--c) / -2) 0 0 calc(var(--c) / -2); perspective: calc(var(--c) * 3.4); touch-action: none; border-radius: 12px; outline-offset: 24px; }
 .cube-scene:focus-visible { outline: 2px solid var(--nacre-lilas); }
 .cube { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
-.face { position: absolute; inset: 0; display: block; color: var(--blanc); text-decoration: none; border-radius: 6px;
+.scene-sous { margin: 0; font-size: clamp(18px, 1.8vw, 26px); font-weight: 500; letter-spacing: .01em; color: rgba(255,255,255,.86); }
+.cube-face { margin: 0; min-height: 1.5em; font-size: 15px; color: rgba(255,255,255,.7); }
+.cube-face b { font-weight: 700; color: var(--blanc); }
+.cube-astuce { color: rgba(255,255,255,.5); }
+/* le patron du Cube, dans le coin de la scène sur grand écran */
+.scene-cube > .patron { position: absolute; right: var(--marge); bottom: 112px; }
+@media (max-width: 900px) { .scene-cube > .patron { position: relative; right: auto; bottom: auto; } }
+@media (max-width: 640px) {
+  .scene-cube { --c: min(58vw, 300px); padding-top: 96px; }
+  .titre-pseudo { font-size: 31vw; } .titre-pseudo span { display: block; }
+}
+.face { position: absolute; inset: 0; display: block; color: var(--blanc); text-decoration: none; border-radius: 6px; -webkit-user-drag: none; user-select: none;
   background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(201,184,255,.06) 50%, rgba(185,240,228,.08));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.34), inset 0 0 60px rgba(201,184,255,.16); transition: box-shadow .4s; }
 .face-avant { transform: translateZ(calc(var(--c) / 2)); }
@@ -44,38 +54,32 @@
 .face-visible { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.7), inset 0 0 80px rgba(201,184,255,.28), 0 0 80px rgba(201,184,255,.18); }
 .face-visible .face-mot { opacity: 1; }
 .coeur-point { position: absolute; left: 50%; top: 50%; width: 18%; height: 18%; margin: -9% 0 0 -9%; border-radius: 50%; background: var(--nacre); box-shadow: 0 0 60px 18px rgba(201,184,255,.45); filter: blur(.5px); }
-.cube-face { margin: 0; min-height: 1.5em; text-align: center; font-size: 15px; color: rgba(255,255,255,.85); }
-.cube-face b { font-weight: 700; color: var(--blanc); }
-.cube-astuce { color: rgba(255,255,255,.55); }
-.faces-liste ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: min(100%, 520px); }
-.faces-liste a { display: grid; gap: 1px; min-height: 52px; padding: 8px 12px; border-radius: var(--rayon-md); background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: var(--blanc); text-decoration: none; }
-.faces-liste a:hover, .faces-liste a:focus-visible { background: rgba(255,255,255,.12); outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.6); }
-.faces-liste b { font-size: 14px; font-weight: 600; } .faces-liste span { font-size: 12px; color: rgba(255,255,255,.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@media (max-width: 900px) {
-  .scene-cube { grid-template-columns: minmax(0, 1fr); text-align: center; padding-top: 110px; }
-  .scene-sous { margin-inline: auto; } .scene-actions { justify-content: center; }
-  .cube-zone { --c: min(52vw, 260px); } .cube-scene { margin-top: var(--espace-6); }
-}
-@media (max-width: 520px) { .faces-liste ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-/* ---------- 2. les trois espaces : trois grands panneaux ---------- */
-.espaces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: #000; }
-.espace { position: relative; display: flex; align-items: flex-end; min-height: 88vh; overflow: hidden; color: var(--blanc); text-decoration: none; background: #0b0b0c; }
-.espace > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.8,.2,1), filter .6s; filter: saturate(.9) brightness(.82); }
-.espace:hover > img, .espace:focus-visible > img { transform: scale(1.05); filter: none; }
-.espace::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,.1) 55%); pointer-events: none; }
-.espace-texte { position: relative; z-index: 1; display: grid; gap: 6px; padding: clamp(24px, 3vw, 48px); }
-.espace-n { font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.75); }
-.espace b { font-size: clamp(44px, 5.2vw, 100px); font-weight: 600; letter-spacing: -0.045em; line-height: .92; }
-.espace-sous { max-width: 26ch; font-size: 16px; line-height: 1.4; color: rgba(255,255,255,.82); }
-.espace:focus-visible { outline: 3px solid var(--nacre-lilas); outline-offset: -6px; }
-.mosaique-vive { position: absolute; inset: 9% 8% 34%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 6px; }
-.mosaique-vive i { border-radius: 6px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); opacity: 0; transform: scale(.85); transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 70ms); }
-.mosaique-vive i.nacre { background: var(--nacre); opacity: 0; } .mosaique-vive i.photo { background: #3b3632 url('../media/union-camille-gabriel.jpg') center / cover; } .mosaique-vive i.sombre { background: #000; }
+/* ---------- les entrées de chaque face ---------- */
+.face-section { scroll-margin-top: 0; }
+.entrees { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--espace-3); max-width: 1180px; margin: var(--espace-7) auto 0; padding: 0; text-align: left; }
+.entree { position: relative; display: grid; align-content: end; gap: 4px; min-height: 132px; height: 100%; padding: var(--espace-5); border-radius: var(--rayon-carte); overflow: hidden;
+  background: var(--carte); border: 1px solid var(--trait); color: var(--encre); text-decoration: none; transition: border-color .3s, transform .4s cubic-bezier(.2,.8,.2,1); }
+.entree::after { content: '→'; position: absolute; top: var(--espace-4); right: var(--espace-5); font-size: 20px; opacity: .5; transition: transform .3s, opacity .3s; }
+.entree:hover, .entree:focus-visible { border-color: var(--encre); transform: translateY(-2px); }
+.entree:hover::after, .entree:focus-visible::after { opacity: 1; transform: translateX(4px); }
+.entree b { position: relative; z-index: 1; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+.entree small { position: relative; z-index: 1; font-size: 14px; color: var(--encre-3); }
+.entree-image, .entree-mosaique { min-height: 240px; background: #0b0b0c; color: var(--blanc); border-color: transparent; }
+.entree-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.7); transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
+.entree-image:hover img, .entree-image:focus-visible img { transform: scale(1.05); }
+.entree-image::before, .entree-mosaique::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.78), transparent 60%); pointer-events: none; }
+.entree-image small, .entree-mosaique small { color: rgba(255,255,255,.78); }
+.entree-image:hover, .entree-image:focus-visible, .entree-mosaique:hover, .entree-mosaique:focus-visible { border-color: var(--nacre-lilas); }
+/* sur les faces sombres */
+.saint-luc .entree, .instrument .entree { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.18); color: var(--blanc); }
+.saint-luc .entree small, .instrument .entree small { color: rgba(255,255,255,.65); }
+.saint-luc .entree:hover, .saint-luc .entree:focus-visible { border-color: rgba(255,255,255,.7); }
+.saint-luc .entrees { position: relative; }
+.mosaique-vive { position: absolute; inset: 12% 8% 42%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 5px; }
+.mosaique-vive i { border-radius: 5px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); opacity: 0; transform: scale(.85); transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 70ms); }
+.mosaique-vive i.nacre { background: var(--nacre); } .mosaique-vive i.photo { background: #3b3632 url('../media/union-camille-gabriel.jpg') center / cover; } .mosaique-vive i.sombre { background: #000; }
 .mosaique-vive i.grille { background-image: linear-gradient(rgba(255,255,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px); background-size: 8px 8px; }
-.espaces.vu .mosaique-vive i { opacity: 1; transform: none; }
-.espace-creer:hover .mosaique-vive i { box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
-@media (max-width: 900px) { .espaces { grid-template-columns: minmax(0, 1fr); } .espace { min-height: 72vh; } }
+.devenir.vu .mosaique-vive i { opacity: 1; transform: none; }
 
 /* ---------- 3. Saint-Luc ---------- */
 .saint-luc { position: relative; padding: var(--espace-section) var(--marge); background: #0e0d0b; color: var(--blanc); overflow: hidden; text-align: center; }
@@ -94,11 +98,10 @@
 .piece-attente { align-content: start; }
 .piece-place { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--rayon-md); border: 1.5px dashed rgba(255,255,255,.25); background: repeating-linear-gradient(-45deg, transparent 0 10px, rgba(255,255,255,.03) 10px 11px); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 .piece-legende { display: grid; gap: 2px; } .piece-legende b { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; } .piece-legende small { font-size: 13px; color: rgba(255,255,255,.65); }
-.saint-luc-liens { position: relative; margin-top: var(--espace-7); }
 @media (max-width: 900px) { .planche { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .piece-video { grid-column: 1 / -1; } }
 
 /* ---------- 4. du fragment à la composition ---------- */
-.devenir { padding: var(--espace-section) var(--marge); background: var(--papier); text-align: center; }
+.devenir { padding: var(--espace-section) var(--marge); background: var(--papier); text-align: center; border-top: 1px solid var(--trait); }
 .etapes-devenir { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-6); max-width: 1180px; margin: var(--espace-8) auto 0; padding: 0; counter-reset: d; }
 .etapes-devenir li { display: grid; justify-items: center; gap: 8px; counter-increment: d; }
 .etapes-devenir li::before { content: counter(d); font-size: 13px; font-weight: 700; color: var(--encre-3); }
@@ -122,21 +125,20 @@
 .essai .chapeau { margin-inline: auto; }
 .essai-grille { position: relative; max-width: 1180px; margin: var(--espace-7) auto 0; min-height: 0; text-align: left; }
 .essai-grille .bloc { cursor: default; }
-.essai-liens { margin-top: var(--espace-6); }
 @media (max-width: 900px) { .essai-grille { grid-template-columns: minmax(0, 1fr); min-width: 0 !important; } .essai-grille .bloc { grid-column: 1 / -1 !important; } }
 
 /* ---------- 6. les preuves ---------- */
-.preuves { padding: var(--espace-section) var(--marge); background: var(--carte); text-align: center; border-top: 1px solid var(--trait); }
+.preuves, .projets { padding: var(--espace-section) var(--marge); background: var(--carte); text-align: center; border-top: 1px solid var(--trait); }
+.preuves .chapeau { margin-inline: auto; }
 .preuves-chiffres { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; max-width: 1100px; margin: var(--espace-7) auto 0; padding: 0; background: var(--trait); border-radius: var(--rayon-xl); overflow: hidden; }
 .preuves-chiffres li { display: grid; gap: 4px; padding: var(--espace-6) var(--espace-4); background: var(--carte); }
 .preuves-chiffres b { font-size: clamp(48px, 6vw, 96px); font-weight: 600; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
 .preuves-chiffres span { font-size: 17px; font-weight: 600; } .preuves-chiffres small { font-size: 14px; color: var(--encre-3); }
-.preuves-liens { margin-top: var(--espace-6); }
 @media (max-width: 760px) { .preuves-chiffres { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- 7. le carré, le cercle, le Point ---------- */
-.formes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: #000; }
-.forme { display: grid; justify-items: center; align-content: center; gap: 10px; min-height: 76vh; padding: var(--espace-7) var(--espace-5); background: #070708; color: var(--blanc); text-decoration: none; text-align: center; }
+.formes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; max-width: 1180px; margin: var(--espace-8) auto 0; border-radius: var(--rayon-carte); overflow: hidden; background: #000; }
+.forme { display: grid; justify-items: center; align-content: center; gap: 10px; min-height: 52vh; padding: var(--espace-7) var(--espace-5); background: #0b0b0d; color: var(--blanc); text-decoration: none; text-align: center; }
 a.forme:hover .figure, a.forme:focus-visible .figure { transform: scale(1.04); }
 .forme:focus-visible { outline: 3px solid var(--nacre-lilas); outline-offset: -6px; }
 .forme b { margin-top: var(--espace-5); font-size: clamp(36px, 4.4vw, 72px); font-weight: 600; letter-spacing: -0.04em; }
@@ -151,6 +153,7 @@ a.forme:hover .figure, a.forme:focus-visible .figure { transform: scale(1.04); }
 
 /* ---------- 8. l’instrument ---------- */
 .instrument { padding: var(--espace-section) var(--marge); background: #050506; color: var(--blanc); text-align: center; }
+.instrument .surtitre { color: rgba(255,255,255,.7); } .instrument .grand-mot { color: var(--blanc); margin-bottom: var(--espace-6); }
 .intentions { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 4px; }
 .intentions li { font-size: clamp(28px, 4.6vw, 72px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.06; opacity: .15; transform: translateY(14px); transition: opacity .9s, transform .9s; }
 .instrument.vu .intentions li { opacity: 1; transform: none; }
@@ -159,14 +162,28 @@ a.forme:hover .figure, a.forme:focus-visible .figure { transform: scale(1.04); }
 .instrument blockquote p { margin: 0; font-size: clamp(24px, 3vw, 44px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15;
   background: linear-gradient(100deg, var(--blanc) 30%, var(--nacre-lilas), var(--nacre-menthe), var(--blanc) 70%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: reflet-nacre 9s ease-in-out infinite; }
 @keyframes reflet-nacre { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
-.instrument-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--espace-3); margin-top: var(--espace-7); }
-.instrument .bouton { background: transparent; color: var(--blanc); border-color: rgba(255,255,255,.5); } .instrument .bouton.noir { background: var(--blanc); color: #0b0b0c; border-color: var(--blanc); }
 
 @media (prefers-reduced-motion: reduce) {
   .lumieres, .case.lumineuse, .instrument blockquote p { animation: none; }
-  .espace > img, .mosaique-vive i, .schema i, .intentions li { transition: none; }
+  .entree-image img, .mosaique-vive i, .schema i, .intentions li { transition: none; }
   .intentions li { opacity: 1; transform: none; } .mosaique-vive i { opacity: 1; transform: none; }
 }
 
 /* le dock du haut sur téléphone : tout tient, sans défiler */
 @media (max-width: 480px) { .dock-haut .outil { padding: 0 8px; font-size: 14px; } .theme-btn { min-width: 40px; padding: 0 6px; font-size: 12px; } .dock-haut .separateur:last-of-type { display: none; } }
+
+/* ---------- les repères : le Cube déplié en croix (le haut, puis gauche · avant · droite · arrière, le bas) ---------- */
+.patron { position: relative; z-index: 1; display: inline-grid; grid-template-columns: repeat(4, 40px); grid-template-rows: repeat(3, 40px); gap: 3px; margin: 0 auto; }
+.patron-case { display: block; border-radius: 5px; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,.28); transition: background .3s, box-shadow .3s; }
+.patron-case:hover, .patron-case:focus-visible { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.8); outline: none; }
+.patron-case[aria-current="true"] { background: var(--nacre); box-shadow: 0 0 22px rgba(201,184,255,.55); }
+.repere { margin-bottom: var(--espace-5); grid-template-columns: repeat(4, 40px); }
+/* sur les faces claires, la croix prend l’encre */
+.preuves .patron-case, .projets .patron-case, .devenir .patron-case, .essai .patron-case { background: transparent; box-shadow: inset 0 0 0 1px var(--trait-2); }
+.preuves .patron-case:hover, .projets .patron-case:hover, .devenir .patron-case:hover, .essai .patron-case:hover,
+.preuves .patron-case:focus-visible, .projets .patron-case:focus-visible, .devenir .patron-case:focus-visible, .essai .patron-case:focus-visible { box-shadow: inset 0 0 0 1.5px var(--encre); }
+.preuves .patron-case[aria-current="true"], .projets .patron-case[aria-current="true"], .devenir .patron-case[aria-current="true"], .essai .patron-case[aria-current="true"] { background: var(--nacre); box-shadow: inset 0 0 0 1px var(--encre); }
+/* dans le dock du bas, la face que le Cube montre */
+.lieu.en-face { box-shadow: inset 0 0 0 1px rgba(255,255,255,.75), 0 0 18px rgba(201,184,255,.45); }
+.lieu.en-face::before { content: ''; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--nacre); }
+.projets-etats { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
