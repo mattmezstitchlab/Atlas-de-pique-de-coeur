@@ -23,15 +23,20 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | Chemin | Ce que c’est |
 | --- | --- |
 | `index.html` | La page de l’atlas : la structure et les docks |
+| `metamorphose.html` | La Métamorphose : les 643 projets en fragments à glisser sur une grille magnétique, et l’achèvement |
 | `moteur.html` | Le moteur : reconstruit une demande à partir des mots de la personne, et les statistiques qui le fondent |
 | `css/tokens.css` | Les jetons compilés (générés depuis `design-system/tokens.json`) |
 | `css/composants.css` | Les composants du site lemondeaime.com (boutons, champs, docks, cartes, pastilles…) |
 | `css/atlas.css` | La mise en page propre à l’atlas |
 | `data/histoire.js` | Les chapitres, moments, visuels et la feuille de route |
+| `data/applications.js` | Les 643 applications Base44 (date de création, nom, famille) et les familles |
+| `data/achevement.js` | Les briques de l’achèvement et leur composition sur la grille |
 | `data/projets.js` | Les projets de l’écosystème et leur état |
 | `data/lexique.js` | Les mots que le moteur reconnaît (intentions, moments, lieux, conditions, ordre) |
 | `data/statistiques.js` | Ce que les gens demandent aux agents IA et ce qu’ils veulent en faire, avec leurs sources |
 | `js/atlas.js` | L’affichage des données et le dock du bas |
+| `js/briques.js` | La forme d’un bloc dans la Charte (fragment ou brique), partagée par l’atlas et la Métamorphose |
+| `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
@@ -41,6 +46,8 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau moment** : une entrée dans le chapitre voulu de `data/histoire.js`, avec sa source.
 - **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
+- **Une nouvelle application Base44** : une ligne de plus dans `data/applications.js`, avec sa date de création et sa famille.
+- **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
 - **Une nouvelle page** : partir de `index.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.

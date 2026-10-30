@@ -30,7 +30,16 @@
   document.getElementById('demain').innerHTML = '<p class="date-chapitre">' + esc(D.date) + '</p><h2 id="t-demain" class="grand-mot">' + fr(D.titre) + '</h2><p class="chapeau">' + fr(D.chapeau) + '</p>' +
     '<ol class="etapes">' + D.etapes.map(function (e) { return '<li><div><b>' + fr(e[0]) + '</b><span>' + fr(e[1]) + '</span></div></li>'; }).join('') + '</ol>' +
     '<p class="surtitre" style="margin-top:72px;color:rgba(255,255,255,.65)">À l’horizon</p><ul class="nouveau">' +
-    D.horizon.map(function (h) { return '<li><span>' + fr(h[0]) + '</span><b>' + fr(h[1]) + '</b><p>' + fr(h[2]) + '</p></li>'; }).join('') + '</ul>';
+    D.horizon.map(function (h) { return '<li><span>' + fr(h[0]) + '</span><b>' + fr(h[1]) + '</b><p>' + fr(h[2]) + '</p></li>'; }).join('') + '</ul>' + achevement();
+
+  /* l’achèvement : les briques de ce qui a été refait le plus souvent, composées (data/achevement.js) */
+  function achevement() {
+    var ACH = A.achevement; if (!ACH || !A.bloc) return '';
+    return '<p class="surtitre" style="margin-top:96px;color:rgba(255,255,255,.65)">L’achèvement</p><h3 class="titre" style="color:#fff">Ce qui peut être construit</h3>' +
+      '<p class="chapeau">' + fr(ACH.principe) + '</p><div class="apercu-achevement" role="list">' +
+      ACH.briques.map(function (b) { return '<article role="listitem" class="bloc brique ' + b.style + '" style="grid-column:' + (b.x + 1) + ' / span ' + b.w + ';grid-row:' + (b.y + 1) + ' / span ' + b.h + '">' + A.bloc.brique(b, 'apercu') + '</article>'; }).join('') +
+      '</div><p class="lien-metamorphose"><a class="bouton" href="metamorphose.html">Ouvrir la Métamorphose : déplacer les briques, glisser les 643 projets</a></p>';
+  }
 
   /* l'écosystème : filtre par état avec les boutons d'option (.opt) */
   var CLASSE = { 'En production': 'prod', 'En développement': 'dev', 'Prototype': 'proto', 'Architecture': 'archi' };
