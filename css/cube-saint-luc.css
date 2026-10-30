@@ -1,0 +1,117 @@
+/* Le Cube de Saint-Luc (cube.html) : cinq faces en grilles mosaïques, la sixième ouverte, la chronologie à l’intérieur.
+   Par-dessus tokens, composants, atlas (et les boutons clair et verre de l’accueil, redéfinis ici). */
+.page-cube main { overflow-x: clip; }
+.page-cube .bouton-clair { background: var(--blanc); color: #0b0b0c; border-color: var(--blanc); }
+.page-cube .bouton-verre { background: rgba(255,255,255,.06); color: var(--blanc); border-color: rgba(255,255,255,.45); }
+
+.cs-scene { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: var(--espace-6);
+  min-height: 100svh; padding: 130px var(--marge) var(--espace-8); background: radial-gradient(60% 60% at 70% 45%, rgba(201,184,255,.16), transparent 70%), #050506; color: var(--blanc); overflow: hidden; }
+.cs-texte .surtitre { color: rgba(255,255,255,.7); }
+.cs-titre { margin-top: .1em; font-size: clamp(48px, 6.6vw, 124px); line-height: .92; color: var(--blanc); }
+.cs-sous { margin: var(--espace-5) 0 0; max-width: 28ch; font-size: clamp(18px, 1.6vw, 24px); line-height: 1.4; color: rgba(255,255,255,.82); }
+.cs-actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); margin: var(--espace-6) 0 0; }
+.cs-note { margin: var(--espace-5) 0 0; max-width: 46ch; font-size: 13px; color: rgba(255,255,255,.55); }
+.cs-zone { --c: clamp(240px, 30vw, 440px); display: grid; justify-items: center; gap: var(--espace-5); }
+.cs-etat { margin: calc(var(--c) * .16) 0 0; min-height: 1.5em; text-align: center; font-size: 15px; color: rgba(255,255,255,.85); }
+.cs-etat b { color: var(--blanc); }
+
+/* le Cube */
+.cs-cube-scene { width: var(--c); height: var(--c); perspective: calc(var(--c) * 3.4); touch-action: none; cursor: grab; outline-offset: 28px; border-radius: 12px; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.cs-cube-scene:focus-visible { outline: 2px solid var(--nacre-lilas); }
+.cs-cube { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.cs-face, .cs-ouverture { position: absolute; inset: 0; margin: 0; padding: 0; border: 0; font: inherit; color: var(--blanc); cursor: pointer; border-radius: 4px; }
+.pos-avant { transform: translateZ(calc(var(--c) / 2)); }
+.pos-droite { transform: rotateY(90deg) translateZ(calc(var(--c) / 2)); }
+.pos-arriere { transform: rotateY(180deg) translateZ(calc(var(--c) / 2)); }
+.pos-gauche { transform: rotateY(-90deg) translateZ(calc(var(--c) / 2)); }
+.pos-haut { transform: rotateX(90deg) translateZ(calc(var(--c) / 2)); }
+.pos-bas { transform: rotateX(-90deg) translateZ(calc(var(--c) / 2)); }
+.cs-face { background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px rgba(255,255,255,.4), inset 0 0 50px rgba(201,184,255,.1); transition: box-shadow .4s, opacity .6s; }
+.cs-face.vue { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.75), inset 0 0 70px rgba(201,184,255,.22), 0 0 60px rgba(201,184,255,.14); }
+.cs-grille { position: absolute; inset: 6%; display: grid; grid-template-columns: repeat(var(--n), 1fr); grid-template-rows: repeat(var(--n), 1fr); gap: 4%; }
+.cs-case { border-radius: 2px; background: rgba(255,255,255,.03); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); background-size: cover; background-position: center; }
+.cs-case.pleine, .af-case.pleine { box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); }
+.cs-case.t-moment, .af-case.t-moment { background-color: #e6dcc6; }
+.cs-case.t-brique, .af-case.t-brique { background: var(--nacre); }
+.cs-case.t-brique.s-sombre, .af-case.t-brique.s-sombre { background: #0b0b0c; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+.cs-case.t-brique.s-photo, .af-case.t-brique.s-photo { background: #6d5f55; }
+.cs-case.t-brique.s-grille, .af-case.t-brique.s-grille { background-color: #d8d4e6; background-image: linear-gradient(rgba(0,0,0,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.25) 1px, transparent 1px); background-size: 6px 6px; }
+.cs-case.t-module, .af-case.t-module { background-color: rgba(255,255,255,.86); }
+.cs-case.t-visuel, .af-case.t-visuel { background-color: #333; background-size: cover; background-position: center; }
+.cs-face .cs-case.pleine { opacity: .82; }
+.cs-nom { position: absolute; left: 7%; bottom: -1.9em; display: flex; gap: 8px; align-items: baseline; white-space: nowrap; opacity: 0; transition: opacity .4s; }
+.cs-face.vue .cs-nom, .cs-ouverture.vue .cs-nom { opacity: 1; }
+.cs-nom b { font-size: 15px; font-weight: 700; letter-spacing: .06em; } .cs-nom small { font-size: 13px; color: rgba(255,255,255,.7); }
+/* la face ouverte : seulement un cadre, on voit dedans */
+.cs-ouverture { background: none; box-shadow: inset 0 0 0 2px rgba(255,255,255,.55); pointer-events: auto; }
+.cs-ouverture::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; box-shadow: 0 0 40px rgba(201,184,255,.25); pointer-events: none; }
+/* l’intérieur : les années en plans, du fond vers l’ouverture */
+.cs-interieur { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+.cs-couche { position: absolute; left: 18%; right: 18%; top: 34%; bottom: 34%; opacity: calc(.35 + (var(--z) + .45) * .8); display: grid; place-content: center; text-align: center; gap: 2px; border-radius: 6px; color: var(--blanc); text-decoration: none;
+  transform: translateZ(calc(var(--z) * var(--c))); background: linear-gradient(135deg, rgba(201,184,255,.06), rgba(185,240,228,.03)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.cs-couche b { font-size: calc(var(--c) * .07); font-weight: 600; letter-spacing: -0.03em; line-height: 1; text-shadow: 0 0 18px rgba(201,184,255,.6); }
+.cs-couche span { display: none; font-size: calc(var(--c) * .026); color: rgba(255,255,255,.7); max-width: 90%; margin: 0 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* entrer : on s’approche de l’ouverture, les murs s’effacent, les années restent */
+.cs-cube-scene.dedans { transform: scale(1.9); cursor: default; }
+.cs-cube-scene.dedans .cs-face { opacity: .25; }
+.cs-cube-scene.dedans .cs-nom { opacity: 0; }
+.cs-cube-scene.dedans .cs-couche span { display: block; }
+.regard-dedans .cs-texte { opacity: .15; transition: opacity .6s; }
+
+.cs-dedans { position: relative; z-index: 2; margin: calc(-1 * var(--espace-8)) var(--marge) 0; padding: var(--espace-6); border-radius: var(--rayon-xl); background: rgba(12,12,14,.92); color: var(--blanc); box-shadow: var(--ombre-ecran); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.cs-dedans h2 { margin: 0; font-size: clamp(28px, 3.4vw, 48px); font-weight: 600; letter-spacing: -0.03em; outline: none; }
+.cs-dedans > p { color: rgba(255,255,255,.75); }
+.cs-dedans-liste { list-style: none; margin: var(--espace-4) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+.cs-dedans-liste a { display: grid; gap: 2px; min-height: 64px; padding: 12px 14px; border-radius: var(--rayon-md); background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); color: var(--blanc); text-decoration: none; }
+.cs-dedans-liste a:hover, .cs-dedans-liste a:focus-visible { background: rgba(255,255,255,.12); outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.6); }
+.cs-dedans-liste b { font-size: 20px; font-weight: 600; } .cs-dedans-liste span { font-size: 14px; color: rgba(255,255,255,.72); }
+.cs-dedans-actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); margin-top: var(--espace-5); }
+
+/* le Cube à plat : le patron en croix (haut / gauche, ouverte, droite, arrière / bas) */
+.cs-patron { padding: var(--espace-section) var(--marge); text-align: center; }
+.cs-patron .chapeau { margin-inline: auto; }
+.patron { display: grid; grid-template-columns: repeat(4, minmax(0, 170px)); grid-template-areas: ". haut . ." "gauche avant droite arriere" ". bas . ."; gap: 6px; justify-content: center; margin-top: var(--espace-6); }
+.pt-face { position: relative; aspect-ratio: 1; padding: 0; border: 0; border-radius: 6px; background: #0b0b0c; cursor: pointer; font: inherit; }
+.pt-face:focus-visible { outline: 3px solid var(--nacre-lilas); outline-offset: 3px; }
+.pt-face .cs-grille { inset: 8% 8% 20%; }
+.pt-haut { grid-area: haut; } .pt-gauche { grid-area: gauche; } .pt-avant { grid-area: avant; } .pt-droite { grid-area: droite; } .pt-arriere { grid-area: arriere; } .pt-bas { grid-area: bas; }
+.pt-nom { position: absolute; left: 0; right: 0; bottom: 6%; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--blanc); }
+.pt-ouverte { background: transparent; box-shadow: inset 0 0 0 2px var(--encre); color: var(--encre); }
+.pt-ouverte .pt-nom { color: var(--encre); } .pt-vide { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; color: var(--encre-3); }
+@media (max-width: 760px) { .patron { grid-template-columns: repeat(4, minmax(0, 1fr)); } .pt-nom { font-size: 9px; letter-spacing: 0; } }
+
+/* agrandir une face : la grille en grand, la mémoire à côté */
+.atelier-face { width: min(1180px, 96vw); max-height: 94vh; padding: 0; border: 0; border-radius: var(--rayon-xl); background: var(--fond); color: var(--encre); box-shadow: var(--ombre-ecran); }
+.atelier-face::backdrop { background: rgba(5,5,6,.7); backdrop-filter: blur(6px); }
+.af-corps { padding: var(--espace-5) var(--espace-5) 0; overflow: auto; max-height: calc(94vh - 90px); }
+.af-tete .af-titre { margin: 2px 0 6px; font-size: clamp(36px, 5vw, 72px); font-weight: 600; letter-spacing: -0.04em; outline: none; }
+.af-role { margin: 0; color: var(--encre-2); max-width: 60ch; } .af-lien { margin: var(--espace-3) 0 0; }
+.a-raccorder { display: inline-block; padding: 8px 12px; border-radius: var(--rayon-sm); background: var(--info-vient); font-size: 14px; font-weight: 600; }
+.af-plan { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--espace-5); margin-top: var(--espace-5); align-items: start; }
+@media (max-width: 860px) { .af-plan { grid-template-columns: minmax(0, 1fr); } }
+.af-grille { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 6px; padding: 10px; border-radius: var(--rayon-lg); background: #0b0b0c; }
+.af-case { position: relative; aspect-ratio: 1; min-height: 40px; padding: 4px; border: 0; border-radius: 6px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); color: #0b0b0c; font: inherit; cursor: pointer; background-size: cover; background-position: center; overflow: hidden; }
+.af-case span { position: absolute; left: 4px; right: 4px; bottom: 4px; font-size: 11px; font-weight: 600; line-height: 1.15; text-align: left; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.af-case.t-visuel span, .af-case.s-sombre span, .af-case.s-photo span { color: var(--blanc); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+.af-case:hover { box-shadow: inset 0 0 0 2px rgba(255,255,255,.6); }
+.af-case:focus-visible, .af-case.choisie { outline: 3px solid var(--nacre-lilas); outline-offset: 1px; }
+.af-memoire { display: grid; gap: var(--espace-3); }
+.af-aide { margin: 0; min-height: 3em; font-size: 15px; color: var(--encre-2); }
+.af-filtres { display: flex; flex-wrap: wrap; gap: 6px; } .af-filtres .opt { height: 40px; min-width: 0; }
+.af-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 46vh; overflow: auto; }
+.af-frag { display: grid; gap: 1px; width: 100%; min-height: 44px; padding: 6px 10px 6px 34px; border: 1px solid var(--trait); border-radius: var(--rayon-sm); background: var(--carte); color: var(--encre); font: inherit; text-align: left; cursor: pointer; position: relative; }
+.af-frag::before { content: ''; position: absolute; left: 10px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 3px; box-shadow: inset 0 0 0 1px var(--trait-2); }
+.af-frag.t-moment::before { background: #e6dcc6; } .af-frag.t-brique::before { background: var(--nacre); } .af-frag.t-module::before { background: var(--encre); } .af-frag.t-visuel::before { background: #6d5f55; }
+.af-frag.t-moment, .af-frag.t-module, .af-frag.t-visuel, .af-frag.t-brique { background-color: var(--carte); background-image: none; }
+.af-frag b { font-size: 14px; font-weight: 600; } .af-frag small { font-size: 12px; color: var(--encre-3); }
+.af-frag.choisi { border-color: var(--encre); box-shadow: 0 0 0 2px var(--encre); }
+.af-compte { margin: var(--espace-4) 0 0; font-size: 13px; color: var(--encre-3); }
+.af-pied { margin: 0; padding: var(--espace-4) var(--espace-5) var(--espace-5); display: flex; justify-content: flex-end; }
+
+@media (max-width: 900px) {
+  .cs-scene { grid-template-columns: minmax(0, 1fr); text-align: center; padding-top: 110px; }
+  .cs-sous, .cs-note { margin-inline: auto; } .cs-actions { justify-content: center; }
+  .cs-zone { --c: min(56vw, 280px); } .cs-cube-scene { margin-top: var(--espace-6); }
+  .cs-dedans { margin-top: var(--espace-4); }
+}
+@media (prefers-reduced-motion: reduce) { .cs-cube-scene, .cs-face, .cs-nom { transition: none; } }
