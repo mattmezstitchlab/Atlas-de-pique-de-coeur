@@ -1,6 +1,6 @@
 /* La Métamorphose : glisser les 643 projets et les visuels de l’arbre vers une grille magnétique de 12 colonnes,
    où chacun reprend la forme de la Charte ; toucher un bloc le choisit (ses actions, ses quatre coins pour l’agrandir, sa fiche) ;
-   changer de mise en page d’un clic ; ou passer par le Disque.
+   changer de mise en page d’un clic ; poser des modules, les relier, les fusionner.
    Les positions sont en unités de 12 colonnes. La composition est gardée sur cet appareil (localStorage), rien n’est envoyé. */
 (function () {
   var A = window.ATLAS, B = A.bloc, ACH = A.achevement, H = A.histoire;
@@ -22,6 +22,7 @@
   ordreGroupes.forEach(function (id) { parFamille[groupes[id].famille].groupes.push(groupes[id]); });
   var briques = {}; ACH.briques.forEach(function (b) { briques[b.id] = b; });
   var visuels = {}; A.visuels.forEach(function (v) { visuels[v.id] = v; });
+  var modules = A.module.def;
   var visuelDe = function (f) { return A.visuels.filter(function (v) { return v.famille === f; })[0] || A.visuels[0]; };
 
   /* ---------- l’étude d’un fragment : ce que disent ses dates, sa famille, sa brique ---------- */
@@ -40,8 +41,8 @@
   }
   /* ses voisins sur la grille : les blocs de la même famille posés à côté */
   var colle = function (a, b) { return a.x <= b.x + b.w && b.x <= a.x + a.w && a.y <= b.y + b.h && b.y <= a.y + a.h; };
-  var familleDe = function (b) { return b.type === 'brique' ? briques[b.ref].famille : b.type === 'groupe' ? groupes[b.ref].famille : visuels[b.ref].famille; };
-  var nomDe = function (b) { return b.type === 'brique' ? briques[b.ref].titre : b.type === 'groupe' ? groupes[b.ref].nom : visuels[b.ref].legende; };
+  var familleDe = function (b) { return b.type === 'brique' ? briques[b.ref].famille : b.type === 'groupe' ? groupes[b.ref].famille : b.type === 'module' ? modules[b.ref].famille : b.type === 'fusion' ? familleDe(b.parts[0]) : visuels[b.ref].famille; };
+  var nomDe = function (b) { return b.type === 'brique' ? briques[b.ref].titre : b.type === 'groupe' ? groupes[b.ref].nom : b.type === 'module' ? modules[b.ref].titre : b.type === 'fusion' ? b.parts.map(nomDe).join(' + ') : visuels[b.ref].legende; };
   function voisins(b) { return etat.blocs.filter(function (o) { return o !== b && familleDe(o) === familleDe(b) && colle(o, b); }); }
 
   /* ---------- la réparation : une barre par famille ---------- */
@@ -65,7 +66,10 @@
     var vs = A.visuels.filter(function (v) { return !q || sans(v.accroche + ' ' + v.legende + ' ' + v.alt).indexOf(q) !== -1 || 'visuels'.indexOf(q) === 0; });
     var dossierVisuels = vs.length ? '<details class="famille visuels" data-f="visuels"' + (q || ouverts.visuels ? ' open' : '') + '><summary><i class="pastille-famille" style="background:var(--nacre)"></i>Les visuels<small>' + A.visuels.length + '</small></summary><ul class="fragments vignettes">' +
       vs.map(function (v) { return '<li><button type="button" class="fragment vignette' + (poses['visuel:' + v.id] ? ' place' : '') + '" data-v="' + v.id + '" aria-label="Poser le visuel « ' + B.esc(v.legende) + ' » sur la grille"><img src="' + B.esc(v.src) + '" alt="" loading="lazy"><span>' + B.fr(v.legende) + '</span></button></li>'; }).join('') + '</ul></details>' : '';
-    zoneFamilles.innerHTML = dossierVisuels + A.familles.map(function (f) {
+    var ms = A.modules.filter(function (m) { return !q || sans(m.titre + ' ' + m.role).indexOf(q) !== -1 || 'modules'.indexOf(q) === 0; });
+    var dossierModules = ms.length ? '<details class="famille modules" data-f="modules"' + (q || ouverts.modules !== false ? ' open' : '') + '><summary><i class="pastille-famille arc"></i>Les modules<small>' + A.modules.length + '</small></summary><ul class="fragments">' +
+      ms.map(function (m) { return '<li><button type="button" class="fragment module-frag' + (poses['module:' + m.id] ? ' place' : '') + '" data-m="' + m.id + '" aria-label="Poser le module ' + B.esc(m.titre) + ' sur la grille"><span>' + B.fr(m.titre) + '</span><small>' + B.fr(m.role.split(' :')[0].split(',')[0]) + '</small></button></li>'; }).join('') + '</ul></details>' : '';
+    zoneFamilles.innerHTML = dossierModules + dossierVisuels + A.familles.map(function (f) {
       var gs = parFamille[f.id].groupes.filter(function (g) { return !q || sans(g.nom).indexOf(q) !== -1 || sans(f.nom).indexOf(q) !== -1; });
       if (!gs.length) return '';
       return '<details class="famille" data-f="' + f.id + '"' + (q || ouverts[f.id] ? ' open' : '') + '><summary>' + B.pastille(f.id) + B.fr(f.nom) + '<small>' + parFamille[f.id].apps + '</small></summary><ul class="fragments">' +
@@ -75,13 +79,13 @@
   filtre.addEventListener('input', arbre);
 
   /* ---------- l’état : les blocs posés ---------- */
-  var etat = { blocs: [], inverse: false, mise: 'achevement' }, choisi = null;
+  var etat = { blocs: [], inverse: false, mise: 'achevement', liens: [], donnees: { moments: [], invites: [], documents: [] } }, choisi = null, relier = null, reglage = false;
   var uid = 0;
-  var existe = function (b) { return b.type === 'brique' ? briques[b.ref] : b.type === 'groupe' ? groupes[b.ref] : visuels[b.ref]; };
-  function tailleDefaut(type, ref) { if (type === 'brique') { var b = briques[ref]; return { w: b.w, h: b.h }; } return type === 'visuel' ? { w: 6, h: 3 } : { w: 3, h: 2 }; }
+  var existe = function (b) { return b.type === 'brique' ? briques[b.ref] : b.type === 'groupe' ? groupes[b.ref] : b.type === 'module' ? modules[b.ref] : b.type === 'fusion' ? b.parts && b.parts.length && b.parts.every(existe) : visuels[b.ref]; };
+  function tailleDefaut(type, ref) { if (type === 'module') return { w: modules[ref].w, h: modules[ref].h }; if (type === 'brique') { var b = briques[ref]; return { w: b.w, h: b.h }; } return type === 'visuel' ? { w: 6, h: 3 } : { w: 3, h: 2 }; }
   function sauver() { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) { /* stockage indisponible : la grille reste pour la séance */ } }
   function charger() {
-    try { var s = JSON.parse(localStorage.getItem(CLE) || 'null'); if (s && Array.isArray(s.blocs)) { etat = s; etat.blocs = etat.blocs.filter(existe); return true; } } catch (e) { /* rien */ }
+    try { var s = JSON.parse(localStorage.getItem(CLE) || 'null'); if (s && Array.isArray(s.blocs)) { etat = s; etat.blocs = etat.blocs.filter(existe); etat.liens = (etat.liens || []).filter(function (l) { return partie(l[0]) && partie(l[1]); }); etat.donnees = etat.donnees || { moments: [], invites: [], documents: [] }; return true; } } catch (e) { /* rien */ }
     return false;
   }
   var chevauche = function (a, b) { return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; };
@@ -102,6 +106,27 @@
     etat.blocs.push(b); choisi = b.uid; rendre(); sauver(); return b;
   }
 
+  /* ---------- le réseau : les blocs reliés (et les parties d’une fusion) partagent ce qu’ils savent ---------- */
+  var tous = function () { var l = []; etat.blocs.forEach(function (b) { l.push(b); if (b.type === 'fusion') l = l.concat(b.parts); }); return l; };
+  var partie = function (id) { return tous().filter(function (x) { return x.uid === id; })[0]; };
+  function reseau(id) {
+    var vu = {}, pile = [id];
+    while (pile.length) {
+      var c = pile.pop(); if (vu[c]) continue; vu[c] = 1;
+      etat.liens.forEach(function (l) { if (l[0] === c) pile.push(l[1]); if (l[1] === c) pile.push(l[0]); });
+      etat.blocs.forEach(function (b) { if (b.type !== 'fusion') return; var ids = [b.uid].concat(b.parts.map(function (x) { return x.uid; })); if (ids.indexOf(c) !== -1) pile = pile.concat(ids); });
+    }
+    return Object.keys(vu);
+  }
+  var lie = function (b) { return etat.liens.some(function (l) { return l[0] === b.uid || l[1] === b.uid; }); };
+  var ctx = { reseau: reseau, partie: partie, get donnees() { return etat.donnees; },
+    changer: function (owner, champ, cible) {
+      sauver(); rendre();
+      var m = grille.querySelector('.module[data-owner="' + owner + '"]'); if (!m) return;
+      var f = (cible && m.querySelector(cible)) || (champ && m.querySelector('[name="' + champ + '"]')); if (f) f.focus({ preventScroll: true });
+    } };
+  A.module.ecouter(grille, ctx);
+
   /* ---------- un bloc dans la Charte ---------- */
   var STYLES = ['carte', 'sombre', 'nacre', 'grille', 'photo'];
   var NOM_STYLE = { carte: 'Carte', sombre: 'Sombre', nacre: 'Nacre', grille: 'Grille', photo: 'Photo', une: 'À la une', section: 'Section' };
@@ -110,17 +135,20 @@
     var st = styleDe(b), img = '';
     if (b.type === 'visuel' || st === 'photo') {
       var v = visuels[b.visuel] || (b.type === 'visuel' ? visuels[b.ref] : visuelDe(familleDe(b)));
-      img = '<img class="fond-bloc" src="' + B.esc(v.src) + '" alt="' + B.esc(v.alt) + '"' + (v.pos ? ' style="object-position:' + B.esc(v.pos) + '"' : '') + '>';
+      var ri = b.image, styleImg = ri ? 'object-position:' + ri.pos + ';filter:brightness(' + ri.lum / 100 + ') contrast(' + ri.con / 100 + ') saturate(' + ri.sat / 100 + ')' : (v.pos ? 'object-position:' + v.pos : '');
+      img = '<img class="fond-bloc" src="' + B.esc(v.src) + '" alt="' + B.esc(v.alt) + '"' + (styleImg ? ' style="' + B.esc(styleImg) + '"' : '') + '>';
     }
     if (b.type === 'visuel') {
       var vv = visuels[b.ref];
       return img + '<div class="texte-visuel"><p class="sur">' + B.fr(vv.accroche) + '</p><h4>' + B.fr(vv.legende) + '</h4></div>';
     }
+    if (b.type === 'module') return A.module.corps(b, ctx);
+    if (b.type === 'fusion') return '<div class="fusion-panes" style="--n:' + b.parts.length + '">' + b.parts.map(function (x) { return '<div class="pane ' + x.type + ' ' + styleDe(x) + '">' + contenu(x) + '</div>'; }).join('<span class="couture" aria-hidden="true"></span>') + '</div>';
     if (b.type === 'brique') return img + B.brique(briques[b.ref]);
     var g = groupes[b.ref], e = etude(g), vo = voisins(b);
     return img + B.groupe(g) +
       '<div class="etude"><p class="role">' + B.fr(e.phrase) + '</p><p class="sens">' + B.fr(e.sens) + '</p>' +
-      (vo.length ? '<p class="lien-voisins">Relié à ' + vo.map(function (o) { return '« ' + B.fr(nomDe(o)) + ' »'; }).join(', ') + '</p>' : '') + '</div>';
+      (vo.length ? '<p class="lien-voisins">À côté de ' + vo.map(function (o) { return '« ' + B.fr(nomDe(o)) + ' »'; }).join(', ') + '</p>' : '') + '</div>';
   }
 
   /* ---------- la grille ---------- */
@@ -134,15 +162,30 @@
     var html = etat.blocs.map(function (b) {
       var st = styleDe(b), nom = nomDe(b), surface = b.w * b.h, est = b.uid === choisi;
       var taille = surface >= 18 ? ' grand' : surface >= 9 ? ' moyen' : ' petit';
-      return '<article class="bloc ' + b.type + ' ' + st + taille + (est ? ' choisi' : '') + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + ', ' + b.w + ' sur ' + b.h + (est ? ', choisi' : '') + '">' +
+      return '<article class="bloc ' + b.type + ' ' + st + taille + (est ? ' choisi' : '') + (lie(b) || b.type === 'fusion' ? ' relie' : '') + (relier && relier !== b.uid ? ' a-relier' : '') + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + ', ' + b.w + ' sur ' + b.h + (est ? ', choisi' : '') + '">' +
         '<div class="poignee" aria-hidden="true"></div>' + contenu(b) +
         (est ? COINS.map(function (c) { return '<span class="coin coin-' + c[0] + '" data-coin="' + c[0] + '" aria-hidden="true" title="Agrandir par le coin ' + c[1] + '"></span>'; }).join('') : '') + '</article>';
     }).join('');
     grille.innerHTML = '<div class="aimant" id="aimant" hidden></div>' + (html || '<p class="vide-grille">Glissez un fragment ou un visuel ici, ou choisissez une mise en page.</p>');
     aimant = document.getElementById('aimant');
+    fils();
     var n = etat.blocs.length; compte.textContent = n ? n + ' bloc' + (n > 1 ? 's' : '') + ' sur la grille' : 'La grille est vide';
     Array.prototype.forEach.call(document.querySelectorAll('[data-mise]'), function (o) { o.setAttribute('aria-pressed', String(o.getAttribute('data-mise') === etat.mise)); });
     arbre(); outils();
+  }
+
+  /* ---------- les fils : entre deux blocs reliés, une lumière arc-en-ciel qui passe de l’un à l’autre ---------- */
+  var haut = function (id) { var t = trouveUid(id); if (t) return t; return etat.blocs.filter(function (b) { return b.type === 'fusion' && b.parts.some(function (x) { return x.uid === id; }); })[0]; };
+  function fils() {
+    var traits = etat.liens.map(function (l) {
+      var a = haut(l[0]), b = haut(l[1]); if (!a || !b || a === b) return '';
+      var ea = grille.querySelector('[data-uid="' + a.uid + '"]'), eb = grille.querySelector('[data-uid="' + b.uid + '"]'); if (!ea || !eb) return '';
+      var x1 = ea.offsetLeft + ea.offsetWidth / 2, y1 = ea.offsetTop + ea.offsetHeight / 2, x2 = eb.offsetLeft + eb.offsetWidth / 2, y2 = eb.offsetTop + eb.offsetHeight / 2;
+      var d = 'M' + x1 + ' ' + y1 + ' C' + x1 + ' ' + (y1 + y2) / 2 + ' ' + x2 + ' ' + (y1 + y2) / 2 + ' ' + x2 + ' ' + y2;
+      return '<path class="fil" d="' + d + '"/><path class="fil-lumiere" d="' + d + '"/>';
+    }).join('');
+    if (!traits) return;
+    grille.insertAdjacentHTML('beforeend', '<svg class="fils" aria-hidden="true" width="' + grille.scrollWidth + '" height="' + grille.scrollHeight + '"><defs><linearGradient id="arc-fil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--orbe-lecture-1)"/><stop offset=".2" stop-color="var(--orbe-lecture-2)"/><stop offset=".4" stop-color="var(--libre)"/><stop offset=".6" stop-color="var(--orbe-grand-1)"/><stop offset=".8" stop-color="var(--nacre-rose)"/><stop offset="1" stop-color="var(--orbe-ecoute)"/></linearGradient></defs>' + traits + '</svg>');
   }
 
   /* ---------- le bloc choisi : sa barre d’actions sous lui, sa fiche sous la grille ---------- */
@@ -152,13 +195,23 @@
     if (!b) { choisi = null; barre.hidden = true; fiche.hidden = true; return; }
     var el = grille.querySelector('[data-uid="' + b.uid + '"]'), zone = barre.parentNode.getBoundingClientRect(), r = el.getBoundingClientRect();
     var st = styleDe(b), photo = b.type === 'visuel' || st === 'photo';
+    var mod = b.type === 'module', fus = b.type === 'fusion', ri = b.image || { pos: 'center', lum: 100, con: 100, sat: 100 };
+    var POS = [['center', 'Centre'], ['top', 'Haut'], ['bottom', 'Bas'], ['left', 'Gauche'], ['right', 'Droite']];
     barre.innerHTML = '<p class="barre-nom">' + B.fr(nomDe(b)) + ' <small>' + b.w + ' × ' + b.h + '</small></p>' +
+      (relier === b.uid ? '<p class="barre-aide" role="status">Touchez le bloc à relier.</p><button type="button" data-act="annuler-lien">Annuler</button>' :
       '<button type="button" data-act="taille">Taille</button>' +
-      '<button type="button" data-act="style">Style · ' + NOM_STYLE[st] + '</button>' +
-      '<button type="button" data-act="visuel"' + (photo ? '' : ' title="Passe le bloc en photo"') + '>Visuel</button>' +
-      '<button type="button" data-act="une">À la une</button>' +
-      '<button type="button" data-act="dupliquer">Dupliquer</button>' +
-      '<button type="button" data-act="retirer">Retirer</button>';
+      (mod || fus ? '' : '<button type="button" data-act="style">Style · ' + NOM_STYLE[st] + '</button><button type="button" data-act="visuel"' + (photo ? '' : ' title="Passe le bloc en photo"') + '>Visuel</button>') +
+      (photo && !fus ? '<button type="button" data-act="image" aria-expanded="' + reglage + '">Image</button>' : '') +
+      '<button type="button" data-act="relier" class="arc-btn">Relier</button>' +
+      (lie(b) ? '<button type="button" data-act="delier">Délier</button><button type="button" data-act="fusionner">Fusionner</button>' : '') +
+      (fus ? '<button type="button" data-act="separer">Séparer</button>' : '') +
+      (mod || fus ? '' : '<button type="button" data-act="une">À la une</button>') +
+      (fus ? '' : '<button type="button" data-act="dupliquer">Dupliquer</button>') +
+      '<button type="button" data-act="retirer">Retirer</button>') +
+      (reglage && photo && !fus && relier !== b.uid ? '<div class="reglages-image" role="group" aria-label="Réglages de l’image">' +
+        '<label><span>Cadrage</span><select class="champ" data-reg="pos">' + POS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === ri.pos ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>' +
+        [['lum', 'Luminosité'], ['con', 'Contraste'], ['sat', 'Saturation']].map(function (o) { return '<label><span>' + o[1] + '</span><output>' + ri[o[0]] + '</output><input type="range" min="0" max="200" value="' + ri[o[0]] + '" data-reg="' + o[0] + '"></label>'; }).join('') +
+        '<button type="button" data-act="image-zero">Revenir à l’original</button></div>' : '');
     barre.hidden = false;
     var haut = r.bottom - zone.top + barre.parentNode.scrollTop + 8, gauche = Math.max(0, Math.min(r.left - zone.left + barre.parentNode.scrollLeft, barre.parentNode.scrollWidth - barre.offsetWidth));
     barre.style.top = haut + 'px'; barre.style.left = gauche + 'px';
@@ -179,6 +232,19 @@
       h = '<p class="surtitre">' + B.pastille(br.famille) + ' Brique · ' + B.fr(B.nomFamille(br.famille)) + '</p><h3 class="titre">' + B.fr(br.titre) + '</h3><p>' + B.fr(br.role) + '</p>' +
         '<dl class="etude-liste"><div><dt>Tentatives</dt><dd>' + br.tentatives + '</dd></div><div><dt>Part des 643</dt><dd>' + Math.round(br.tentatives / A.applications.length * 100) + '&nbsp;%</dd></div><div><dt>Noms distincts</dt><dd>' + parFamille[br.famille].groupes.length + '</dd></div></dl>' +
         '<p>Les plus recommencés&nbsp;:</p><ul class="puces">' + top.map(function (g) { return '<li>' + B.fr(g.nom) + (g.n > 1 ? ' ×' + g.n : '') + '</li>'; }).join('') + '</ul>';
+    } else if (b.type === 'module') {
+      var md = modules[b.ref], n = A.applications.filter(function (a) { return md.motif.test(a[1]); }), noms = {};
+      n.forEach(function (a) { noms[base(a[1])] = (noms[base(a[1])] || 0) + 1; });
+      var net = reseau(b.uid).map(partie).filter(function (x) { return x && x.uid !== b.uid; });
+      h = '<p class="surtitre">' + B.pastille(md.famille) + ' Module · ' + B.fr(B.nomFamille(md.famille)) + '</p><h3 class="titre">' + B.fr(md.titre) + '</h3><p>' + B.fr(md.role) + '</p>' +
+        '<dl class="etude-liste"><div><dt>Applications au nom proche</dt><dd>' + n.length + '</dd></div><div><dt>Capacités de l’atlas</dt><dd>' + md.capacites.length + '</dd></div><div><dt>Relié à</dt><dd>' + net.length + '</dd></div></dl>' +
+        (Object.keys(noms).length ? '<p>Recréé sous ces noms&nbsp;:</p><ul class="puces">' + Object.keys(noms).slice(0, 8).map(function (k) { return '<li>' + B.fr(k) + (noms[k] > 1 ? ' ×' + noms[k] : '') + '</li>'; }).join('') + '</ul>' : '<p>Aucune application ne porte ce mot dans son nom : le module vient des capacités de l’atlas.</p>') +
+        (md.capacites.length ? '<p>Capacités de l’atlas Base44&nbsp;: ' + md.capacites.map(function (c) { return '« ' + B.fr(c) + ' »'; }).join(', ') + '.</p>' : '') +
+        (md.regle ? '<p>' + B.fr(md.regle) + '</p>' : '') +
+        (net.length ? '<p>Dans son réseau&nbsp;: ' + net.map(function (x) { return '« ' + B.fr(nomDe(x)) + ' »'; }).join(', ') + '. Ce que l’un sait, les autres le lisent.</p>' : '<p>Reliez-le à un autre module : la lumière passe de l’un à l’autre, et leurs données avec elle.</p>') +
+        '<p class="note-source">Sources : entité Capability de l’application « Atlas Base44 Matt Mez », noms de data/applications.js. Les données saisies restent sur cet appareil.</p>';
+    } else if (b.type === 'fusion') {
+      h = '<p class="surtitre">Fusion · ' + b.parts.length + ' blocs</p><h3 class="titre">' + B.fr(nomDe(b)) + '</h3><p>Un seul bloc, une seule place, des données partagées. « Séparer » rend chaque partie à la grille, toujours reliées.</p>';
     } else {
       var v = visuels[b.ref];
       h = '<p class="surtitre">Visuel · ' + B.fr(v.accroche) + '</p><h3 class="titre">' + B.fr(v.legende) + '</h3><p>' + B.fr(v.alt) + '.</p>' +
@@ -187,6 +253,7 @@
     fiche.innerHTML = h; fiche.hidden = false;
   }
   function choisir(b, focus) {
+    if (!b || b.uid !== choisi) reglage = false;
     choisi = b ? b.uid : null; rendre();
     if (b && focus !== false) { var el = grille.querySelector('[data-uid="' + b.uid + '"]'); if (el) el.focus({ preventScroll: true }); }
   }
@@ -245,6 +312,10 @@
     aimant.hidden = true;
     if (d.coin) { if (d.cible) { d.bloc.x = d.cible.x; d.bloc.y = d.cible.y; d.bloc.w = d.cible.w; d.bloc.h = d.cible.h; etat.mise = null; sauver(); } rendre(); return; }
     if (!d.bouge) {
+      if (d.bloc && relier) {                                          /* en train de relier : le bloc touché rejoint le réseau */
+        if (d.bloc.uid !== relier && reseau(relier).indexOf(d.bloc.uid) === -1) etat.liens.push([relier, d.bloc.uid]);
+        choisi = relier; relier = null; rendre(); sauver(); return;
+      }
       if (d.bloc) choisir(d.bloc.uid === choisi ? null : d.bloc);      /* toucher un bloc le choisit, le toucher encore le relâche */
       else ajouter(d.type, d.ref);                                     /* toucher un fragment le pose à la première place libre */
       return;
@@ -257,6 +328,7 @@
   }
   zoneFamilles.addEventListener('pointerdown', function (ev) {
     var f = ev.target.closest('.fragment'); if (!f) return;
+    if (f.hasAttribute('data-m')) { var md = modules[f.getAttribute('data-m')]; debut(ev, { type: 'module', ref: md.id, nom: md.titre, w: md.w, h: md.h }); return; }
     if (f.hasAttribute('data-v')) { var v = visuels[f.getAttribute('data-v')]; debut(ev, { type: 'visuel', ref: v.id, nom: v.legende, w: 6, h: 3 }); return; }
     var g = groupes[f.getAttribute('data-g')];
     debut(ev, { type: 'groupe', ref: g.id, nom: g.nom, w: 3, h: 2 });
@@ -264,7 +336,7 @@
   zoneFamilles.addEventListener('keydown', function (ev) {
     var f = ev.target.closest('.fragment'); if (!f || (ev.key !== 'Enter' && ev.key !== ' ')) return;
     ev.preventDefault();
-    if (f.hasAttribute('data-v')) ajouter('visuel', f.getAttribute('data-v')); else ajouter('groupe', f.getAttribute('data-g'));
+    if (f.hasAttribute('data-m')) ajouter('module', f.getAttribute('data-m')); else if (f.hasAttribute('data-v')) ajouter('visuel', f.getAttribute('data-v')); else ajouter('groupe', f.getAttribute('data-g'));
   });
   grille.addEventListener('pointerdown', function (ev) {
     var coin = ev.target.closest('.coin'), p = ev.target.closest('.poignee');
@@ -281,7 +353,19 @@
   /* ---------- les actions du bloc choisi ---------- */
   var TAILLES = [[3, 2], [6, 2], [4, 3], [6, 3], [8, 4], [12, 2], [12, 4]];
   function agir(act, b) {
-    if (act === 'retirer') { etat.blocs = etat.blocs.filter(function (x) { return x !== b; }); choisi = null; }
+    if (act === 'retirer') {
+      var partis = [b.uid].concat(b.type === 'fusion' ? b.parts.map(function (x) { return x.uid; }) : []), hors = function (x) { return partis.indexOf(x.owner) === -1; };
+      etat.blocs = etat.blocs.filter(function (x) { return x !== b; }); choisi = null;
+      etat.liens = etat.liens.filter(function (l) { return partis.indexOf(l[0]) === -1 && partis.indexOf(l[1]) === -1; });
+      var D = etat.donnees; D.moments = D.moments.filter(hors); D.invites = D.invites.filter(hors); D.documents = D.documents.filter(hors);
+    }
+    else if (act === 'relier') { relier = b.uid; reglage = false; }
+    else if (act === 'annuler-lien') relier = null;
+    else if (act === 'delier') { var ids = [b.uid].concat(b.type === 'fusion' ? b.parts.map(function (x) { return x.uid; }) : []); etat.liens = etat.liens.filter(function (l) { return ids.indexOf(l[0]) === -1 && ids.indexOf(l[1]) === -1; }); }
+    else if (act === 'fusionner') { fusionner(b); return; }
+    else if (act === 'separer') { separer(b); return; }
+    else if (act === 'image') reglage = !reglage;
+    else if (act === 'image-zero') delete b.image;
     else if (act === 'taille') {
       var i = TAILLES.findIndex(function (t) { return t[0] === b.w && t[1] === b.h; }), t = TAILLES[(i + 1) % TAILLES.length];
       b.w = t[0]; b.h = t[1]; var p = placer(b.x, b.y, b.w, b.h, b); b.x = p.x; b.y = p.y; etat.mise = null;
@@ -302,12 +386,41 @@
     rendre(); sauver();
     var el = choisi && grille.querySelector('[data-uid="' + choisi + '"]'); if (el) el.focus({ preventScroll: true });
   }
+  /* fusionner : les blocs reliés deviennent un seul bloc, à la place qu’ils occupaient ensemble ; séparer les rend */
+  function fusionner(b) {
+    var membres = []; reseau(b.uid).forEach(function (id) { var h = haut(id); if (h && membres.indexOf(h) === -1) membres.push(h); });
+    if (membres.length < 2) return;
+    var x0 = Math.min.apply(null, membres.map(function (m) { return m.x; })), y0 = Math.min.apply(null, membres.map(function (m) { return m.y; }));
+    var x1 = Math.max.apply(null, membres.map(function (m) { return m.x + m.w; })), y1 = Math.max.apply(null, membres.map(function (m) { return m.y + m.h; }));
+    var parts = []; membres.forEach(function (m) { parts = parts.concat(m.type === 'fusion' ? m.parts : [m]); });
+    etat.blocs = etat.blocs.filter(function (x) { return membres.indexOf(x) === -1; });
+    var f = { uid: 'f' + (++uid) + Date.now().toString(36), type: 'fusion', parts: parts.map(function (x) { return { uid: x.uid, type: x.type, ref: x.ref, w: x.w, h: x.h, style: x.style, visuel: x.visuel, image: x.image, mois: x.mois, jour: x.jour }; }), w: Math.min(12, x1 - x0), h: Math.max(y1 - y0, Math.max.apply(null, parts.map(function (x) { return x.h; }))) };
+    var p = placer(x0, y0, f.w, f.h); f.x = p.x; f.y = p.y;
+    etat.blocs.push(f); choisi = f.uid; etat.mise = null; rendre(); sauver();
+  }
+  function separer(f) {
+    etat.blocs = etat.blocs.filter(function (x) { return x !== f; });
+    f.parts.forEach(function (x) { var p = placer(f.x, f.y, x.w, x.h); x.x = p.x; x.y = p.y; etat.blocs.push(x); });
+    for (var i = 1; i < f.parts.length; i++) if (!etat.liens.some(function (l) { return reseau(f.parts[0].uid).indexOf(f.parts[i].uid) !== -1; })) etat.liens.push([f.parts[i - 1].uid, f.parts[i].uid]);
+    choisi = f.parts[0].uid; etat.mise = null; rendre(); sauver();
+  }
+  /* les réglages de l’image, en direct (comme le panneau Image du design system) */
+  barre.addEventListener('input', function (ev) {
+    var r = ev.target.closest('[data-reg]'), b = trouveUid(choisi); if (!r || !b) return;
+    b.image = b.image || { pos: 'center', lum: 100, con: 100, sat: 100 };
+    b.image[r.getAttribute('data-reg')] = r.tagName === 'SELECT' ? r.value : +r.value;
+    var o = r.parentNode.querySelector('output'); if (o) o.textContent = r.value;
+    var img = grille.querySelector('[data-uid="' + b.uid + '"] .fond-bloc');
+    if (img) { img.style.objectPosition = b.image.pos; img.style.filter = 'brightness(' + b.image.lum / 100 + ') contrast(' + b.image.con / 100 + ') saturate(' + b.image.sat / 100 + ')'; }
+  });
+  barre.addEventListener('change', function (ev) { if (ev.target.closest('[data-reg]')) sauver(); });
   barre.addEventListener('click', function (ev) { var btn = ev.target.closest('[data-act]'), b = trouveUid(choisi); if (btn && b) agir(btn.getAttribute('data-act'), b); });
   grille.addEventListener('keydown', function (ev) {
     var el = ev.target.closest('.bloc'); if (!el || ev.target !== el) return;
     var b = trouveUid(el.getAttribute('data-uid')); if (!b) return;
+    if ((ev.key === 'Enter' || ev.key === ' ') && relier) { ev.preventDefault(); if (b.uid !== relier && reseau(relier).indexOf(b.uid) === -1) etat.liens.push([relier, b.uid]); choisi = relier; relier = null; rendre(); sauver(); return; }
     if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); choisir(b.uid === choisi ? null : b); return; }
-    if (ev.key === 'Escape') { choisir(null); return; }
+    if (ev.key === 'Escape') { relier = null; choisir(null); return; }
     if (ev.key === 'Delete' || ev.key === 'Backspace') { ev.preventDefault(); agir('retirer', b); return; }
     var k = u(), dx = { ArrowLeft: -k, ArrowRight: k }[ev.key] || 0, dy = { ArrowUp: -1, ArrowDown: 1 }[ev.key] || 0;
     if (!dx && !dy) return;
@@ -317,14 +430,15 @@
     if (libre(r, b)) { b.x = r.x; b.y = r.y; b.w = r.w; b.h = r.h; etat.mise = null; choisi = b.uid; rendre(); sauver(); }
     var n = grille.querySelector('[data-uid="' + b.uid + '"]'); if (n) n.focus({ preventScroll: true });
   });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && choisi && !document.documentElement.classList.contains('disque-ouvert')) choisir(null, false); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && (choisi || relier)) { relier = null; choisir(null, false); } });
 
   /* ---------- les mises en page : les mêmes blocs, une autre composition, en un clic ---------- */
   var MISES = {
     une: { tete: [[12, 4]], suite: [[4, 3]] },
     magazine: { tete: [[8, 4], [4, 2], [4, 2]], suite: [[6, 3], [3, 3], [3, 3], [4, 2], [4, 2], [4, 2]] },
     bento: { tete: [[6, 4], [6, 2], [3, 2], [3, 2]], suite: [[4, 3], [4, 3], [4, 3], [3, 2], [3, 2], [6, 2]] },
-    mosaique: { tete: [], suite: [[3, 2]] },
+    mosaique: { tete: [], suite: [[6, 4], [3, 2], [3, 2], [3, 2], [3, 2], [4, 3], [8, 3], [3, 4], [5, 2], [4, 2], [4, 2], [6, 3], [6, 3]] },
+    grille: { tete: [], suite: [[3, 2]] },
     colonne: { tete: [], suite: [[12, 2]] }
   };
   function disposer(nom, garderOrdre) {
@@ -344,7 +458,7 @@
     etat.blocs = [];
     ordre.forEach(function (b, i) {
       var t = i < m.tete.length ? m.tete[i] : m.suite[(i - m.tete.length) % m.suite.length];
-      b.w = t[0]; b.h = t[1]; if (b.type === 'visuel') b.style = b.w >= 9 ? 'une' : 'section';
+      b.w = t[0]; b.h = t[1]; if (b.type === 'module' || b.type === 'fusion') { b.w = Math.max(b.w, 4); b.h = Math.max(b.h, 4); } if (b.type === 'visuel') b.style = b.w >= 9 ? 'une' : 'section';
       var p = placer(0, 0, b.w, b.h); b.x = p.x; b.y = p.y; etat.blocs.push(b);
     });
     etat.mise = nom; rendre(); sauver();
@@ -369,33 +483,6 @@
   var inv = document.getElementById('inverser');
   inv.addEventListener('click', function () { etat.inverse = !etat.inverse; inv.setAttribute('aria-pressed', String(etat.inverse)); composer(); });
   document.getElementById('vider').addEventListener('click', function () { etat.blocs = []; choisi = null; etat.mise = null; rendre(); sauver(); });
-
-  /* ---------- le Disque : les douze briques en couronne ; choisir une brique, le Disque devient son outil ---------- */
-  if (A.disque) {
-    var allerGrille = function () { document.getElementById('atelier').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
-    var disque = A.disque({ racine: function () {
-      var poses = {}; etat.blocs.forEach(function (b) { poses[familleDe(b)] = 1; });
-      return { titre: 'Métamorphose', sous: 'Un Point. Toutes les briques.', note: ACH.briques.length + ' briques · ' + Object.keys(poses).length + ' familles sur votre grille. Choisissez une brique : le Disque devient son outil.',
-        items: ACH.briques.map(function (br) { return { mot: br.titre, actif: !!poses[br.famille], niveau: function () { return outilDe(br); } }; }) };
-    } });
-    var outilDe = function (br) {
-      var top = parFamille[br.famille].groupes.slice().sort(function (a, b) { return b.n - a.n; }).slice(0, 3), v = visuelDe(br.famille);
-      return { titre: br.titre, sous: B.nomFamille(br.famille) + ' · ' + br.tentatives + ' applications', note: br.role,
-        items: [
-          { mot: 'Poser la brique', sous: br.w + ' × ' + br.h, agir: function () { ajouter('brique', br.id); etat.mise = null; allerGrille(); } },
-          { mot: 'Les trois plus refaits', sous: top.map(function (g) { return g.nom; }).join(', '), agir: function () { top.forEach(function (g) { ajouter('groupe', g.id); }); etat.mise = null; sauver(); allerGrille(); } },
-          { mot: 'Son visuel', sous: v.legende, agir: function () { ajouter('visuel', v.id, undefined, undefined, { w: 12, h: 3 }); etat.mise = null; allerGrille(); } },
-          { mot: 'À la une', sous: 'Visuel en tête, briques dessous', agir: function () {
-            var b = etat.blocs.filter(function (x) { return x.type === 'visuel' && x.ref === v.id; })[0] || { uid: 'b' + (++uid) + Date.now().toString(36), type: 'visuel', ref: v.id, x: 0, y: 0, w: 12, h: 4 };
-            if (!etat.blocs.length) composerAchevement();
-            etat.blocs = [b].concat(etat.blocs.filter(function (x) { return x !== b; })); disposer('une', true); allerGrille(); } },
-          { mot: 'Ouvrir le dossier', sous: parFamille[br.famille].groupes.length + ' noms', agir: function () {
-            filtre.value = ''; ouverts[br.famille] = true; arbre(); var d = zoneFamilles.querySelector('[data-f="' + br.famille + '"]');
-            if (d) { d.scrollIntoView({ block: 'nearest' }); allerGrille(); var s = d.querySelector('summary'); if (s) s.focus({ preventScroll: true }); } } }
-        ] };
-    };
-    Array.prototype.forEach.call(document.querySelectorAll('[data-disque]'), function (b) { b.addEventListener('click', function () { disque.ouvrir(); }); });
-  }
 
   /* ---------- départ : la composition gardée, sinon l’achèvement ---------- */
   if (charger()) { inv.setAttribute('aria-pressed', String(!!etat.inverse)); rendre(); } else composer();

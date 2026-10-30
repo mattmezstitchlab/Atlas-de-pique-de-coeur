@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Atlas de pique de cœur — AIME, du début à demain</title>
+<title>Atlas de pique de cœur — À la recherche du temps créé</title>
 <meta name="description" content="L’histoire de tous les projets de l’écosystème AIME, du premier soir de novembre 2025 à la feuille de route : 643 applications, 171 fiches, 138 dépôts.">
 <link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
-<link rel="stylesheet" href="css/disque.css">
 </head>
 <body>
 <a class="lien-evitement" href="#novembre">Aller à l’histoire</a>
@@ -23,14 +22,11 @@
     <div class="dock-ligne">
       <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
       <span class="separateur" aria-hidden="true"></span>
-      <a class="outil" href="https://www.lemondeaime.com/" style="padding:0 10px" aria-label="AIME, le site"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="AIME, l’accueil de l’atlas"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
       <div class="rangee"><span class="separateur" aria-hidden="true"></span>
         <a class="outil" href="index.html" aria-current="page">L’atlas</a>
         <a class="outil" href="moteur.html">Le moteur</a>
         <a class="outil" href="metamorphose.html">Métamorphose</a>
-        <a class="outil" href="https://www.lemondeaime.com/studio/atelier">Studio</a>
-        <a class="outil" href="https://www.lemondeaime.com/boutique">Boutique</a>
-        <button type="button" class="outil" data-disque>Le Disque</button>
       </div>
     </div>
   </nav>
@@ -41,8 +37,8 @@
     <img src="media/phare.jpg" alt="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
     <div class="hero-contenu">
       <p class="surtitre">Atlas de pique de cœur · AIME®</p>
-      <h1 id="titre-page" class="signature hero-titre">Du début<br>à demain</h1>
-      <p class="hero-sous-titre">Du premier soir de novembre 2025 à lemondeaime.com&nbsp;: tous les projets de l’écosystème AIME, au même endroit, dans l’ordre où ils sont nés.</p>
+      <h1 id="titre-page" class="signature hero-titre">À la recherche<br>du temps créé</h1>
+      <p class="hero-sous-titre">Du premier soir de novembre 2025 à aujourd’hui&nbsp;: tous les projets de l’écosystème AIME, au même endroit, dans l’ordre où ils sont nés.</p>
       <ul class="chiffres" id="chiffres" aria-label="En chiffres"></ul>
     </div>
   </section>
@@ -51,20 +47,20 @@
 </main>
 
 <footer class="pied">
-  <a href="https://www.lemondeaime.com/" aria-label="AIME, le site" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
+  <a href="index.html" aria-label="AIME, l’accueil de l’atlas" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
   <p class="note" style="margin:0;max-width:60ch;color:var(--encre-2)">Construit avec le design system AIME, d’après les dépôts LEMONDEAIME et Aime-wedding.</p>
   <div class="bas"><p style="margin:0">AIME® est la marque mère. LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
 </footer>
 
 <nav class="dock-bas" aria-label="Les époques">
   <div id="dock">
-    <button type="button" class="orbe-dock" data-disque aria-label="Ouvrir le Disque : les époques en couronne">
-      <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><defs><radialGradient id="ir" cx="35%" cy="32%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#d9e8ff"/><stop offset="60%" stop-color="#c9b8ff"/><stop offset="80%" stop-color="#ffd6ec"/><stop offset="100%" stop-color="#b9f0e4"/></radialGradient></defs>
+    <span class="orbe-dock" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44"><defs><radialGradient id="ir" cx="35%" cy="32%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#d9e8ff"/><stop offset="60%" stop-color="#c9b8ff"/><stop offset="80%" stop-color="#ffd6ec"/><stop offset="100%" stop-color="#b9f0e4"/></radialGradient></defs>
         <g id="arcs"></g>
         <circle cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
         <circle id="progres" cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="0 69.1" transform="rotate(-90 22 22)"/>
         <circle cx="22" cy="22" r="5.5" fill="url(#ir)"/></svg>
-    </button>
+    </span>
   </div>
 </nav>
 
@@ -75,7 +71,6 @@
 <script src="data/achevement.js"></script>
 <script src="data/visuels.js"></script>
 <script src="js/briques.js"></script>
-<script src="js/disque.js"></script>
 <script src="js/atlas.js"></script>
 </body>
 </html>

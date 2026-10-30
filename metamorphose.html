@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
-<link rel="stylesheet" href="css/disque.css">
 </head>
 <body>
 <a class="lien-evitement" href="#atelier">Aller à la grille</a>
@@ -22,12 +21,11 @@
     <div class="dock-ligne">
       <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
       <span class="separateur" aria-hidden="true"></span>
-      <a class="outil" href="https://www.lemondeaime.com/" style="padding:0 10px" aria-label="AIME, le site"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="AIME, l’accueil de l’atlas"><span class="marque">AIME<sup aria-hidden="true">®</sup></span></a>
       <div class="rangee"><span class="separateur" aria-hidden="true"></span>
         <a class="outil" href="index.html">L’atlas</a>
         <a class="outil" href="moteur.html">Le moteur</a>
         <a class="outil" href="metamorphose.html" aria-current="page">Métamorphose</a>
-        <button type="button" class="outil" data-disque>Le Disque</button>
       </div>
     </div>
   </nav>
@@ -58,17 +56,17 @@
       <button type="button" class="opt" data-mise="magazine" aria-pressed="false">Magazine</button>
       <button type="button" class="opt" data-mise="bento" aria-pressed="false">Bento</button>
       <button type="button" class="opt" data-mise="mosaique" aria-pressed="false">Mosaïque</button>
+      <button type="button" class="opt" data-mise="grille" aria-pressed="false">Grille</button>
       <button type="button" class="opt" data-mise="colonne" aria-pressed="false">Colonne</button>
     </div>
     <div class="barre-outils barre-seconde" role="toolbar" aria-label="Composer">
-      <button type="button" class="bouton noir" data-disque>Ouvrir le Disque</button>
       <button type="button" class="opt" id="inverser" aria-pressed="false">Le moins important d’abord</button>
       <button type="button" class="bouton" id="vider">Vider la grille</button>
       <p class="compte" id="compte" role="status" aria-live="polite"></p>
     </div>
     <div class="plan">
       <aside class="arbre" aria-labelledby="t-arbre">
-        <h3 id="t-arbre" class="arbre-titre">Les 643 <span>et les visuels</span></h3>
+        <h3 id="t-arbre" class="arbre-titre">Les 643 <span>les modules, les visuels</span></h3>
         <label for="filtre" class="sr-only">Filtrer les projets</label>
         <input id="filtre" class="champ" type="search" placeholder="Filtrer : mariage, sax, mer…" autocomplete="off">
         <div id="familles" class="familles"></div>
@@ -78,7 +76,7 @@
           <div class="aimant" id="aimant" hidden></div>
         </div>
         <div class="barre-bloc" id="barre-bloc" role="toolbar" aria-label="Actions du bloc choisi" hidden></div>
-        <p class="aide" id="aide">Glissez un fragment ou un visuel depuis l’arbre, ou touchez-le pour le poser. Touchez un bloc pour le choisir : tirez ses coins pour l’agrandir, ses actions apparaissent dessous. Au clavier : Entrée choisit, flèches déplacent, Maj + flèches agrandissent, Suppr retire.</p>
+        <p class="aide" id="aide">Glissez un fragment ou un visuel depuis l’arbre, ou touchez-le pour le poser. Touchez un bloc pour le choisir : tirez ses coins pour l’agrandir, ses actions apparaissent dessous ; « Relier » fait passer la lumière et les données d’un module à l’autre, « Fusionner » en fait un seul bloc. Au clavier : Entrée choisit, flèches déplacent, Maj + flèches agrandissent, Suppr retire.</p>
         <section class="fiche-bloc" id="fiche" aria-live="polite" aria-label="Ce que raconte le bloc choisi" hidden></section>
       </div>
     </div>
@@ -86,7 +84,7 @@
 </main>
 
 <footer class="pied">
-  <a href="https://www.lemondeaime.com/" aria-label="AIME, le site" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
+  <a href="index.html" aria-label="AIME, l’accueil de l’atlas" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">AIME<sup aria-hidden="true">®</sup></span></a>
   <p class="note" style="margin:0;max-width:60ch;color:var(--encre-2)">Construit avec le design system AIME, d’après les 643 applications Base44, l’atlas Base44 et les dépôts GitHub.</p>
   <div class="bas"><p style="margin:0">AIME® est la marque mère. LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
 </footer>
@@ -103,9 +101,10 @@
 <script src="data/applications.js"></script>
 <script src="data/achevement.js"></script>
 <script src="data/visuels.js"></script>
+<script src="data/modules.js"></script>
 <script src="data/histoire.js"></script>
 <script src="js/briques.js"></script>
-<script src="js/disque.js"></script>
+<script src="js/modules.js"></script>
 <script src="js/metamorphose.js"></script>
 </body>
 </html>

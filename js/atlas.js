@@ -61,7 +61,7 @@
   }
   function fiches() {
     zoneL.innerHTML = PROJETS.filter(function (p) { return filtre === 'Tous' || p.etat === filtre; }).map(function (p) {
-      var lien = /^https:\/\//.test(p.lien) ? '<a class="ouvrir" href="' + esc(p.lien) + '" target="_blank" rel="noopener">' + esc(p.lien.replace(/^https:\/\//, '').replace(/\/$/, '')) + '</a>' : '';
+      var lien = /^https:\/\//.test(p.lien) && !/lemondeaime\.com/.test(p.lien) ? '<a class="ouvrir" href="' + esc(p.lien) + '" target="_blank" rel="noopener">' + esc(p.lien.replace(/^https:\/\//, '').replace(/\/$/, '')) + '</a>' : '';
       return '<li class="fiche"><div class="fiche-haut"><span class="cat">' + esc(p.categorie) + '</span><span class="etat ' + (CLASSE[p.etat] || '') + '">' + esc(p.etat) + '</span></div>' +
         '<h3>' + fr(p.titre) + '</h3><p>' + fr(p.description) + '</p>' + puces((p.fonctions || []).slice(0, 5)) + lien + '</li>';
     }).join('');
@@ -69,7 +69,7 @@
   zoneF.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; filtre = b.getAttribute('data-s'); filtres(); fiches(); });
   filtres(); fiches();
 
-  /* le dock du bas : un lieu par chapitre, un arc par lieu, l'anneau suit la lecture (comme DockBas sur lemondeaime.com) */
+  /* le dock du bas : un lieu par chapitre, un arc par lieu, l'anneau suit la lecture (comme le DockBas du design system) */
   var dock = document.getElementById('dock');
   var tous = H.chapitres.concat([D]);
   dock.insertAdjacentHTML('beforeend', tous.map(function (c) { return '<a class="lieu" href="#' + esc(c.id) + '" aria-current="false">' + esc(c.lieu) + '</a>'; }).join(''));
@@ -90,25 +90,6 @@
     progres.setAttribute('stroke-dasharray', (69.1 * lu).toFixed(1) + ' 69.1');
     if (c >= 0) { var cur = lieux[c]; if (cur.offsetLeft < dock.scrollLeft || cur.offsetLeft + cur.offsetWidth > dock.scrollLeft + dock.clientWidth) dock.scrollLeft = cur.offsetLeft - 60; }
   }
-  /* le Disque : les époques en couronne ; choisir une époque, et le Disque devient son sommaire */
-  if (A.disque) {
-    var aller = function (id) { var el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); } };
-    var lu = function () { var c = -1; tous.forEach(function (ch, k) { var el = document.getElementById(ch.id); if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) c = k; }); return c; };
-    var disque = A.disque({ racine: function () {
-      var c = lu();
-      return { titre: 'L’atlas', sous: 'Un Point. Toute l’histoire.', note: tous.length + ' époques · ' + A.applications.length + ' applications. Choisissez une époque : le Disque devient son sommaire.',
-        items: tous.map(function (ch, k) { return { mot: ch.lieu, actif: k === c, niveau: function () { return epoque(ch); } }; }) };
-    } });
-    var epoque = function (ch) {
-      var ms = (ch.moments || []).slice(0, 10);
-      var items = [{ mot: 'Tout le chapitre', sous: ch.date, agir: function () { aller(ch.id); } }].concat(ms.map(function (m, j) { return { mot: m.quand, sous: m.titre, agir: function () { aller(ch.id + '-' + j); } }; }));
-      if (ch.projets) items.push({ mot: 'Les fiches', sous: PROJETS.length + ' projets', agir: function () { aller('fiches'); } });
-      if (ch.id === 'demain') items.push({ mot: 'L’achèvement', sous: 'Les douze briques', agir: function () { aller('achevement'); } }, { mot: 'Métamorphose', sous: 'Ouvrir la grille', agir: function () { location.href = 'metamorphose.html'; } });
-      return { titre: ch.titre, sous: ch.date, note: (ms.length ? ms.length + ' moment' + (ms.length > 1 ? 's' : '') + '. ' : '') + 'Choisissez où aller : le Disque vous y mène.', items: items };
-    };
-    Array.prototype.forEach.call(document.querySelectorAll('[data-disque]'), function (b) { b.addEventListener('click', function () { disque.ouvrir(); }); });
-  }
-
   window.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(maj); }, { passive: true });
   window.addEventListener('resize', maj);
   maj();
