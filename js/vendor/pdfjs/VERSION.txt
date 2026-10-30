@@ -1,0 +1,1 @@
+pdf.js 6.4.299 (Mozilla, Apache-2.0), copie de pdfjs-dist/build : la même version que l’atelier Point Zéro de LEMONDEAIME.

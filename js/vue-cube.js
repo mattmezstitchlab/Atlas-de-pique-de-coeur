@@ -15,58 +15,64 @@
   var fr = function (s) { return esc(s).replace(/ ([:;?!»])/g, ' $1').replace(/« /g, '« '); };
   var calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- les fragments, et ce qui les relie (seulement ce que les données disent) ---------- */
-  var items = {}, liens = {};
-  function item(id, o) { o.id = id; items[id] = o; liens[id] = liens[id] || {}; return o; }
-  function relier(a, b) { if (!items[a] || !items[b] || a === b) return; liens[a][b] = 1; liens[b][a] = 1; }
-  var annee = function (e) { return String(e.dateStart || '').slice(0, 4); };
-  /* les visuels réels : par id, ou le premier de la famille (data/visuels.js) */
-  var VIS = {}, VFAM = {}; (A.visuels || []).forEach(function (v) { VIS[v.id] = v; if (!VFAM[v.famille]) VFAM[v.famille] = v; });
-  var PREUVE = { document: 'établi par document', declare: 'déclaré par l’auteur', 'a-verifier': 'à vérifier' };
-  var entreeDe = {};
-  var chrono = C.entrees.map(function (e) {
-    (e.archiveIds || []).forEach(function (a) { entreeDe[a] = e.id; });
-    var yt = /[?&]v=([\w-]{6,})/.exec(e.video || '');
-    return item('e:' + e.id, { court: annee(e), titre: e.title, sous: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), href: 'chronologie.html#' + e.id,
-      date: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), img: yt ? { src: 'https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg', alt: 'Image du clip ' + e.title } : null,
-      texte: e.narrative, fiche: [['Preuve', PREUVE[e.evidenceStatus] || e.evidenceStatus], ['Personnes', (e.people || []).map(function (p) { return p.nom || p.name || p; }).join(', ')], ['Archives', (e.archiveIds || []).length || '']] });
-  }).concat(H.chapitres.map(function (c) { var v = VIS[c.bandeau]; return item('c:' + c.id, { court: c.id.slice(0, 3), titre: c.titre, sous: 'Époque ' + c.id + ' · 2025 – 2026', href: 'chronologie.html#' + c.id,
-    date: c.date, img: v ? { src: v.src, alt: v.alt } : null, texte: c.chapeau, fiche: [['Moments', (c.moments || []).length || '']] }); }));
-  var archives = C.archives.map(function (a) { return item('a:' + a.id, { court: String(a.originalDate || '').slice(0, 4), titre: a.title, sous: (a.originalDate || 'date à vérifier') + (a.attente ? ' · à déposer' : ''), href: 'chronologie.html#' + (entreeDe[a.id] || 'avant'),
-    date: a.originalDate || 'à vérifier', fiche: [['Nature', a.mediaType], ['Auteur', a.author], ['Source', a.source], ['État', a.attente ? 'à déposer : la pièce n’est pas encore numérisée' : 'publiée']] }); });
-  var NATURE = { devenu: 'devenu', eclaire: 'éclaire', suite: 'suite' };
-  var relations = C.relations.map(function (r, i) {
-    return item('r:' + i, { court: NATURE[r.nature] || r.nature, titre: (r.justification || '').split(' : ')[0] || r.nature, sous: 'Relation « ' + (NATURE[r.nature] || r.nature) + ' » · ' + r.de.replace(/^e-/, '') + ' → ' + r.vers.replace(/^(chapitre|page):/, ''), href: 'chronologie.html#' + r.de, rel: r,
-      date: 'Relation', texte: r.justification, fiche: [['De', r.de.replace(/^e-/, '')], ['Vers', r.vers.replace(/^(chapitre|page):/, '')], ['Nature', NATURE[r.nature] || r.nature]] });
-  });
-  var familles = A.familles.map(function (f) { var n = A.applications.filter(function (a) { return a[2] === f.id; }), v = VFAM[f.id];
-    return item('f:' + f.id, { court: f.nom.split(/[ ,]/)[0], titre: f.nom, sous: 'Famille · ' + n.length + ' applications', href: 'composition.html#atelier',
-      date: n.length ? n[0][0].slice(0, 7).replace('-', ' · ') + ' → ' + n[n.length - 1][0].slice(0, 7).replace('-', ' · ') : '', img: v ? { src: v.src, alt: v.alt } : null, fiche: [['Applications', n.length], ['Première', n.length ? n[0][1] : '']] }); });
-  var modules = A.modules.map(function (m) { var v = VFAM[m.famille]; return item('m:' + m.id, { court: m.titre, titre: m.titre, sous: 'Module · ' + (m.capacites.length ? m.capacites.length + ' capacités de l’atlas' : 'né des noms répétés'), href: 'composition.html#atelier', famille: m.famille,
-    date: 'Module', img: v ? { src: v.src, alt: v.alt } : null, texte: m.role, fiche: [['Capacités', m.capacites.join(', ')]] }); });
-  var projets = A.projets.map(function (p, i) { return item('p:' + i, { court: p.titre.split(/[ —,]/)[0], titre: p.titre, sous: p.etat + (p.annee ? ' · ' + p.annee : ''), href: 'ecosysteme.html', etat: p.etat,
-    date: p.annee, texte: p.description, fiche: [['État', p.etat], ['Catégorie', p.categorie], ['Fonctions', (p.fonctions || []).join(', ')]] }); });
-
-  C.entrees.forEach(function (e) { (e.archiveIds || []).forEach(function (a) { relier('e:' + e.id, 'a:' + a); }); (e.relatedEntryIds || []).forEach(function (o) { relier('e:' + e.id, 'e:' + o); }); });
-  C.relations.forEach(function (r, i) {
-    [r.de, r.vers].forEach(function (bout) {
-      var m = /^chapitre:(.+)$/.exec(bout); relier('r:' + i, m ? 'c:' + m[1] : 'e:' + bout);
-    });
-  });
-  modules.forEach(function (m) { relier(m.id, 'f:' + m.famille); });
-
-  /* ---------- les six faces : mêmes noms, mêmes places que l’accueil ---------- */
-  var FACES = [
-    { id: 'avant', mot: 'Chronologie', sous: 'Explorer les recherches', axe: 'temps', liste: chrono, rx: 0, ry: 0, visuel: 'piscine' },
-    { id: 'droite', mot: 'Composition', sous: 'Créer avec les blocs', axe: 'structure', liste: familles, rx: 0, ry: -90, visuel: 'grille-roses' },
-    { id: 'arriere', mot: 'Archives', sous: 'Saint-Luc, 1999 – 2005', axe: 'temps', liste: archives, rx: 0, ry: -180, visuel: 'wagon' },
-    { id: 'gauche', mot: 'Relations', sous: 'Du cube à la grille', axe: 'structure', liste: relations, rx: 0, ry: -270, visuel: 'fils' },
-    { id: 'haut', mot: 'Modules', sous: 'Timeline, Agenda, Facture…', axe: 'usage', liste: modules, rx: -90, ry: 0, visuel: 'saxophoniste' },
-    { id: 'bas', mot: 'Écosystème', sous: 'Les projets et leur état', axe: 'usage', liste: projets, rx: 90, ry: 0, visuel: 'sculpture' }
-  ];
   var AXES = { temps: { nom: 'du Temps', dit: 'ce qui s’est passé, et ses preuves' }, structure: { nom: 'de la Structure', dit: 'ce que l’on compose, et ce qui le relie' }, usage: { nom: 'de l’Usage', dit: 'les outils, et les projets qui s’en servent' } };
   var OPPOSEE = { avant: 'arriere', arriere: 'avant', droite: 'gauche', gauche: 'droite', haut: 'bas', bas: 'haut' };
-  var PAR_ID = {}; FACES.forEach(function (f) { PAR_ID[f.id] = f; f.liste.forEach(function (it) { it.face = f.id; }); });
+
+  /* ---------- la source par défaut : l’atlas lui-même. Une autre page peut charger sa propre source (A.vueCube.charger) :
+     { faces: [six faces : id, mot, sous, axe, liste, rx, ry, visuel ou img], items, liens, textes? } ---------- */
+  function sourceAtlas() {
+    /* ---------- les fragments, et ce qui les relie (seulement ce que les données disent) ---------- */
+      var items = {}, liens = {};
+    function item(id, o) { o.id = id; items[id] = o; liens[id] = liens[id] || {}; return o; }
+    function relier(a, b) { if (!items[a] || !items[b] || a === b) return; liens[a][b] = 1; liens[b][a] = 1; }
+    var annee = function (e) { return String(e.dateStart || '').slice(0, 4); };
+    /* les visuels réels : par id, ou le premier de la famille (data/visuels.js) */
+    var VIS = {}, VFAM = {}; (A.visuels || []).forEach(function (v) { VIS[v.id] = v; if (!VFAM[v.famille]) VFAM[v.famille] = v; });
+    var PREUVE = { document: 'établi par document', declare: 'déclaré par l’auteur', 'a-verifier': 'à vérifier' };
+    var entreeDe = {};
+    var chrono = C.entrees.map(function (e) {
+      (e.archiveIds || []).forEach(function (a) { entreeDe[a] = e.id; });
+      var yt = /[?&]v=([\w-]{6,})/.exec(e.video || '');
+      return item('e:' + e.id, { court: annee(e), titre: e.title, sous: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), href: 'chronologie.html#' + e.id,
+        date: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), img: yt ? { src: 'https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg', alt: 'Image du clip ' + e.title } : null,
+        texte: e.narrative, fiche: [['Preuve', PREUVE[e.evidenceStatus] || e.evidenceStatus], ['Personnes', (e.people || []).map(function (p) { return p.nom || p.name || p; }).join(', ')], ['Archives', (e.archiveIds || []).length || '']] });
+    }).concat(H.chapitres.map(function (c) { var v = VIS[c.bandeau]; return item('c:' + c.id, { court: c.id.slice(0, 3), titre: c.titre, sous: 'Époque ' + c.id + ' · 2025 – 2026', href: 'chronologie.html#' + c.id,
+      date: c.date, img: v ? { src: v.src, alt: v.alt } : null, texte: c.chapeau, fiche: [['Moments', (c.moments || []).length || '']] }); }));
+    var archives = C.archives.map(function (a) { return item('a:' + a.id, { court: String(a.originalDate || '').slice(0, 4), titre: a.title, sous: (a.originalDate || 'date à vérifier') + (a.attente ? ' · à déposer' : ''), href: 'chronologie.html#' + (entreeDe[a.id] || 'avant'),
+      date: a.originalDate || 'à vérifier', fiche: [['Nature', a.mediaType], ['Auteur', a.author], ['Source', a.source], ['État', a.attente ? 'à déposer : la pièce n’est pas encore numérisée' : 'publiée']] }); });
+    var NATURE = { devenu: 'devenu', eclaire: 'éclaire', suite: 'suite' };
+    var relations = C.relations.map(function (r, i) {
+      return item('r:' + i, { court: NATURE[r.nature] || r.nature, titre: (r.justification || '').split(' : ')[0] || r.nature, sous: 'Relation « ' + (NATURE[r.nature] || r.nature) + ' » · ' + r.de.replace(/^e-/, '') + ' → ' + r.vers.replace(/^(chapitre|page):/, ''), href: 'chronologie.html#' + r.de, rel: r,
+        date: 'Relation', texte: r.justification, fiche: [['De', r.de.replace(/^e-/, '')], ['Vers', r.vers.replace(/^(chapitre|page):/, '')], ['Nature', NATURE[r.nature] || r.nature]] });
+    });
+    var familles = A.familles.map(function (f) { var n = A.applications.filter(function (a) { return a[2] === f.id; }), v = VFAM[f.id];
+      return item('f:' + f.id, { court: f.nom.split(/[ ,]/)[0], titre: f.nom, sous: 'Famille · ' + n.length + ' applications', href: 'composition.html#atelier',
+        date: n.length ? n[0][0].slice(0, 7).replace('-', ' · ') + ' → ' + n[n.length - 1][0].slice(0, 7).replace('-', ' · ') : '', img: v ? { src: v.src, alt: v.alt } : null, fiche: [['Applications', n.length], ['Première', n.length ? n[0][1] : '']] }); });
+    var modules = A.modules.map(function (m) { var v = VFAM[m.famille]; return item('m:' + m.id, { court: m.titre, titre: m.titre, sous: 'Module · ' + (m.capacites.length ? m.capacites.length + ' capacités de l’atlas' : 'né des noms répétés'), href: 'composition.html#atelier', famille: m.famille,
+      date: 'Module', img: v ? { src: v.src, alt: v.alt } : null, texte: m.role, fiche: [['Capacités', m.capacites.join(', ')]] }); });
+    var projets = A.projets.map(function (p, i) { return item('p:' + i, { court: p.titre.split(/[ —,]/)[0], titre: p.titre, sous: p.etat + (p.annee ? ' · ' + p.annee : ''), href: 'ecosysteme.html', etat: p.etat,
+      date: p.annee, texte: p.description, fiche: [['État', p.etat], ['Catégorie', p.categorie], ['Fonctions', (p.fonctions || []).join(', ')]] }); });
+
+    C.entrees.forEach(function (e) { (e.archiveIds || []).forEach(function (a) { relier('e:' + e.id, 'a:' + a); }); (e.relatedEntryIds || []).forEach(function (o) { relier('e:' + e.id, 'e:' + o); }); });
+    C.relations.forEach(function (r, i) {
+      [r.de, r.vers].forEach(function (bout) {
+        var m = /^chapitre:(.+)$/.exec(bout); relier('r:' + i, m ? 'c:' + m[1] : 'e:' + bout);
+      });
+    });
+    modules.forEach(function (m) { relier(m.id, 'f:' + m.famille); });
+
+    /* ---------- les six faces : mêmes noms, mêmes places que l’accueil ---------- */
+    var FACES = [
+      { id: 'avant', mot: 'Chronologie', sous: 'Explorer les recherches', axe: 'temps', liste: chrono, rx: 0, ry: 0, visuel: 'piscine' },
+      { id: 'droite', mot: 'Composition', sous: 'Créer avec les blocs', axe: 'structure', liste: familles, rx: 0, ry: -90, visuel: 'grille-roses' },
+      { id: 'arriere', mot: 'Archives', sous: 'Saint-Luc, 1999 – 2005', axe: 'temps', liste: archives, rx: 0, ry: -180, visuel: 'wagon' },
+      { id: 'gauche', mot: 'Relations', sous: 'Du cube à la grille', axe: 'structure', liste: relations, rx: 0, ry: -270, visuel: 'fils' },
+      { id: 'haut', mot: 'Modules', sous: 'Timeline, Agenda, Facture…', axe: 'usage', liste: modules, rx: -90, ry: 0, visuel: 'saxophoniste' },
+      { id: 'bas', mot: 'Écosystème', sous: 'Les projets et leur état', axe: 'usage', liste: projets, rx: 90, ry: 0, visuel: 'sculpture' }
+    ];
+    return { faces: FACES, items: items, liens: liens };
+  }
+  var items = {}, liens = {}, FACES = [], PAR_ID = {}, SRC = {};
 
   /* ---------- la projection : derrière le Cube ---------- */
   var proj = document.getElementById('vc-projection'), defile = document.getElementById('vc-defile'), zoneScene = document.querySelector('.vc-scene-zone');
@@ -91,7 +97,7 @@
     clearTimeout(minuterie);
     minuterie = setTimeout(function () {
       if (choisi || !f) return;
-      var v = (A.visuels || []).filter(function (x) { return x.id === f.visuel; })[0], ax = AXES[f.axe];
+      var v = f.img || (A.visuels || []).filter(function (x) { return x.id === f.visuel; })[0], ax = AXES[f.axe];
       projeter('face:' + f.id, { sur: 'Face · ' + f.sous, titre: f.mot, date: f.liste.length + ' fragment' + (f.liste.length > 1 ? 's' : ''), img: v ? { src: v.src, alt: v.alt } : null,
         texte: 'Sur l’axe ' + ax.nom + ' : ' + ax.dit + '.' });
       if (defile) {
@@ -109,6 +115,7 @@
   var dock = Array.prototype.slice.call(document.querySelectorAll('#dock .lieu[data-face]'));
 
   /* chaque face : une grille n × n, n = le plus petit carré qui contient ses fragments */
+  function construire() {
   cube.innerHTML = FACES.map(function (f) {
     var n = Math.max(2, Math.ceil(Math.sqrt(f.liste.length))), cases = '';
     for (var i = 0; i < n * n; i++) {
@@ -121,7 +128,9 @@
   '<div class="vc-axes" aria-hidden="true"><i class="vc-axe" data-axe="temps"></i><i class="vc-axe" data-axe="temps"></i><i class="vc-axe" data-axe="structure"></i><i class="vc-axe" data-axe="structure"></i><i class="vc-axe" data-axe="usage"></i><i class="vc-axe" data-axe="usage"></i></div>' +
   '<div class="vc-fils" id="vc-fils" aria-hidden="true"></div>' +
   '<div class="vc-orbe" id="vc-orbe" aria-hidden="true"><span></span></div>';
-  var orbe = document.getElementById('vc-orbe'), fils = document.getElementById('vc-fils');
+  orbe = document.getElementById('vc-orbe'); fils = document.getElementById('vc-fils');
+  }
+  var orbe, fils;
 
   /* ---------- la géométrie : un point 3D du Cube, et un fil du centre vers ce point ---------- */
   var cote = function () { return scene.offsetWidth; };
@@ -220,8 +229,9 @@
       var it = items[choisi], ls = Object.keys(liens[choisi]);
       h += '<section class="vc-choix" aria-label="Le fragment choisi"><p class="surtitre">Choisi · ' + esc(PAR_ID[it.face].mot) + '</p><h2>' + fr(it.titre) + '</h2><p class="vc-sous">' + fr(it.sous) + '</p>' +
         (ls.length ? '<p class="vc-relie">Relié à ' + ls.length + ' fragment' + (ls.length > 1 ? 's' : '') + ', d’après les données :</p><ul class="vc-liste">' + ls.map(function (k) { return ligneItem(k, true); }).join('') + '</ul>'
-          : '<p class="vc-relie">Aucune relation enregistrée pour ce fragment. Une relation s’ajoute dans l’éditeur, avec sa justification.</p>') +
-        '<p class="vc-actions"><a class="vc-ouvrir" href="' + esc(it.href) + '">Ouvrir dans ATLAS</a> <button type="button" class="vc-centre" data-centre>Revenir au centre</button></p></section>';
+          : '<p class="vc-relie">' + esc((SRC.textes && SRC.textes.sansLien) || 'Aucune relation enregistrée pour ce fragment. Une relation s’ajoute dans l’éditeur, avec sa justification.') + '</p>') +
+        (it.detail ? '<div class="vc-detail">' + it.detail + '</div>' : '') +
+        '<p class="vc-actions">' + (it.href ? '<a class="vc-ouvrir" href="' + esc(it.href) + '"' + (it.telecharger ? ' download="' + esc(it.telecharger) + '"' : '') + '>' + esc(it.ouvrir || 'Ouvrir dans ATLAS') + '</a> ' : '') + '<button type="button" class="vc-centre" data-centre>Revenir au centre</button></p></section>';
     }
     h += '<section class="vc-face-texte" aria-label="La face en regard"><p class="surtitre">Face en regard · ' + esc(f.sous) + '</p><h2>' + esc(f.mot) + '</h2>' +
       '<p class="vc-axe-texte">Sur l’axe ' + esc(ax.nom) + ' (' + esc(ax.dit) + '), en face de <button type="button" class="vc-lien" data-face="' + op.id + '">' + esc(op.mot) + '</button>.</p>' +
@@ -264,14 +274,24 @@
     vers(c);
   });
   dock.forEach(function (b) {
-    var f = PAR_ID[b.getAttribute('data-face')];
-    b.addEventListener('mouseenter', function () { vers(f); });
-    b.addEventListener('focus', function () { vers(f); });
-    b.addEventListener('click', function () { vers(f); });
+    var f = function () { return PAR_ID[b.getAttribute('data-face')]; };
+    b.addEventListener('mouseenter', function () { vers(f()); });
+    b.addEventListener('focus', function () { vers(f()); });
+    b.addEventListener('click', function () { vers(f()); });
   });
 
-  A.vueCube = { faces: FACES, items: items, liens: liens, choisir: choisir, vers: function (id) { vers(PAR_ID[id]); }, visible: function () { return actuelle && actuelle.id; }, choisi: function () { return choisi; } };
-  poserAxes(); poser();
+  /* charger une source : les six faces se remplissent, le choix et la projection repartent de zéro */
+  function charger(src) {
+    SRC = src; items = src.items; liens = src.liens; FACES = src.faces; PAR_ID = {};
+    FACES.forEach(function (f) { PAR_ID[f.id] = f; f.liste.forEach(function (it) { it.face = f.id; }); });
+    choisi = null; actuelle = null; derniere = '';
+    if (proj) proj.innerHTML = '';
+    construire(); poserAxes(); poser();
+  }
+  A.vueCube = { charger: charger, sourceAtlas: sourceAtlas, faces: function () { return FACES; }, items: function () { return items; }, liens: function () { return liens; },
+    choisir: choisir, vers: function (id) { vers(PAR_ID[id]); }, visible: function () { return actuelle && actuelle.id; }, choisi: function () { return choisi; } };
+  /* la page d’import charge sa propre source ; sinon, l’atlas */
+  if (document.body.getAttribute('data-source') !== 'import') charger(sourceAtlas());
   window.addEventListener('resize', function () { poserAxes(); if (choisi) choisir(choisi); });
   if ('IntersectionObserver' in window) new IntersectionObserver(function (v) { cancelAnimationFrame(raf); if (v[0].isIntersecting) { dernier = 0; raf = requestAnimationFrame(boucle); } }).observe(scene);
   else raf = requestAnimationFrame(boucle);
