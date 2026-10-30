@@ -45,6 +45,28 @@
           "value": "no-store"
         }
       ]
+    },
+    {
+      "source": "/creations/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/composition/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -72,6 +94,12 @@
       "source": "/atlas",
       "destination": "/chronologie",
       "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/composition/:id",
+      "destination": "/creation"
     }
   ]
 }
