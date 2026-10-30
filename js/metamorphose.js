@@ -1,59 +1,87 @@
-/* La Métamorphose : glisser les 643 projets de l’arbre vers une grille magnétique de 12 colonnes,
-   où chacun reprend la forme de la Charte ; composer l’achèvement d’un geste.
-   Les positions sont en unités de 12 colonnes (sur téléphone, la grille en montre 6 : une case = deux unités).
-   La composition est gardée sur cet appareil (localStorage), rien n’est envoyé. */
+/* La Métamorphose : glisser les 643 projets et les visuels de l’arbre vers une grille magnétique de 12 colonnes,
+   où chacun reprend la forme de la Charte ; toucher un bloc le choisit (ses actions, ses quatre coins pour l’agrandir, sa fiche) ;
+   changer de mise en page d’un clic ; ou passer par le Disque.
+   Les positions sont en unités de 12 colonnes. La composition est gardée sur cet appareil (localStorage), rien n’est envoyé. */
 (function () {
-  var A = window.ATLAS, B = A.bloc, ACH = A.achevement;
+  var A = window.ATLAS, B = A.bloc, ACH = A.achevement, H = A.histoire;
   var CLE = 'atlas-metamorphose-v1';
   var grille = document.getElementById('grille'), aimant = document.getElementById('aimant'), compte = document.getElementById('compte');
+  var barre = document.getElementById('barre-bloc'), fiche = document.getElementById('fiche');
 
   /* ---------- les projets : un groupe par nom (les copies et versions ensemble), dans sa famille ---------- */
   var base = function (n) { return n.replace(/\s*\(copy\)/gi, '').replace(/\s+copy$/i, '').trim(); };
   var groupes = {}, ordreGroupes = [];
   A.applications.forEach(function (a) {
     var id = a[2] + '|' + base(a[1]);
-    if (!groupes[id]) { groupes[id] = { id: id, famille: a[2], nom: base(a[1]), n: 0, premier: a[0] }; ordreGroupes.push(id); }
-    groupes[id].n++;
+    if (!groupes[id]) { groupes[id] = { id: id, famille: a[2], nom: base(a[1]), n: 0, premier: a[0], dernier: a[0], dates: [], noms: {} }; ordreGroupes.push(id); }
+    var g = groupes[id]; g.n++; g.dates.push(a[0]); g.noms[a[1]] = 1;
+    if (a[0] < g.premier) g.premier = a[0]; if (a[0] > g.dernier) g.dernier = a[0];
   });
   var parFamille = {}; A.familles.forEach(function (f) { parFamille[f.id] = { apps: 0, groupes: [] }; });
   A.applications.forEach(function (a) { parFamille[a[2]].apps++; });
   ordreGroupes.forEach(function (id) { parFamille[groupes[id].famille].groupes.push(groupes[id]); });
   var briques = {}; ACH.briques.forEach(function (b) { briques[b.id] = b; });
+  var visuels = {}; A.visuels.forEach(function (v) { visuels[v.id] = v; });
+  var visuelDe = function (f) { return A.visuels.filter(function (v) { return v.famille === f; })[0] || A.visuels[0]; };
+
+  /* ---------- l’étude d’un fragment : ce que disent ses dates, sa famille, sa brique ---------- */
+  var CHAP = { '2025-11': 'novembre', '2025-12': 'decembre', '2026-01': 'hiver', '2026-02': 'hiver', '2026-03': 'hiver', '2026-04': 'avril', '2026-05': 'mai', '2026-06': 'juin', '2026-07': 'juillet', '2026-08': 'aout', '2026-09': 'aout', '2026-10': 'octobre' };
+  var chapitre = function (d) { var id = CHAP[d.slice(0, 7)]; return (H && H.chapitres.filter(function (c) { return c.id === id; })[0]) || null; };
+  var jours = function (a, b) { return Math.round((Date.parse(b) - Date.parse(a)) / 864e5); };
+  var A_PART = { etudes: 'une étude d’un site existant', sanstitre: 'un essai resté sans titre', jeux: 'un jeu', explorations: 'une exploration' };
+  function etude(g) {
+    var br = briques[g.famille], ch = chapitre(g.premier);
+    var duree = jours(g.premier, g.dernier);
+    return {
+      brique: br, chapitre: ch, total: parFamille[g.famille].groupes.length, duree: duree,
+      phrase: g.n > 1 ? 'Recommencé ' + g.n + ' fois' + (duree > 0 ? ' en ' + duree + ' jour' + (duree > 1 ? 's' : '') : ' le même jour') + ' : un besoin qui revient.' : 'Tenté une fois : une idée posée, pas encore reprise.',
+      sens: br ? 'Posé ici, il nourrit « ' + br.titre + ' » : ' + br.role.charAt(0).toLowerCase() + br.role.slice(1) : 'Hors achèvement : ' + (A_PART[g.famille] || 'à classer') + '. Il éclaire les briques sans en être une.'
+    };
+  }
+  /* ses voisins sur la grille : les blocs de la même famille posés à côté */
+  var colle = function (a, b) { return a.x <= b.x + b.w && b.x <= a.x + a.w && a.y <= b.y + b.h && b.y <= a.y + a.h; };
+  var familleDe = function (b) { return b.type === 'brique' ? briques[b.ref].famille : b.type === 'groupe' ? groupes[b.ref].famille : visuels[b.ref].famille; };
+  var nomDe = function (b) { return b.type === 'brique' ? briques[b.ref].titre : b.type === 'groupe' ? groupes[b.ref].nom : visuels[b.ref].legende; };
+  function voisins(b) { return etat.blocs.filter(function (o) { return o !== b && familleDe(o) === familleDe(b) && colle(o, b); }); }
 
   /* ---------- la réparation : une barre par famille ---------- */
   document.getElementById('principe-texte').textContent = ACH.principe;
-  var A_PART = { etudes: 1, sanstitre: 1, jeux: 1, explorations: 1 };
-  var rangs = A.familles.slice().sort(function (a, b) { return (A_PART[a.id] ? 1 : 0) - (A_PART[b.id] ? 1 : 0) || parFamille[b.id].apps - parFamille[a.id].apps; });
+  var A_PART_ID = { etudes: 1, sanstitre: 1, jeux: 1, explorations: 1 };
+  var rangs = A.familles.slice().sort(function (a, b) { return (A_PART_ID[a.id] ? 1 : 0) - (A_PART_ID[b.id] ? 1 : 0) || parFamille[b.id].apps - parFamille[a.id].apps; });
   var max = Math.max.apply(null, A.familles.map(function (f) { return parFamille[f.id].apps; }));
   document.getElementById('barres').innerHTML = rangs.map(function (f) {
     var n = parFamille[f.id].apps;
-    return '<li class="' + (A_PART[f.id] ? 'a-part' : '') + '"><b>' + B.pastille(f.id) + ' ' + B.fr(f.nom) + '</b><span class="piste" role="img" aria-label="' + B.esc(f.nom) + ' : ' + n + ' applications"><span class="plein" style="width:' + (n / max * 100).toFixed(1) + '%"></span></span><span class="n">' + n + '</span></li>';
+    return '<li class="' + (A_PART_ID[f.id] ? 'a-part' : '') + '"><b>' + B.pastille(f.id) + ' ' + B.fr(f.nom) + '</b><span class="piste" role="img" aria-label="' + B.esc(f.nom) + ' : ' + n + ' applications"><span class="plein" style="width:' + (n / max * 100).toFixed(1) + '%"></span></span><span class="n">' + n + '</span></li>';
   }).join('');
 
-  /* ---------- l’arbre : familles en dossiers, projets en fragments ---------- */
+  /* ---------- l’arbre : les visuels, puis les familles en dossiers, les projets en fragments ---------- */
   var zoneFamilles = document.getElementById('familles'), filtre = document.getElementById('filtre');
   var ouverts = {};   /* les dossiers ouverts restent ouverts quand la grille change */
   zoneFamilles.addEventListener('toggle', function (ev) { var d = ev.target; if (d.dataset && d.dataset.f) ouverts[d.dataset.f] = d.open; }, true);
   var sans = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
   function arbre() {
     var q = sans(filtre.value.trim()), poses = {};
-    etat.blocs.forEach(function (b) { if (b.type === 'groupe') poses[b.ref] = 1; });
-    zoneFamilles.innerHTML = A.familles.map(function (f) {
+    etat.blocs.forEach(function (b) { poses[b.type + ':' + b.ref] = 1; });
+    var vs = A.visuels.filter(function (v) { return !q || sans(v.accroche + ' ' + v.legende + ' ' + v.alt).indexOf(q) !== -1 || 'visuels'.indexOf(q) === 0; });
+    var dossierVisuels = vs.length ? '<details class="famille visuels" data-f="visuels"' + (q || ouverts.visuels ? ' open' : '') + '><summary><i class="pastille-famille" style="background:var(--nacre)"></i>Les visuels<small>' + A.visuels.length + '</small></summary><ul class="fragments vignettes">' +
+      vs.map(function (v) { return '<li><button type="button" class="fragment vignette' + (poses['visuel:' + v.id] ? ' place' : '') + '" data-v="' + v.id + '" aria-label="Poser le visuel « ' + B.esc(v.legende) + ' » sur la grille"><img src="' + B.esc(v.src) + '" alt="" loading="lazy"><span>' + B.fr(v.legende) + '</span></button></li>'; }).join('') + '</ul></details>' : '';
+    zoneFamilles.innerHTML = dossierVisuels + A.familles.map(function (f) {
       var gs = parFamille[f.id].groupes.filter(function (g) { return !q || sans(g.nom).indexOf(q) !== -1 || sans(f.nom).indexOf(q) !== -1; });
       if (!gs.length) return '';
       return '<details class="famille" data-f="' + f.id + '"' + (q || ouverts[f.id] ? ' open' : '') + '><summary>' + B.pastille(f.id) + B.fr(f.nom) + '<small>' + parFamille[f.id].apps + '</small></summary><ul class="fragments">' +
-        gs.map(function (g) { return '<li><button type="button" class="fragment' + (poses[g.id] ? ' place' : '') + '" data-g="' + B.esc(g.id) + '" aria-label="Poser ' + B.esc(g.nom) + ' sur la grille"><span>' + B.fr(g.nom) + '</span><small>' + (g.n > 1 ? '×' + g.n : '') + '</small></button></li>'; }).join('') + '</ul></details>';
+        gs.map(function (g) { return '<li><button type="button" class="fragment' + (poses['groupe:' + g.id] ? ' place' : '') + '" data-g="' + B.esc(g.id) + '" aria-label="Poser ' + B.esc(g.nom) + ' sur la grille"><span>' + B.fr(g.nom) + '</span><small>' + (g.n > 1 ? '×' + g.n : '') + '</small></button></li>'; }).join('') + '</ul></details>';
     }).join('') || '<p class="aide">Aucun projet ne contient « ' + B.esc(filtre.value) + ' ».</p>';
   }
   filtre.addEventListener('input', arbre);
 
   /* ---------- l’état : les blocs posés ---------- */
-  var etat = { blocs: [], inverse: false };
+  var etat = { blocs: [], inverse: false, mise: 'achevement' }, choisi = null;
   var uid = 0;
-  function tailleDefaut(type, ref) { if (type === 'brique') { var b = briques[ref]; return { w: b.w, h: b.h }; } return { w: 3, h: 2 }; }
+  var existe = function (b) { return b.type === 'brique' ? briques[b.ref] : b.type === 'groupe' ? groupes[b.ref] : visuels[b.ref]; };
+  function tailleDefaut(type, ref) { if (type === 'brique') { var b = briques[ref]; return { w: b.w, h: b.h }; } return type === 'visuel' ? { w: 6, h: 3 } : { w: 3, h: 2 }; }
   function sauver() { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) { /* stockage indisponible : la grille reste pour la séance */ } }
   function charger() {
-    try { var s = JSON.parse(localStorage.getItem(CLE) || 'null'); if (s && Array.isArray(s.blocs)) { etat = s; etat.blocs = etat.blocs.filter(function (b) { return b.type === 'brique' ? briques[b.ref] : groupes[b.ref]; }); return true; } } catch (e) { /* rien */ }
+    try { var s = JSON.parse(localStorage.getItem(CLE) || 'null'); if (s && Array.isArray(s.blocs)) { etat = s; etat.blocs = etat.blocs.filter(existe); return true; } } catch (e) { /* rien */ }
     return false;
   }
   var chevauche = function (a, b) { return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; };
@@ -68,41 +96,110 @@
     return { x: 0, y: hauteur() };
   }
   var hauteur = function () { return etat.blocs.reduce(function (m, b) { return Math.max(m, b.y + b.h); }, 0); };
-  function ajouter(type, ref, x, y) {
-    var t = tailleDefaut(type, ref), p = x === undefined ? placer(0, 0, t.w, t.h) : placer(x, y, t.w, t.h);
+  function ajouter(type, ref, x, y, taille) {
+    var t = taille || tailleDefaut(type, ref), p = x === undefined ? placer(0, 0, t.w, t.h) : placer(x, y, t.w, t.h);
     var b = { uid: 'b' + (++uid) + Date.now().toString(36), type: type, ref: ref, x: p.x, y: p.y, w: t.w, h: t.h };
-    etat.blocs.push(b); rendre(); sauver(); return b;
+    etat.blocs.push(b); choisi = b.uid; rendre(); sauver(); return b;
+  }
+
+  /* ---------- un bloc dans la Charte ---------- */
+  var STYLES = ['carte', 'sombre', 'nacre', 'grille', 'photo'];
+  var NOM_STYLE = { carte: 'Carte', sombre: 'Sombre', nacre: 'Nacre', grille: 'Grille', photo: 'Photo', une: 'À la une', section: 'Section' };
+  var styleDe = function (b) { return b.style || (b.type === 'brique' ? briques[b.ref].style : b.type === 'visuel' ? (b.w >= 9 ? 'une' : 'section') : 'carte'); };
+  function contenu(b) {
+    var st = styleDe(b), img = '';
+    if (b.type === 'visuel' || st === 'photo') {
+      var v = visuels[b.visuel] || (b.type === 'visuel' ? visuels[b.ref] : visuelDe(familleDe(b)));
+      img = '<img class="fond-bloc" src="' + B.esc(v.src) + '" alt="' + B.esc(v.alt) + '"' + (v.pos ? ' style="object-position:' + B.esc(v.pos) + '"' : '') + '>';
+    }
+    if (b.type === 'visuel') {
+      var vv = visuels[b.ref];
+      return img + '<div class="texte-visuel"><p class="sur">' + B.fr(vv.accroche) + '</p><h4>' + B.fr(vv.legende) + '</h4></div>';
+    }
+    if (b.type === 'brique') return img + B.brique(briques[b.ref]);
+    var g = groupes[b.ref], e = etude(g), vo = voisins(b);
+    return img + B.groupe(g) +
+      '<div class="etude"><p class="role">' + B.fr(e.phrase) + '</p><p class="sens">' + B.fr(e.sens) + '</p>' +
+      (vo.length ? '<p class="lien-voisins">Relié à ' + vo.map(function (o) { return '« ' + B.fr(nomDe(o)) + ' »'; }).join(', ') + '</p>' : '') + '</div>';
   }
 
   /* ---------- la grille ---------- */
   var cols = function () { return parseInt(getComputedStyle(grille).getPropertyValue('--col'), 10) || 12; };
   var u = function () { return 12 / cols(); };   /* unités de 12 par case affichée */
   function cssPos(r) { var k = u(); return 'grid-column:' + (Math.floor(r.x / k) + 1) + ' / span ' + Math.max(1, Math.ceil(r.w / k)) + ';grid-row:' + (r.y + 1) + ' / span ' + r.h; }
+  var COINS = [['nw', 'en haut à gauche'], ['ne', 'en haut à droite'], ['sw', 'en bas à gauche'], ['se', 'en bas à droite']];
   function rendre() {
-    var rangs = Math.max(hauteur() + 3, 7);
-    grille.style.gridTemplateRows = 'repeat(' + rangs + ', var(--rang))';
+    var rangsG = Math.max(hauteur() + 3, 7);
+    grille.style.gridTemplateRows = 'repeat(' + rangsG + ', var(--rang))';
     var html = etat.blocs.map(function (b) {
-      var contenu = b.type === 'brique' ? B.brique(briques[b.ref]) : B.groupe(groupes[b.ref]);
-      var style = b.type === 'brique' ? briques[b.ref].style : 'carte';
-      var nom = b.type === 'brique' ? briques[b.ref].titre : groupes[b.ref].nom;
-      return '<article class="bloc ' + b.type + ' ' + style + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + '">' +
-        '<div class="poignee" aria-hidden="true"></div>' + contenu +
-        '<div class="actions-bloc"><button type="button" data-act="taille" aria-label="Changer la taille de ' + B.esc(nom) + '">Taille</button><button type="button" data-act="retirer" aria-label="Retirer ' + B.esc(nom) + '">×</button></div></article>';
+      var st = styleDe(b), nom = nomDe(b), surface = b.w * b.h, est = b.uid === choisi;
+      var taille = surface >= 18 ? ' grand' : surface >= 9 ? ' moyen' : ' petit';
+      return '<article class="bloc ' + b.type + ' ' + st + taille + (est ? ' choisi' : '') + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + ', ' + b.w + ' sur ' + b.h + (est ? ', choisi' : '') + '">' +
+        '<div class="poignee" aria-hidden="true"></div>' + contenu(b) +
+        (est ? COINS.map(function (c) { return '<span class="coin coin-' + c[0] + '" data-coin="' + c[0] + '" aria-hidden="true" title="Agrandir par le coin ' + c[1] + '"></span>'; }).join('') : '') + '</article>';
     }).join('');
-    grille.innerHTML = '<div class="aimant" id="aimant" hidden></div>' + (html || '<p class="vide-grille">Glissez un fragment ici, ou composez l’achèvement.</p>');
+    grille.innerHTML = '<div class="aimant" id="aimant" hidden></div>' + (html || '<p class="vide-grille">Glissez un fragment ou un visuel ici, ou choisissez une mise en page.</p>');
     aimant = document.getElementById('aimant');
     var n = etat.blocs.length; compte.textContent = n ? n + ' bloc' + (n > 1 ? 's' : '') + ' sur la grille' : 'La grille est vide';
-    arbre();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mise]'), function (o) { o.setAttribute('aria-pressed', String(o.getAttribute('data-mise') === etat.mise)); });
+    arbre(); outils();
+  }
+
+  /* ---------- le bloc choisi : sa barre d’actions sous lui, sa fiche sous la grille ---------- */
+  var trouveUid = function (id) { return etat.blocs.filter(function (x) { return x.uid === id; })[0]; };
+  function outils() {
+    var b = trouveUid(choisi);
+    if (!b) { choisi = null; barre.hidden = true; fiche.hidden = true; return; }
+    var el = grille.querySelector('[data-uid="' + b.uid + '"]'), zone = barre.parentNode.getBoundingClientRect(), r = el.getBoundingClientRect();
+    var st = styleDe(b), photo = b.type === 'visuel' || st === 'photo';
+    barre.innerHTML = '<p class="barre-nom">' + B.fr(nomDe(b)) + ' <small>' + b.w + ' × ' + b.h + '</small></p>' +
+      '<button type="button" data-act="taille">Taille</button>' +
+      '<button type="button" data-act="style">Style · ' + NOM_STYLE[st] + '</button>' +
+      '<button type="button" data-act="visuel"' + (photo ? '' : ' title="Passe le bloc en photo"') + '>Visuel</button>' +
+      '<button type="button" data-act="une">À la une</button>' +
+      '<button type="button" data-act="dupliquer">Dupliquer</button>' +
+      '<button type="button" data-act="retirer">Retirer</button>';
+    barre.hidden = false;
+    var haut = r.bottom - zone.top + barre.parentNode.scrollTop + 8, gauche = Math.max(0, Math.min(r.left - zone.left + barre.parentNode.scrollLeft, barre.parentNode.scrollWidth - barre.offsetWidth));
+    barre.style.top = haut + 'px'; barre.style.left = gauche + 'px';
+    ficheDe(b);
+  }
+  function ficheDe(b) {
+    var h = '';
+    if (b.type === 'groupe') {
+      var g = groupes[b.ref], e = etude(g), noms = Object.keys(g.noms);
+      h = '<p class="surtitre">' + B.pastille(g.famille) + ' ' + B.fr(B.nomFamille(g.famille)) + ' · ' + e.total + ' noms dans la famille</p><h3 class="titre">' + B.fr(g.nom) + '</h3>' +
+        '<dl class="etude-liste"><div><dt>Versions</dt><dd>' + g.n + '</dd></div><div><dt>Première</dt><dd>' + B.date(g.premier) + '</dd></div><div><dt>Dernière</dt><dd>' + B.date(g.dernier) + '</dd></div>' +
+        (e.chapitre ? '<div><dt>Époque</dt><dd><a href="index.html#' + e.chapitre.id + '">' + B.fr(e.chapitre.titre) + '</a></dd></div>' : '') + '</dl>' +
+        '<p>' + B.fr(e.phrase) + '</p><p>' + B.fr(e.sens) + '</p>' +
+        (noms.length > 1 ? '<ul class="puces">' + noms.map(function (n) { return '<li>' + B.fr(n) + '</li>'; }).join('') + '</ul>' : '') +
+        '<p class="note-source">D’après les dates de création Base44 (data/applications.js). Le sens vient de la brique de sa famille (data/achevement.js) : une lecture, pas un état.</p>';
+    } else if (b.type === 'brique') {
+      var br = briques[b.ref], top = parFamille[br.famille].groupes.slice().sort(function (a, c) { return c.n - a.n; }).slice(0, 6);
+      h = '<p class="surtitre">' + B.pastille(br.famille) + ' Brique · ' + B.fr(B.nomFamille(br.famille)) + '</p><h3 class="titre">' + B.fr(br.titre) + '</h3><p>' + B.fr(br.role) + '</p>' +
+        '<dl class="etude-liste"><div><dt>Tentatives</dt><dd>' + br.tentatives + '</dd></div><div><dt>Part des 643</dt><dd>' + Math.round(br.tentatives / A.applications.length * 100) + '&nbsp;%</dd></div><div><dt>Noms distincts</dt><dd>' + parFamille[br.famille].groupes.length + '</dd></div></dl>' +
+        '<p>Les plus recommencés&nbsp;:</p><ul class="puces">' + top.map(function (g) { return '<li>' + B.fr(g.nom) + (g.n > 1 ? ' ×' + g.n : '') + '</li>'; }).join('') + '</ul>';
+    } else {
+      var v = visuels[b.ref];
+      h = '<p class="surtitre">Visuel · ' + B.fr(v.accroche) + '</p><h3 class="titre">' + B.fr(v.legende) + '</h3><p>' + B.fr(v.alt) + '.</p>' +
+        '<p>Il habille la famille « ' + B.fr(B.nomFamille(v.famille)) + ' ». Large (9 colonnes et plus), il devient une une : le titre en grand, en blanc. Plus étroit, une section.</p><p class="note-source">Source&nbsp;: <code>' + B.esc(v.src) + '</code>, photographie de LEMONDEAIME.</p>';
+    }
+    fiche.innerHTML = h; fiche.hidden = false;
+  }
+  function choisir(b, focus) {
+    choisi = b ? b.uid : null; rendre();
+    if (b && focus !== false) { var el = grille.querySelector('[data-uid="' + b.uid + '"]'); if (el) el.focus({ preventScroll: true }); }
   }
 
   /* ---------- glisser : à la souris, au doigt, au stylet (pointer events) ---------- */
   var drag = null;
-  function cellule(ev, w) {
+  function cellule(ev, w, brut) {
     var r = grille.getBoundingClientRect(), cs = getComputedStyle(grille);
     var gap = parseFloat(cs.getPropertyValue('--ecart')) || 12, rang = parseFloat(cs.getPropertyValue('--rang')) || 72, c = cols();
-    if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return null;
+    if (!brut && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) return null;
     var colW = (r.width - gap * (c + 1)) / c;
     var cx = Math.floor((ev.clientX - r.left - gap / 2) / (colW + gap)), cy = Math.floor((ev.clientY - r.top - gap / 2) / (rang + gap));
+    if (brut) return { x: Math.max(0, Math.min(11, cx * u())), y: Math.max(0, cy) };
     var k = u(); return { x: Math.max(0, Math.min(12 - w, cx * k - (drag && drag.decal ? drag.decal : 0))), y: Math.max(0, cy - (drag && drag.decalY ? drag.decalY : 0)) };
   }
   function debut(ev, source) {
@@ -113,10 +210,11 @@
   function bouger(ev) {
     if (!drag) return;
     if (!drag.bouge && Math.abs(ev.clientX - drag.x0) + Math.abs(ev.clientY - drag.y0) < 6) return;
+    if (drag.coin) { ev.preventDefault(); drag.bouge = true; redimensionner(ev); return; }
     if (!drag.bouge) {
       drag.bouge = true;
       drag.fantome = document.createElement('div'); drag.fantome.className = 'fantome'; drag.fantome.textContent = drag.nom; document.body.appendChild(drag.fantome);
-      if (drag.bloc) { var el = grille.querySelector('[data-uid="' + drag.bloc.uid + '"]'); if (el) el.classList.add('leve'); }
+      if (drag.bloc) { var el = grille.querySelector('[data-uid="' + drag.bloc.uid + '"]'); if (el) el.classList.add('leve'); barre.hidden = true; }
     }
     ev.preventDefault();
     drag.fantome.style.left = (ev.clientX + 12) + 'px'; drag.fantome.style.top = (ev.clientY + 12) + 'px';
@@ -127,63 +225,131 @@
     aimant.classList.toggle('refus', p.x !== c.x || p.y !== c.y);
     drag.cible = p;
   }
+  /* agrandir par un coin : le coin opposé reste en place, la taille suit le doigt, case par case */
+  function redimensionner(ev) {
+    var d = drag, b = d.bloc, c = cellule(ev, 1, true), k = u();
+    var ouest = d.coin.indexOf('w') !== -1, nord = d.coin.indexOf('n') !== -1;
+    var x0 = ouest ? d.r.x + d.r.w : d.r.x, y0 = nord ? d.r.y + d.r.h : d.r.y;
+    var x1 = ouest ? Math.min(c.x, x0 - 2) : Math.max(c.x + k, x0 + 2), y1 = nord ? Math.min(c.y, y0 - 1) : Math.max(c.y + 1, y0 + 1);
+    x1 = Math.max(0, Math.min(12, x1)); y1 = Math.max(0, y1);
+    var r = { x: Math.min(x0, x1), y: Math.min(y0, y1), w: Math.abs(x1 - x0), h: Math.abs(y1 - y0) };
+    if (r.w < 2 || r.h < 1) return;
+    aimant.hidden = false; aimant.style.cssText = cssPos(r);
+    var ok = libre(r, b); aimant.classList.toggle('refus', !ok);
+    if (ok) d.cible = r;
+  }
   function fin(ev) {
     if (!drag) return;
     var d = drag; drag = null;
     if (d.fantome) d.fantome.remove();
     aimant.hidden = true;
-    if (!d.bouge) { if (!d.bloc) ajouter(d.type, d.ref); return; }   /* un simple toucher sur un fragment le pose à la première place libre */
+    if (d.coin) { if (d.cible) { d.bloc.x = d.cible.x; d.bloc.y = d.cible.y; d.bloc.w = d.cible.w; d.bloc.h = d.cible.h; etat.mise = null; sauver(); } rendre(); return; }
+    if (!d.bouge) {
+      if (d.bloc) choisir(d.bloc.uid === choisi ? null : d.bloc);      /* toucher un bloc le choisit, le toucher encore le relâche */
+      else ajouter(d.type, d.ref);                                     /* toucher un fragment le pose à la première place libre */
+      return;
+    }
     var dans = cellule(ev, d.w);
     if (!dans || !d.cible) { rendre(); return; }
-    if (d.bloc) { d.bloc.x = d.cible.x; d.bloc.y = d.cible.y; rendre(); sauver(); }
+    etat.mise = null;
+    if (d.bloc) { d.bloc.x = d.cible.x; d.bloc.y = d.cible.y; choisi = d.bloc.uid; rendre(); sauver(); }
     else ajouter(d.type, d.ref, d.cible.x, d.cible.y);
   }
   zoneFamilles.addEventListener('pointerdown', function (ev) {
     var f = ev.target.closest('.fragment'); if (!f) return;
+    if (f.hasAttribute('data-v')) { var v = visuels[f.getAttribute('data-v')]; debut(ev, { type: 'visuel', ref: v.id, nom: v.legende, w: 6, h: 3 }); return; }
     var g = groupes[f.getAttribute('data-g')];
     debut(ev, { type: 'groupe', ref: g.id, nom: g.nom, w: 3, h: 2 });
   });
   zoneFamilles.addEventListener('keydown', function (ev) {
-    var f = ev.target.closest('.fragment'); if (f && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); ajouter('groupe', f.getAttribute('data-g')); }
+    var f = ev.target.closest('.fragment'); if (!f || (ev.key !== 'Enter' && ev.key !== ' ')) return;
+    ev.preventDefault();
+    if (f.hasAttribute('data-v')) ajouter('visuel', f.getAttribute('data-v')); else ajouter('groupe', f.getAttribute('data-g'));
   });
   grille.addEventListener('pointerdown', function (ev) {
-    var p = ev.target.closest('.poignee'); if (!p) return;
-    var el = p.parentNode, b = etat.blocs.filter(function (x) { return x.uid === el.getAttribute('data-uid'); })[0]; if (!b) return;
+    var coin = ev.target.closest('.coin'), p = ev.target.closest('.poignee');
+    if (!coin && !p) { if (!ev.target.closest('.bloc') && choisi) choisir(null); return; }
+    var el = (coin || p).parentNode, b = trouveUid(el.getAttribute('data-uid')); if (!b) return;
+    if (coin) { ev.preventDefault(); debut(ev, { bloc: b, coin: coin.getAttribute('data-coin'), r: { x: b.x, y: b.y, w: b.w, h: b.h } }); return; }
     var c = cellule(ev, b.w);
-    debut(ev, { bloc: b, nom: b.type === 'brique' ? briques[b.ref].titre : groupes[b.ref].nom, w: b.w, h: b.h, decal: c ? Math.max(0, c.x - b.x) : 0, decalY: c ? Math.max(0, c.y - b.y) : 0 });
+    debut(ev, { bloc: b, nom: nomDe(b), w: b.w, h: b.h, decal: c ? Math.max(0, c.x - b.x) : 0, decalY: c ? Math.max(0, c.y - b.y) : 0 });
   });
   document.addEventListener('pointermove', bouger, { passive: false });
   document.addEventListener('pointerup', fin);
   document.addEventListener('pointercancel', function () { if (drag && drag.fantome) drag.fantome.remove(); drag = null; aimant.hidden = true; rendre(); });
 
-  /* ---------- actions sur un bloc : taille, retirer, clavier ---------- */
-  var TAILLES = [[3, 2], [6, 2], [4, 3], [6, 3], [12, 2]];
-  function trouve(el) { var a = el.closest('.bloc'); return a && etat.blocs.filter(function (x) { return x.uid === a.getAttribute('data-uid'); })[0]; }
-  grille.addEventListener('click', function (ev) {
-    var btn = ev.target.closest('[data-act]'); if (!btn) return;
-    var b = trouve(btn); if (!b) return;
-    if (btn.getAttribute('data-act') === 'retirer') etat.blocs = etat.blocs.filter(function (x) { return x !== b; });
-    else {
+  /* ---------- les actions du bloc choisi ---------- */
+  var TAILLES = [[3, 2], [6, 2], [4, 3], [6, 3], [8, 4], [12, 2], [12, 4]];
+  function agir(act, b) {
+    if (act === 'retirer') { etat.blocs = etat.blocs.filter(function (x) { return x !== b; }); choisi = null; }
+    else if (act === 'taille') {
       var i = TAILLES.findIndex(function (t) { return t[0] === b.w && t[1] === b.h; }), t = TAILLES[(i + 1) % TAILLES.length];
-      b.w = t[0]; b.h = t[1]; var p = placer(b.x, b.y, b.w, b.h, b); b.x = p.x; b.y = p.y;
+      b.w = t[0]; b.h = t[1]; var p = placer(b.x, b.y, b.w, b.h, b); b.x = p.x; b.y = p.y; etat.mise = null;
+    } else if (act === 'style') {
+      var liste = b.type === 'visuel' ? ['une', 'section'] : STYLES, s = liste[(liste.indexOf(styleDe(b)) + 1) % liste.length];
+      b.style = s;
+      if (b.type === 'visuel') { if (s === 'une' && b.w < 9) { b.w = 12; b.h = Math.max(b.h, 4); } if (s === 'section' && b.w >= 9) b.w = 6; var q = placer(b.x, b.y, b.w, b.h, b); b.x = q.x; b.y = q.y; }
+    } else if (act === 'visuel') {
+      if (b.type === 'visuel') { var k = A.visuels.indexOf(visuels[b.ref]); b.ref = A.visuels[(k + 1) % A.visuels.length].id; }
+      else { var cur = b.visuel || (styleDe(b) === 'photo' ? visuelDe(familleDe(b)).id : null), j = cur ? A.visuels.indexOf(visuels[cur]) + 1 : A.visuels.indexOf(visuelDe(familleDe(b))); b.style = 'photo'; b.visuel = A.visuels[j % A.visuels.length].id; }
+    } else if (act === 'une') {
+      etat.blocs = [b].concat(etat.blocs.filter(function (x) { return x !== b; }));
+      disposer('une', true); return;
+    } else if (act === 'dupliquer') {
+      var c = { uid: 'b' + (++uid) + Date.now().toString(36), type: b.type, ref: b.ref, w: b.w, h: b.h, style: b.style, visuel: b.visuel }, r = placer(b.x + b.w, b.y, b.w, b.h);
+      c.x = r.x; c.y = r.y; etat.blocs.push(c); choisi = c.uid;
     }
     rendre(); sauver();
-    var el = grille.querySelector('[data-uid="' + b.uid + '"]'); if (el) el.focus();
-  });
+    var el = choisi && grille.querySelector('[data-uid="' + choisi + '"]'); if (el) el.focus({ preventScroll: true });
+  }
+  barre.addEventListener('click', function (ev) { var btn = ev.target.closest('[data-act]'), b = trouveUid(choisi); if (btn && b) agir(btn.getAttribute('data-act'), b); });
   grille.addEventListener('keydown', function (ev) {
     var el = ev.target.closest('.bloc'); if (!el || ev.target !== el) return;
-    var b = trouve(el); if (!b) return;
+    var b = trouveUid(el.getAttribute('data-uid')); if (!b) return;
+    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); choisir(b.uid === choisi ? null : b); return; }
+    if (ev.key === 'Escape') { choisir(null); return; }
+    if (ev.key === 'Delete' || ev.key === 'Backspace') { ev.preventDefault(); agir('retirer', b); return; }
     var k = u(), dx = { ArrowLeft: -k, ArrowRight: k }[ev.key] || 0, dy = { ArrowUp: -1, ArrowDown: 1 }[ev.key] || 0;
-    if (ev.key === 'Delete' || ev.key === 'Backspace') { ev.preventDefault(); etat.blocs = etat.blocs.filter(function (x) { return x !== b; }); rendre(); sauver(); return; }
     if (!dx && !dy) return;
     ev.preventDefault();
-    var r = { x: Math.max(0, Math.min(12 - b.w, b.x + dx)), y: Math.max(0, b.y + dy), w: b.w, h: b.h };
-    if (libre(r, b)) { b.x = r.x; b.y = r.y; rendre(); sauver(); }
-    var n = grille.querySelector('[data-uid="' + b.uid + '"]'); if (n) n.focus();
+    /* Maj + flèches : agrandir ou réduire ; flèches seules : déplacer */
+    var r = ev.shiftKey ? { x: b.x, y: b.y, w: Math.max(2, Math.min(12 - b.x, b.w + dx)), h: Math.max(1, b.h + dy) } : { x: Math.max(0, Math.min(12 - b.w, b.x + dx)), y: Math.max(0, b.y + dy), w: b.w, h: b.h };
+    if (libre(r, b)) { b.x = r.x; b.y = r.y; b.w = r.w; b.h = r.h; etat.mise = null; choisi = b.uid; rendre(); sauver(); }
+    var n = grille.querySelector('[data-uid="' + b.uid + '"]'); if (n) n.focus({ preventScroll: true });
   });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && choisi && !document.documentElement.classList.contains('disque-ouvert')) choisir(null, false); });
 
-  /* ---------- l’achèvement ---------- */
-  function composer() {
+  /* ---------- les mises en page : les mêmes blocs, une autre composition, en un clic ---------- */
+  var MISES = {
+    une: { tete: [[12, 4]], suite: [[4, 3]] },
+    magazine: { tete: [[8, 4], [4, 2], [4, 2]], suite: [[6, 3], [3, 3], [3, 3], [4, 2], [4, 2], [4, 2]] },
+    bento: { tete: [[6, 4], [6, 2], [3, 2], [3, 2]], suite: [[4, 3], [4, 3], [4, 3], [3, 2], [3, 2], [6, 2]] },
+    mosaique: { tete: [], suite: [[3, 2]] },
+    colonne: { tete: [], suite: [[12, 2]] }
+  };
+  function disposer(nom, garderOrdre) {
+    if (!etat.blocs.length) composerAchevement();
+    var m = MISES[nom], ordre = etat.blocs.slice();
+    if (!garderOrdre) ordre.sort(function (a, b) { return a.y - b.y || a.x - b.x; });
+    if (nom === 'une' && !garderOrdre) {
+      /* à la une : un visuel en tête ; s’il n’y en a pas, celui de la famille la plus présente */
+      var v = ordre.filter(function (b) { return b.type === 'visuel'; })[0];
+      if (!v) {
+        var cpt = {}; ordre.forEach(function (b) { var f = familleDe(b); cpt[f] = (cpt[f] || 0) + 1; });
+        var f = Object.keys(cpt).sort(function (a, b) { return cpt[b] - cpt[a]; })[0];
+        v = { uid: 'b' + (++uid) + Date.now().toString(36), type: 'visuel', ref: visuelDe(f).id };
+      }
+      ordre = [v].concat(ordre.filter(function (b) { return b !== v; }));
+    }
+    etat.blocs = [];
+    ordre.forEach(function (b, i) {
+      var t = i < m.tete.length ? m.tete[i] : m.suite[(i - m.tete.length) % m.suite.length];
+      b.w = t[0]; b.h = t[1]; if (b.type === 'visuel') b.style = b.w >= 9 ? 'une' : 'section';
+      var p = placer(0, 0, b.w, b.h); b.x = p.x; b.y = p.y; etat.blocs.push(b);
+    });
+    etat.mise = nom; rendre(); sauver();
+  }
+  function composerAchevement() {
     etat.blocs = [];
     var liste = ACH.briques.slice();
     if (etat.inverse) {
@@ -193,12 +359,43 @@
     } else {
       liste.forEach(function (br) { etat.blocs.push({ uid: 'a' + br.id, type: 'brique', ref: br.id, x: br.x, y: br.y, w: br.w, h: br.h }); });
     }
-    rendre(); sauver();
   }
+  function composer() { choisi = null; composerAchevement(); etat.mise = 'achevement'; rendre(); sauver(); }
+  document.getElementById('mises').addEventListener('click', function (ev) {
+    var o = ev.target.closest('[data-mise]'); if (!o) return;
+    var nom = o.getAttribute('data-mise');
+    if (nom === 'achevement') composer(); else disposer(nom);
+  });
   var inv = document.getElementById('inverser');
-  document.getElementById('composer').addEventListener('click', composer);
   inv.addEventListener('click', function () { etat.inverse = !etat.inverse; inv.setAttribute('aria-pressed', String(etat.inverse)); composer(); });
-  document.getElementById('vider').addEventListener('click', function () { etat.blocs = []; rendre(); sauver(); });
+  document.getElementById('vider').addEventListener('click', function () { etat.blocs = []; choisi = null; etat.mise = null; rendre(); sauver(); });
+
+  /* ---------- le Disque : les douze briques en couronne ; choisir une brique, le Disque devient son outil ---------- */
+  if (A.disque) {
+    var allerGrille = function () { document.getElementById('atelier').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+    var disque = A.disque({ racine: function () {
+      var poses = {}; etat.blocs.forEach(function (b) { poses[familleDe(b)] = 1; });
+      return { titre: 'Métamorphose', sous: 'Un Point. Toutes les briques.', note: ACH.briques.length + ' briques · ' + Object.keys(poses).length + ' familles sur votre grille. Choisissez une brique : le Disque devient son outil.',
+        items: ACH.briques.map(function (br) { return { mot: br.titre, actif: !!poses[br.famille], niveau: function () { return outilDe(br); } }; }) };
+    } });
+    var outilDe = function (br) {
+      var top = parFamille[br.famille].groupes.slice().sort(function (a, b) { return b.n - a.n; }).slice(0, 3), v = visuelDe(br.famille);
+      return { titre: br.titre, sous: B.nomFamille(br.famille) + ' · ' + br.tentatives + ' applications', note: br.role,
+        items: [
+          { mot: 'Poser la brique', sous: br.w + ' × ' + br.h, agir: function () { ajouter('brique', br.id); etat.mise = null; allerGrille(); } },
+          { mot: 'Les trois plus refaits', sous: top.map(function (g) { return g.nom; }).join(', '), agir: function () { top.forEach(function (g) { ajouter('groupe', g.id); }); etat.mise = null; sauver(); allerGrille(); } },
+          { mot: 'Son visuel', sous: v.legende, agir: function () { ajouter('visuel', v.id, undefined, undefined, { w: 12, h: 3 }); etat.mise = null; allerGrille(); } },
+          { mot: 'À la une', sous: 'Visuel en tête, briques dessous', agir: function () {
+            var b = etat.blocs.filter(function (x) { return x.type === 'visuel' && x.ref === v.id; })[0] || { uid: 'b' + (++uid) + Date.now().toString(36), type: 'visuel', ref: v.id, x: 0, y: 0, w: 12, h: 4 };
+            if (!etat.blocs.length) composerAchevement();
+            etat.blocs = [b].concat(etat.blocs.filter(function (x) { return x !== b; })); disposer('une', true); allerGrille(); } },
+          { mot: 'Ouvrir le dossier', sous: parFamille[br.famille].groupes.length + ' noms', agir: function () {
+            filtre.value = ''; ouverts[br.famille] = true; arbre(); var d = zoneFamilles.querySelector('[data-f="' + br.famille + '"]');
+            if (d) { d.scrollIntoView({ block: 'nearest' }); allerGrille(); var s = d.querySelector('summary'); if (s) s.focus({ preventScroll: true }); } } }
+        ] };
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-disque]'), function (b) { b.addEventListener('click', function () { disque.ouvrir(); }); });
+  }
 
   /* ---------- départ : la composition gardée, sinon l’achèvement ---------- */
   if (charger()) { inv.setAttribute('aria-pressed', String(!!etat.inverse)); rendre(); } else composer();

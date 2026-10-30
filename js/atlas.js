@@ -4,14 +4,21 @@
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   /* typographie française : espace insécable avant « : » et « ; » */
   var fr = function (s) { return esc(s).replace(/ ([:;])/g, ' $1'); };
+  /* le bandeau : un grand visuel sur toute la largeur, le titre du chapitre en blanc dessus (data/visuels.js) */
+  var VIS = {}; (A.visuels || []).forEach(function (v) { VIS[v.id] = v; });
+  function tete(ch, h) {
+    var v = VIS[ch.bandeau], titre = '<p class="date-chapitre">' + esc(ch.date) + '</p><' + h + ' id="t-' + esc(ch.id) + '" class="grand-mot">' + fr(ch.titre) + '</' + h + '>';
+    if (!v) return titre;
+    return '<div class="bandeau"><img src="' + esc(v.src) + '" alt="' + esc(v.alt) + '" loading="lazy"' + (v.pos ? ' style="object-position:' + esc(v.pos) + '"' : '') + '><div class="bandeau-texte">' + titre + '</div></div>';
+  }
   var puces = function (l) { return l && l.length ? '<ul class="puces">' + l.map(function (p) { return '<li>' + fr(p) + '</li>'; }).join('') + '</ul>' : ''; };
 
   document.getElementById('chiffres').innerHTML = H.chiffres.map(function (c) { return '<li><b>' + esc(c[0]) + '</b><span>' + fr(c[1]) + '</span></li>'; }).join('');
 
   /* les chapitres : des moments, des visuels, et l'écosystème en fiches */
   document.getElementById('chapitres').innerHTML = H.chapitres.map(function (ch, k) {
-    var moments = ch.moments ? '<ol class="journee">' + ch.moments.map(function (m) {
-      return '<li class="moment"><div class="moment-tete"><span class="moment-num">' + esc(m.quand) + '</span><div>' +
+    var moments = ch.moments ? '<ol class="journee">' + ch.moments.map(function (m, j) {
+      return '<li class="moment" id="' + esc(ch.id) + '-' + j + '"><div class="moment-tete"><span class="moment-num">' + esc(m.quand) + '</span><div>' +
         '<h3>' + fr(m.titre) + '</h3><p>' + fr(m.texte) + '</p>' + puces(m.puces) +
         (m.source ? '<p class="moment-source">Source&nbsp;: <code>' + esc(m.source) + '</code></p>' : '') + '</div></div></li>';
     }).join('') + '</ol>' : '';
@@ -20,14 +27,14 @@
     }).join('') + '</div>' : '';
     var eco = ch.projets ? '<div class="filtres" role="group" aria-label="Filtrer par état" id="filtres"></div><ul class="fiches" id="fiches" aria-live="polite"></ul>' +
       '<p class="note-source">États et descriptions tels que déclarés dans <code>Aime-wedding/src/data/ecosystemProjects.js</code>. Tous les projets y sont datés de 2026, sans mois.</p>' : '';
-    return '<section id="' + esc(ch.id) + '" class="chapitre' + (k === 0 ? ' premier' : '') + '" aria-labelledby="t-' + esc(ch.id) + '">' +
-      '<p class="date-chapitre">' + esc(ch.date) + '</p><h2 id="t-' + esc(ch.id) + '" class="grand-mot">' + fr(ch.titre) + '</h2>' +
+    return '<section id="' + esc(ch.id) + '" class="chapitre' + (k === 0 ? ' premier' : '') + (VIS[ch.bandeau] ? ' a-bandeau' : '') + '" aria-labelledby="t-' + esc(ch.id) + '">' + tete(ch, 'h2') +
       '<p class="chapeau">' + fr(ch.chapeau) + '</p>' + moments + eco + visuels + '</section>';
   }).join('');
 
   /* demain, sur la bande noire */
   var D = H.demain;
-  document.getElementById('demain').innerHTML = '<p class="date-chapitre">' + esc(D.date) + '</p><h2 id="t-demain" class="grand-mot">' + fr(D.titre) + '</h2><p class="chapeau">' + fr(D.chapeau) + '</p>' +
+  if (VIS[D.bandeau]) document.getElementById('demain').classList.add('a-bandeau');
+  document.getElementById('demain').innerHTML = tete(D, 'h2') + '<p class="chapeau">' + fr(D.chapeau) + '</p>' +
     '<ol class="etapes">' + D.etapes.map(function (e) { return '<li><div><b>' + fr(e[0]) + '</b><span>' + fr(e[1]) + '</span></div></li>'; }).join('') + '</ol>' +
     '<p class="surtitre" style="margin-top:72px;color:rgba(255,255,255,.65)">À l’horizon</p><ul class="nouveau">' +
     D.horizon.map(function (h) { return '<li><span>' + fr(h[0]) + '</span><b>' + fr(h[1]) + '</b><p>' + fr(h[2]) + '</p></li>'; }).join('') + '</ul>' + achevement();
@@ -35,7 +42,7 @@
   /* l’achèvement : les briques de ce qui a été refait le plus souvent, composées (data/achevement.js) */
   function achevement() {
     var ACH = A.achevement; if (!ACH || !A.bloc) return '';
-    return '<p class="surtitre" style="margin-top:96px;color:rgba(255,255,255,.65)">L’achèvement</p><h3 class="titre" style="color:#fff">Ce qui peut être construit</h3>' +
+    return '<p class="surtitre" id="achevement" style="margin-top:96px;color:rgba(255,255,255,.65)">L’achèvement</p><h3 class="titre" style="color:#fff">Ce qui peut être construit</h3>' +
       '<p class="chapeau">' + fr(ACH.principe) + '</p><div class="apercu-achevement" role="list">' +
       ACH.briques.map(function (b) { return '<article role="listitem" class="bloc brique ' + b.style + '" style="grid-column:' + (b.x + 1) + ' / span ' + b.w + ';grid-row:' + (b.y + 1) + ' / span ' + b.h + '">' + A.bloc.brique(b, 'apercu') + '</article>'; }).join('') +
       '</div><p class="lien-metamorphose"><a class="bouton" href="metamorphose.html">Ouvrir la Métamorphose : déplacer les briques, glisser les 643 projets</a></p>';
@@ -83,6 +90,25 @@
     progres.setAttribute('stroke-dasharray', (69.1 * lu).toFixed(1) + ' 69.1');
     if (c >= 0) { var cur = lieux[c]; if (cur.offsetLeft < dock.scrollLeft || cur.offsetLeft + cur.offsetWidth > dock.scrollLeft + dock.clientWidth) dock.scrollLeft = cur.offsetLeft - 60; }
   }
+  /* le Disque : les époques en couronne ; choisir une époque, et le Disque devient son sommaire */
+  if (A.disque) {
+    var aller = function (id) { var el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); } };
+    var lu = function () { var c = -1; tous.forEach(function (ch, k) { var el = document.getElementById(ch.id); if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) c = k; }); return c; };
+    var disque = A.disque({ racine: function () {
+      var c = lu();
+      return { titre: 'L’atlas', sous: 'Un Point. Toute l’histoire.', note: tous.length + ' époques · ' + A.applications.length + ' applications. Choisissez une époque : le Disque devient son sommaire.',
+        items: tous.map(function (ch, k) { return { mot: ch.lieu, actif: k === c, niveau: function () { return epoque(ch); } }; }) };
+    } });
+    var epoque = function (ch) {
+      var ms = (ch.moments || []).slice(0, 10);
+      var items = [{ mot: 'Tout le chapitre', sous: ch.date, agir: function () { aller(ch.id); } }].concat(ms.map(function (m, j) { return { mot: m.quand, sous: m.titre, agir: function () { aller(ch.id + '-' + j); } }; }));
+      if (ch.projets) items.push({ mot: 'Les fiches', sous: PROJETS.length + ' projets', agir: function () { aller('fiches'); } });
+      if (ch.id === 'demain') items.push({ mot: 'L’achèvement', sous: 'Les douze briques', agir: function () { aller('achevement'); } }, { mot: 'Métamorphose', sous: 'Ouvrir la grille', agir: function () { location.href = 'metamorphose.html'; } });
+      return { titre: ch.titre, sous: ch.date, note: (ms.length ? ms.length + ' moment' + (ms.length > 1 ? 's' : '') + '. ' : '') + 'Choisissez où aller : le Disque vous y mène.', items: items };
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-disque]'), function (b) { b.addEventListener('click', function () { disque.ouvrir(); }); });
+  }
+
   window.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(maj); }, { passive: true });
   window.addEventListener('resize', maj);
   maj();

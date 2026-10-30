@@ -33,10 +33,12 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `data/achevement.js` | Les briques de l’achèvement et leur composition sur la grille |
 | `data/projets.js` | Les projets de l’écosystème et leur état |
 | `data/lexique.js` | Les mots que le moteur reconnaît (intentions, moments, lieux, conditions, ordre) |
+| `data/visuels.js` | La bibliothèque des visuels (photo, texte alt, famille) : les bandeaux de la chronologie et les blocs « visuel » de la Métamorphose |
 | `data/statistiques.js` | Ce que les gens demandent aux agents IA et ce qu’ils veulent en faire, avec leurs sources |
 | `js/atlas.js` | L’affichage des données et le dock du bas |
 | `js/briques.js` | La forme d’un bloc dans la Charte (fragment ou brique), partagée par l’atlas et la Métamorphose |
-| `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier) |
+| `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier), le bloc choisi (coins, actions, fiche), les mises en page |
+| `js/disque.js` | Le Disque (repris de .ONE) : un Point au centre, une couronne de mots ; choisir un mot ouvre son niveau |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
@@ -47,6 +49,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
 - **Une nouvelle application Base44** : une ligne de plus dans `data/applications.js`, avec sa date de création et sa famille.
+- **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
