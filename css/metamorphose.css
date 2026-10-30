@@ -270,3 +270,30 @@
   html.impression .module.a-imprimer { position: fixed; inset: 0; padding: 24mm; background: #fff; color: #000; }
   html.impression .module.a-imprimer form, html.impression .module.a-imprimer .mode-mod, html.impression .module.a-imprimer .suppr { display: none !important; }
 }
+
+/* ---------- Le + : la demande lue par le moteur, traduite en fragments (js/traducteur.js) ---------- */
+.plus-meta > .chapeau { margin-inline: auto; }
+.plus-saisie, .plus-meta > .resume, .plus-propositions, .plus-meta > .actions, .plus-meta > .note-source { max-width: 820px; margin-inline: auto; text-align: left; }
+.plus-saisie { display: grid; gap: var(--espace-3); margin-top: var(--espace-6); }
+.plus-meta .actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); align-items: center; }
+.plus-meta > .actions { margin-top: var(--espace-5); }
+.plus-meta > .resume { margin-top: var(--espace-6); font-size: 17px; font-weight: 600; }
+.plus-propositions { list-style: none; padding: 0; display: grid; gap: var(--espace-4); margin-top: var(--espace-4); }
+.plus-etape { padding: var(--espace-5); border-radius: var(--rayon-carte); background: var(--carte); border: 1px solid var(--trait); }
+.plus-etape .surtitre { margin: 0; text-transform: none; }
+.plus-phrase { margin: 6px 0 var(--espace-3); font-size: 20px; font-weight: 600; line-height: 1.3; }
+.plus-etape .non-dit { color: var(--encre-3); margin: var(--espace-2) 0 0; }
+.plus-etape .manque { margin-top: var(--espace-4); padding: var(--espace-3) var(--espace-4); border-radius: var(--rayon-md); background: var(--fond); border: 1px solid var(--trait); }
+.plus-etape .manque p { margin: 0; }
+.plus-blocs { border: 0; padding: 0; margin: var(--espace-4) 0 0; display: grid; gap: var(--espace-2); }
+.plus-blocs legend { padding: 0; margin-bottom: var(--espace-2); font-weight: 600; }
+.plus-choix { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 12px; border-radius: var(--rayon-md); border: 1px solid var(--trait-2); cursor: pointer; }
+.plus-choix input { width: 20px; height: 20px; flex: none; accent-color: var(--encre); }
+.plus-choix span { display: grid; }
+.plus-choix small { color: var(--encre-3); font-size: 13px; }
+.plus-choix:focus-within { outline: 2px solid var(--encre); outline-offset: 2px; }
+.plus-deja { margin: 0; color: var(--encre-3); font-size: 14px; }
+.bloc .a-completer { order: -1; align-self: flex-start; position: relative; z-index: 1; flex: none; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--fond); color: var(--encre); border: 1px solid var(--trait-2); pointer-events: none; }
+.fiche-demandes { margin-top: var(--espace-5); padding-top: var(--espace-4); border-top: 1px solid var(--trait); }
+.fiche-demandes .opt { margin-top: var(--espace-3); }
+.bloc.module .a-completer { margin: 10px 0 -4px 12px; }

@@ -54,6 +54,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `js/cube.js` · `js/accueil.js` · `css/accueil.css` | Le Cube (vraie 3D CSS, pointeur, toucher, clavier, liste des faces sans 3D) et l’accueil |
 | `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
+| `js/traducteur.js` · `data/traduction.js` | Le « + » de la Composition : `traduire(analyse)` (pure) propose des fragments et des modules à partir de la lecture du moteur ; après confirmation, `ATLAS.grille.poser()` les pose, reliés. Une composition structurée, rien n’est exécuté (`docs/TRADUCTEUR.md`) |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
 
@@ -67,6 +68,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
 - **Un module** : une entrée dans `data/modules.js` (avec ses capacités sources) et sa fonction dans `CORPS` de `js/modules.js`.
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
+- **Un mot que le traducteur ne relie à aucun fragment** : l’ajouter dans `data/traduction.js`, sans accents, sous le module ou la brique voulus.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
 - **Une nouvelle page** : partir de `chronologie.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.
