@@ -10,6 +10,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 ## Les règles qui font la différence
 
+- **Rien hors de l’atlas** : pas de lien vers lemondeaime.com, le studio de broderie, la boutique ; pas de Disque. Le bouton AIME du dock du haut ramène à l’accueil de l’atlas.
 - **En français**, vouvoiement, phrases entières, typographie française (espace insécable avant `:` `;` `?` `!`, apostrophe ’, « guillemets »).
 - **L’encre sur le papier** : `encre` sur `fond`, surfaces en `carte`, filets en `trait`. La couleur vient des photos et de la nacre de l’orbe, jamais des boutons.
 - **Un seul caractère**, Inter Tight. Titres en 600. Le 900 une seule fois par page, pour sa signature.
@@ -37,8 +38,9 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `data/statistiques.js` | Ce que les gens demandent aux agents IA et ce qu’ils veulent en faire, avec leurs sources |
 | `js/atlas.js` | L’affichage des données et le dock du bas |
 | `js/briques.js` | La forme d’un bloc dans la Charte (fragment ou brique), partagée par l’atlas et la Métamorphose |
-| `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier), le bloc choisi (coins, actions, fiche), les mises en page |
-| `js/disque.js` | Le Disque (repris de .ONE) : un Point au centre, une couronne de mots ; choisir un mot ouvre son niveau |
+| `js/metamorphose.js` | L’arbre, la grille magnétique, le glisser-déposer (souris, doigt, clavier), le bloc choisi (coins, actions, réglages d’image, fiche), les liens arc-en-ciel et la fusion, les mises en page |
+| `data/modules.js` | Les modules vivants (Timeline, Agenda, Facture, Intermittent, Documents, Invités), d’après les capacités de l’atlas Base44 et les noms répétés |
+| `js/modules.js` | Les modules dans la Charte : leurs formulaires, le calendrier, ce qu’ils partagent quand ils sont reliés |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `media/` | La photographie de la marque |
 | `design-system/` | La charte, les jetons, les fiches des composants, l’orbe et les orbes de Mon confort |
@@ -50,6 +52,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
 - **Une nouvelle application Base44** : une ligne de plus dans `data/applications.js`, avec sa date de création et sa famille.
 - **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
+- **Un module** : une entrée dans `data/modules.js` (avec ses capacités sources) et sa fonction dans `CORPS` de `js/modules.js`.
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).

@@ -5,7 +5,7 @@ L’histoire de tous les projets de l’écosystème AIME, du premier soir de no
 - **Voir** : ouvrir `index.html`, ou le servir tel quel (aucune installation, aucune construction).
 - **Le moteur** : `moteur.html` reconstruit une demande à partir des mots de la personne, dans l’ordre, et la fonde sur ce que les gens demandent aux agents IA.
 - **La Métamorphose** : `metamorphose.html` range les 643 applications en arbre par famille ; on les glisse sur une grille magnétique où elles prennent la forme de la Charte, ou on compose l’achèvement d’un geste. Un bloc touché s’agrandit par ses coins, change de style ou de visuel, et sa fiche dit ce qu’il raconte ; six mises en page recomposent la grille d’un clic.
-- **Le Disque** : l’outil rond de .ONE, sur l’atlas (les époques, puis les moments) et sur la Métamorphose (les briques, puis leurs outils). On l’ouvre par l’orbe du dock du bas ou par « Le Disque ».
+- **Les modules** : Timeline, Agenda, Facture, Intermittent, Documents, Invités — les fonctionnalités recréées le plus souvent, en blocs vivants. Reliés, une lumière arc-en-ciel passe de l’un à l’autre et leurs données avec elle ; fusionnés, ils ne font qu’un bloc.
 - **Mettre à jour** : les données sont dans `data/histoire.js`, `data/projets.js` et `data/visuels.js`.
 - **Le design system** : `design-system/README.md` pour la charte, `design-system/tokens.json` pour les jetons, `design-system/composants/` pour les composants.
 - **Travailler avec Claude** : `CLAUDE.md` décrit les règles que chaque demande suit dans ce dépôt.
