@@ -8,4 +8,10 @@ L’histoire de tous les projets de l’écosystème AIME, du premier prototype 
 - **Le design system** : `design-system/README.md` pour la charte, `design-system/tokens.json` pour les jetons, `design-system/composants/` pour les composants.
 - **Travailler avec Claude** : `CLAUDE.md` décrit les règles que chaque demande suit dans ce dépôt.
 
+## Mise en ligne sur Vercel
+
+Le site est statique : aucune commande de construction. `vercel.json` donne des adresses propres (`/moteur` au lieu de `/moteur.html`), des en-têtes de sécurité et un cache d’un jour pour les photos ; `404.html` est la page d’erreur.
+
+Réglages du projet Vercel : préréglage **Other**, aucune commande de construction ni d’installation, dossier de sortie **la racine du dépôt**. Chaque push sur `main` met le site en production ; chaque pull request reçoit son adresse d’aperçu.
+
 AIME® est la marque mère. LE MONDE AIME est une association.
