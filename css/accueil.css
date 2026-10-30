@@ -28,6 +28,7 @@
 .cube-face { margin: 0; min-height: 1.5em; font-size: 15px; color: rgba(255,255,255,.7); }
 .cube-face b { font-weight: 700; color: var(--blanc); }
 .cube-astuce { color: rgba(255,255,255,.5); }
+.cube-astuce a { color: var(--blanc); text-underline-offset: 3px; }
 /* le patron du Cube, dans le coin de la scène sur grand écran */
 .scene-cube > .patron { position: absolute; right: var(--marge); bottom: 112px; }
 @media (max-width: 900px) { .scene-cube > .patron { position: relative; right: auto; bottom: auto; } }

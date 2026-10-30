@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATLAS — La vue Cube</title>
+<meta name="description" content="La vue Cube d’ATLAS : un cube translucide, six faces remplies des vrais fragments, et l’orbe au centre qui révèle les trois axes et relie ce que l’on choisit.">
+<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
+<!-- Le design system AIME, dans cet ordre : les jetons, les composants, la mise en page de l’atlas ; puis la vue Cube. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/composants.css">
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/vue-cube.css">
+<link rel="stylesheet" href="css/nuit.css">
+<script src="js/theme.js"></script>
+</head>
+<body class="vue-cube">
+<a class="lien-evitement" href="#vc-panneau">Aller à la liste des faces</a>
+<header class="tete">
+  <nav class="dock-haut" aria-label="Dock du haut">
+    <div class="dock-ligne">
+      <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
+      <span class="separateur" aria-hidden="true"></span>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
+      <div class="rangee"><span class="separateur" aria-hidden="true"></span>
+        <a class="outil" href="chronologie.html">Chronologie</a>
+        <a class="outil" href="composition.html">Composition</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="vc">
+  <section class="vc-scene-zone" aria-labelledby="vc-titre">
+    <div class="vc-projection" id="vc-projection" aria-hidden="true"></div>
+    <div class="vc-defile" id="vc-defile" aria-hidden="true"></div>
+    <div class="vc-entete">
+      <p class="surtitre">ATLAS · la vue Cube</p>
+      <h1 id="vc-titre" class="sr-only">Le Cube, vu de l’intérieur</h1>
+      <p class="vc-aide">Glissez pour tourner. Touchez une case : le fond la projette, l’orbe la relie à ce qui la touche. Touchez l’orbe pour revenir au centre.</p>
+    </div>
+    <div class="vc-scene" id="vc-scene" tabindex="0" role="group" aria-roledescription="cube à tourner" aria-label="Le Cube transparent. Flèches pour tourner ; la liste à côté donne le même contenu." aria-describedby="vc-etat">
+      <div class="vc-cube" id="vc-cube"></div>
+    </div>
+    <p class="vc-etat" id="vc-etat" aria-live="polite"></p>
+  </section>
+
+  <aside class="vc-panneau" id="vc-panneau" aria-label="La face et le fragment choisis"></aside>
+</main>
+
+<footer class="pied">
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <nav class="pied-nav" aria-label="Plan du site">
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="vue-cube.html">La vue Cube</a><a href="cube.html">Le Cube de Saint-Luc (maquette)</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">L’écosystème AIME</p><a href="https://preview.lemondeaime.com/studio/one/univers" rel="noopener">Retour à AIME · .0NE, le Disque</a></div>
+  </nav>
+  <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+</footer>
+
+<nav class="dock-bas" aria-label="Les faces du Cube">
+  <div id="dock">
+    <button type="button" class="lieu" data-face="avant">Chronologie</button>
+    <button type="button" class="lieu" data-face="droite">Composition</button>
+    <button type="button" class="lieu" data-face="arriere">Archives</button>
+    <button type="button" class="lieu" data-face="gauche">Relations</button>
+    <button type="button" class="lieu" data-face="haut">Modules</button>
+    <button type="button" class="lieu" data-face="bas">Écosystème</button>
+  </div>
+</nav>
+
+<script src="data/applications.js"></script>
+<script src="data/visuels.js"></script>
+<script src="data/modules.js"></script>
+<script src="data/projets.js"></script>
+<script src="data/chronologie.js"></script>
+<script src="data/histoire.js"></script>
+<script src="js/vue-cube.js"></script>
+</body>
+</html>

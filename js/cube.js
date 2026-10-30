@@ -78,7 +78,7 @@
   var actuelle = null;
   function montrer() {
     var f = visible(); if (f === actuelle) return; actuelle = f;
-    legende.innerHTML = '<b>' + esc(f.mot) + '</b> · ' + esc(f.sous) + '<span class="cube-astuce"> — glissez pour tourner, touchez la face pour y descendre</span>';
+    legende.innerHTML = '<b>' + esc(f.mot) + '</b> · ' + esc(f.sous) + '<span class="cube-astuce"> — glissez pour tourner, touchez la face pour y descendre, ou <a href="vue-cube.html">entrez dans le Cube</a></span>';
     Array.prototype.forEach.call(cube.querySelectorAll('.face'), function (el) { el.classList.toggle('face-visible', el.getAttribute('data-face') === f.id); });
     dock.forEach(function (a) { a.classList.toggle('en-face', a.getAttribute('data-face') === f.id); });
     if (carte) carte.innerHTML = patron(f.id);
