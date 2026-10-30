@@ -106,6 +106,38 @@
     etat.blocs.push(b); choisi = b.uid; rendre(); sauver(); return b;
   }
 
+  /* ---------- le traducteur (js/traducteur.js) pose une composition confirmée : les blocs, la demande qui les a fait naître,
+     et des liens dans l’ordre des demandes. Un même fragment proposé deux fois n’est posé qu’une fois. ---------- */
+  A.grille = { poser: function (lot) {
+    var y0 = hauteur(), poses = {}, prec = null, n = 0;
+    lot.forEach(function (e) {
+      e.blocs.forEach(function (p) {
+        var k = p.type + ':' + p.ref, b = poses[k];
+        if (!b) {
+          if (p.deja || !existe(p)) return;
+          var t = tailleDefaut(p.type, p.ref), q = placer(0, y0, t.w, t.h);
+          b = { uid: 'b' + (++uid) + Date.now().toString(36), type: p.type, ref: p.ref, x: q.x, y: q.y, w: t.w, h: t.h, demandes: [] };
+          etat.blocs.push(b); poses[k] = b; n++;
+        }
+        b.demandes.push({ phrase: e.phrase, intention: e.intention, reconnu: e.reconnu, manque: e.manque });
+        if (prec && prec !== b && reseau(prec.uid).indexOf(b.uid) === -1) etat.liens.push([prec.uid, b.uid]);
+        prec = b;
+      });
+    });
+    if (n) { etat.mise = null; choisi = prec.uid; rendre(); sauver(); }
+    return n;
+  } };
+  var aCompleter = function (b) { return !!b.demandes && !b.complet && b.demandes.some(function (d) { return d.manque && d.manque.length; }); };
+  function ficheDemandes(b) {
+    var NOMS = { pourqui: 'Pour qui', quand: 'Quand', lieu: 'Où', quantites: 'Combien', conditions: 'Conditions', format: 'Forme', ton: 'Ton' };
+    return '<div class="fiche-demandes"><p class="surtitre">Né d’une demande</p>' + b.demandes.map(function (d) {
+      var r = d.reconnu || {}, l = Object.keys(NOMS).map(function (k) { var v = r[k]; if (Array.isArray(v)) v = v.join(', '); return v ? '<div><dt>' + NOMS[k] + '</dt><dd>' + B.fr(v) + '</dd></div>' : ''; }).join('');
+      return '<p><strong>' + B.fr(d.phrase) + '</strong></p>' + (l ? '<dl class="etude-liste">' + l + '</dl>' : '') +
+        (d.manque && d.manque.length ? '<p>Il manque&nbsp;:</p><ul class="puces">' + d.manque.map(function (q) { return '<li>' + B.fr(q) + '</li>'; }).join('') + '</ul>' : '');
+    }).join('') + (aCompleter(b) ? '<button type="button" class="opt" data-complet="' + b.uid + '">C’est complété</button>' : (b.complet ? '<p class="note-source">Marqué comme complété.</p>' : '')) +
+      '<p class="note-source">Posé par le traducteur (js/traducteur.js) d’après la lecture du moteur. Une composition structurée : rien n’a été exécuté ni envoyé.</p></div>';
+  }
+
   /* ---------- le réseau : les blocs reliés (et les parties d’une fusion) partagent ce qu’ils savent ---------- */
   var tous = function () { var l = []; etat.blocs.forEach(function (b) { l.push(b); if (b.type === 'fusion') l = l.concat(b.parts); }); return l; };
   var partie = function (id) { return tous().filter(function (x) { return x.uid === id; })[0]; };
@@ -126,6 +158,10 @@
       var f = (cible && m.querySelector(cible)) || (champ && m.querySelector('[name="' + champ + '"]')); if (f) f.focus({ preventScroll: true });
     } };
   A.module.ecouter(grille, ctx);
+  fiche.addEventListener('click', function (ev) {
+    var c = ev.target.closest('[data-complet]'), b = c && trouveUid(c.getAttribute('data-complet')); if (!b) return;
+    b.complet = true; rendre(); sauver();
+  });
 
   /* ---------- un bloc dans la Charte ---------- */
   var STYLES = ['carte', 'sombre', 'nacre', 'grille', 'photo'];
@@ -162,8 +198,8 @@
     var html = etat.blocs.map(function (b) {
       var st = styleDe(b), nom = nomDe(b), surface = b.w * b.h, est = b.uid === choisi;
       var taille = surface >= 18 ? ' grand' : surface >= 9 ? ' moyen' : ' petit';
-      return '<article class="bloc ' + b.type + ' ' + st + taille + (est ? ' choisi' : '') + (lie(b) || b.type === 'fusion' ? ' relie' : '') + (relier && relier !== b.uid ? ' a-relier' : '') + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + ', ' + b.w + ' sur ' + b.h + (est ? ', choisi' : '') + '">' +
-        '<div class="poignee" aria-hidden="true"></div>' + contenu(b) +
+      return '<article class="bloc ' + b.type + ' ' + st + taille + (est ? ' choisi' : '') + (lie(b) || b.type === 'fusion' ? ' relie' : '') + (relier && relier !== b.uid ? ' a-relier' : '') + '" tabindex="0" data-uid="' + b.uid + '" style="' + cssPos(b) + '" aria-label="' + B.esc(nom) + ', colonne ' + (b.x + 1) + ', rangée ' + (b.y + 1) + ', ' + b.w + ' sur ' + b.h + (aCompleter(b) ? ', à compléter' : '') + (est ? ', choisi' : '') + '">' +
+        '<div class="poignee" aria-hidden="true"></div>' + contenu(b) + (aCompleter(b) ? '<span class="a-completer">À compléter</span>' : '') +
         (est ? COINS.map(function (c) { return '<span class="coin coin-' + c[0] + '" data-coin="' + c[0] + '" aria-hidden="true" title="Agrandir par le coin ' + c[1] + '"></span>'; }).join('') : '') + '</article>';
     }).join('');
     grille.innerHTML = '<div class="aimant" id="aimant" hidden></div>' + (html || '<p class="vide-grille">Glissez un fragment ou un visuel ici, ou choisissez une mise en page.</p>');
@@ -250,6 +286,7 @@
       h = '<p class="surtitre">Visuel · ' + B.fr(v.accroche) + '</p><h3 class="titre">' + B.fr(v.legende) + '</h3><p>' + B.fr(v.alt) + '.</p>' +
         '<p>Il habille la famille « ' + B.fr(B.nomFamille(v.famille)) + ' ». Large (9 colonnes et plus), il devient une une : le titre en grand, en blanc. Plus étroit, une section.</p><p class="note-source">Source&nbsp;: <code>' + B.esc(v.src) + '</code>, photographie de LEMONDEAIME.</p>';
     }
+    if (b.demandes) h += ficheDemandes(b);
     fiche.innerHTML = h; fiche.hidden = false;
   }
   function choisir(b, focus) {
