@@ -126,7 +126,9 @@
     });
     if (n) { etat.mise = null; choisi = prec.uid; rendre(); sauver(); }
     return n;
-  } };
+  },
+  /* une copie de la composition, en lecture : la publication (js/publier.js) en tire sa version publique */
+  etat: function () { return JSON.parse(JSON.stringify(etat)); } };
   var aCompleter = function (b) { return !!b.demandes && !b.complet && b.demandes.some(function (d) { return d.manque && d.manque.length; }); };
   function ficheDemandes(b) {
     var NOMS = { pourqui: 'Pour qui', quand: 'Quand', lieu: 'Où', quantites: 'Combien', conditions: 'Conditions', format: 'Forme', ton: 'Ton' };
