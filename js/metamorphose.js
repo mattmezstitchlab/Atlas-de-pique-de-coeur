@@ -357,7 +357,7 @@
       var partis = [b.uid].concat(b.type === 'fusion' ? b.parts.map(function (x) { return x.uid; }) : []), hors = function (x) { return partis.indexOf(x.owner) === -1; };
       etat.blocs = etat.blocs.filter(function (x) { return x !== b; }); choisi = null;
       etat.liens = etat.liens.filter(function (l) { return partis.indexOf(l[0]) === -1 && partis.indexOf(l[1]) === -1; });
-      var D = etat.donnees; D.moments = D.moments.filter(hors); D.invites = D.invites.filter(hors); D.documents = D.documents.filter(hors);
+      var D = etat.donnees; ['moments', 'invites', 'documents', 'morceaux', 'photos', 'missions'].forEach(function (k) { if (D[k]) D[k] = D[k].filter(hors); });
     }
     else if (act === 'relier') { relier = b.uid; reglage = false; }
     else if (act === 'annuler-lien') relier = null;
@@ -483,6 +483,30 @@
   var inv = document.getElementById('inverser');
   inv.addEventListener('click', function () { etat.inverse = !etat.inverse; inv.setAttribute('aria-pressed', String(etat.inverse)); composer(); });
   document.getElementById('vider').addEventListener('click', function () { etat.blocs = []; choisi = null; etat.mise = null; rendre(); sauver(); });
+
+  /* ---------- les recettes : une composition gardée sous un nom, rechargée, exportée ---------- */
+  var CLE_R = 'atlas-recettes-v1', selR = document.getElementById('recettes');
+  var recettes = function () { try { return JSON.parse(localStorage.getItem(CLE_R) || '[]'); } catch (e) { return []; } };
+  function listeRecettes() { var r = recettes(); selR.innerHTML = '<option value="">Recettes (' + r.length + ')</option>' + r.map(function (x, i) { return '<option value="' + i + '">' + B.esc(x.nom) + ' · ' + x.blocs.length + ' blocs</option>'; }).join(''); }
+  var composition = function (nom) { return { format: 'atlas-recette', version: 1, nom: nom, creeLe: new Date().toISOString(), blocs: JSON.parse(JSON.stringify(etat.blocs)), liens: JSON.parse(JSON.stringify(etat.liens)), mise: etat.mise }; };
+  function appliquer(r) { if (!r || !Array.isArray(r.blocs)) return; etat.blocs = r.blocs.filter(existe); etat.liens = (r.liens || []).filter(function (l) { return partie(l[0]) && partie(l[1]); }); etat.mise = r.mise || null; choisi = null; rendre(); sauver(); }
+  document.getElementById('recette-garder').addEventListener('click', function () {
+    var nom = prompt('Nom de la recette', 'Le Jour J complet'); if (!nom) return;
+    var r = recettes(); r.push(composition(nom.trim())); try { localStorage.setItem(CLE_R, JSON.stringify(r)); } catch (e) { alert('L’espace du navigateur est plein.'); } listeRecettes(); selR.value = String(r.length - 1);
+  });
+  selR.addEventListener('change', function () { var r = recettes()[+selR.value]; if (selR.value !== '' && r && confirm('Recomposer la grille avec « ' + r.nom + ' » ? La grille actuelle est remplacée.')) appliquer(r); });
+  document.getElementById('recette-exporter').addEventListener('click', function () {
+    var r = recettes()[+selR.value] || composition('Composition du ' + new Date().toLocaleDateString('fr-FR'));
+    var url = URL.createObjectURL(new Blob([JSON.stringify(r, null, 2)], { type: 'application/json' })), a = document.createElement('a');
+    a.href = url; a.download = 'recette-' + r.nom.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  });
+  document.getElementById('recette-importer').addEventListener('change', function (ev) {
+    var f = ev.target.files[0]; if (!f) return;
+    f.text().then(function (t) { var r = JSON.parse(t); if (r.format !== 'atlas-recette') throw new Error(); var l = recettes(); l.push(r); localStorage.setItem(CLE_R, JSON.stringify(l)); listeRecettes(); appliquer(r); })
+      .catch(function () { alert('Ce fichier n’est pas une recette de la Métamorphose.'); });
+    ev.target.value = '';
+  });
+  listeRecettes();
 
   /* ---------- départ : la composition gardée, sinon l’achèvement ---------- */
   if (charger()) { inv.setAttribute('aria-pressed', String(!!etat.inverse)); rendre(); } else composer();

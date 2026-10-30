@@ -1,0 +1,145 @@
+/* La chronologie 1999 – 2025 (js/chronologie.js) : du papier au pixel. Par-dessus tokens, composants et atlas. */
+.avant { position: relative; padding-block: var(--espace-section) var(--espace-8); text-align: center;
+  background: linear-gradient(to bottom, var(--papier) 0%, var(--doux) 55%, var(--fond) 100%); }
+.avant::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(rgba(11,11,12,.05) 1px, transparent 1.2px); background-size: 5px 5px;
+  -webkit-mask: linear-gradient(#000, transparent 70%); mask: linear-gradient(#000, transparent 70%); }
+.avant > * { position: relative; }
+.avant-tete .chapeau { margin-inline: auto; }
+.avant .grand-mot { font-size: clamp(48px, 9vw, 150px); }
+.bandeau-apercu { position: sticky; top: 96px; z-index: 5; margin: 0 auto var(--espace-5); max-width: 760px; padding: 10px 16px; border-radius: var(--rayon-pilule); background: var(--encre); color: var(--blanc); font-size: 14px; font-weight: 600; }
+
+/* le marqueur d’année : discret, sur le côté, seulement dans cette section */
+.annee-courante { position: sticky; top: 45vh; height: 0; margin: 0; z-index: 2; text-align: left; pointer-events: none; }
+.annee-courante span { display: inline-block; transform: translateX(-4px); font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--encre-3); writing-mode: vertical-rl; transform: rotate(180deg); opacity: 0; transition: opacity .3s; font-variant-numeric: tabular-nums; }
+.avant.dans-avant .annee-courante span:not(:empty) { opacity: 1; }
+@media (max-width: 720px) { .annee-courante { display: none; } }
+
+.entree-chrono { max-width: 1100px; margin: var(--espace-8) auto 0; padding-top: var(--espace-8); border-top: 1px solid var(--trait); scroll-margin-top: 110px; }
+.date-chrono { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); font-variant-numeric: tabular-nums; }
+.preuve { letter-spacing: .04em; text-transform: none; padding: 3px 10px; border-radius: var(--rayon-pilule); background: var(--carte); box-shadow: inset 0 0 0 1px var(--trait-2); color: var(--encre-2); }
+.preuve.document { background: var(--encre); color: var(--blanc); box-shadow: none; }
+.preuve.a-verifier { background: var(--info-vient); box-shadow: inset 0 0 0 1px var(--info-vient-trait); color: var(--encre); }
+.preuve.brouillon { background: var(--info-remplie); box-shadow: inset 0 0 0 1px var(--info-remplie-trait); color: var(--encre); }
+.titre-chrono { margin: 0 auto; max-width: 22ch; font-size: clamp(30px, 4.6vw, 64px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
+.provisoire { display: block; margin-top: 8px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-3); }
+.recit { margin: var(--espace-5) auto 0; max-width: 62ch; font-size: 18px; line-height: 1.55; color: var(--encre-2); text-wrap: pretty; }
+.contexte, .lecture { margin: var(--espace-3) auto 0; max-width: 56ch; font-size: 15px; font-style: italic; color: var(--encre-3); }
+.lecture { font-style: normal; font-weight: 600; color: var(--encre-2); padding: 10px 16px; border-radius: var(--rayon-md); background: var(--carte); box-shadow: inset 0 0 0 1px var(--trait); }
+.petit { margin: 8px 0 0; font-size: 14px; color: var(--encre-3); }
+
+/* papier : une feuille d’époque */
+.feuille { position: relative; max-width: 860px; margin: 0 auto; padding: clamp(28px, 5vw, 64px); border-radius: 4px; background: #fbf8f1; box-shadow: var(--ombre-papier); transform: rotate(-.4deg); }
+.feuille::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.4), transparent 40%), radial-gradient(rgba(120,100,60,.06) 1px, transparent 1.4px); background-size: auto, 4px 4px; }
+
+/* magazine : la grande année et le texte */
+.mag { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--espace-6); align-items: center; text-align: left; }
+.mag .date-chrono { justify-content: flex-start; }
+.mag .titre-chrono, .mag .recit { margin-left: 0; }
+.grand-an { margin: 0; text-align: center; font-size: clamp(80px, 12vw, 190px); font-weight: 600; letter-spacing: -0.06em; line-height: .8; color: transparent; -webkit-text-stroke: 1.5px var(--encre); font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .mag { grid-template-columns: minmax(0, 1fr); text-align: center; } .mag .date-chrono { justify-content: center; } .mag .titre-chrono, .mag .recit { margin-inline: auto; } }
+
+/* les personnes */
+.personnes { list-style: none; margin: var(--espace-5) auto 0; padding: 0; display: grid; gap: var(--espace-3); max-width: 720px; text-align: left; }
+.personnes li { padding: var(--espace-4) var(--espace-5); border-radius: var(--rayon-carte); background: var(--carte); border: 1px solid var(--trait); }
+.personnes b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+.personnes .role { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--encre-3); }
+.personnes p { margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: var(--encre-2); }
+.personnes .sources-p { font-size: 13px; } .personnes .sources-p a { color: var(--encre-2); text-underline-offset: 3px; }
+
+/* les archives : la photo, ou sa place réservée */
+.archives-entree { list-style: none; margin: var(--espace-6) auto 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--espace-3); max-width: 1000px; }
+.archive { position: relative; display: grid; grid-template-rows: 1fr auto; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--rayon-md); background: var(--papier); text-align: left; }
+.archive img { width: 100%; height: 100%; object-fit: cover; grid-row: 1 / -1; grid-column: 1; filter: sepia(.18) contrast(.96); transition: filter .6s; }
+.archive:hover img { filter: none; }
+.archive.attente { border: 1.5px dashed var(--trait-2); background: repeating-linear-gradient(-45deg, transparent 0 10px, rgba(11,11,12,.025) 10px 11px), var(--carte); }
+.archive .place { grid-row: 1; align-self: center; justify-self: center; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-3); }
+.legende-archive { grid-row: 2; grid-column: 1; position: relative; display: grid; gap: 2px; padding: 10px 12px; background: linear-gradient(transparent, rgba(255,255,255,.92) 30%); }
+.archive:not(.attente) .legende-archive { background: linear-gradient(transparent, rgba(0,0,0,.72)); color: var(--blanc); }
+.legende-archive b { font-size: 14px; font-weight: 600; } .legende-archive small { font-size: 12px; opacity: .8; }
+
+/* le téléviseur : une vitre bombée, une trame fine, une lumière douce */
+.tele-scene { display: grid; justify-items: center; }
+.tele { margin: var(--espace-6) 0 0; width: min(100%, 760px); }
+.tele-caisse { padding: clamp(14px, 2.4vw, 26px) clamp(14px, 2.4vw, 26px) 12px; border-radius: 30px; background: linear-gradient(160deg, #2a2926, #121211 60%); box-shadow: var(--ombre-ecran), inset 0 1px 0 rgba(255,255,255,.08); }
+.tele-ecran { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 22px / 26px; background: #050505; box-shadow: inset 0 0 0 2px #000, inset 0 0 40px rgba(0,0,0,.9); }
+.tele-ecran::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.14), transparent 45%), radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+.tele-ecran::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .22; background: repeating-linear-gradient(to bottom, rgba(255,255,255,.07) 0 1px, transparent 1px 3px); }
+.tele.allume .tele-ecran::after { opacity: .1; }
+.tele-affiche { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) contrast(1.05) brightness(.82); }
+.tele-ecran iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 1; }
+.tele-lire { position: absolute; z-index: 3; left: 50%; top: 50%; width: 76px; height: 76px; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(255,255,255,.55); background: rgba(255,255,255,.12); color: var(--blanc); font-size: 26px; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform .2s, background .2s; }
+.tele-lire:hover { transform: translate(-50%, -50%) scale(1.06); background: rgba(255,255,255,.22); }
+.tele.allume .tele-lire { display: none; }
+.tele-pied { display: flex; align-items: center; gap: 10px; margin-top: 10px; color: rgba(255,255,255,.6); font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.tele-voyant { width: 8px; height: 8px; border-radius: 50%; background: #3a3a38; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.tele.allume .tele-voyant { background: var(--libre); box-shadow: 0 0 10px var(--libre); }
+.tele-plein { margin-left: auto; min-height: 40px; padding: 0 12px; border-radius: var(--rayon-sm); border: 1px solid rgba(255,255,255,.25); background: transparent; color: rgba(255,255,255,.8); font: inherit; font-size: 12.5px; cursor: pointer; }
+.tele figcaption { margin-top: var(--espace-4); }
+.tele-lien { display: inline-block; margin-top: 12px; font-size: 15px; font-weight: 600; color: var(--encre); text-underline-offset: 4px; }
+.tele-ecran:fullscreen { border-radius: 0; }
+
+/* duo : hier et aujourd’hui, côte à côte, reliés par un pont de lumière */
+.duo-chrono { display: grid; grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr); gap: var(--espace-4); align-items: center; margin-top: var(--espace-6); text-align: left; }
+.duo-chrono .archives-entree { margin: 10px 0 0; grid-template-columns: minmax(0, 1fr); }
+.duo-chrono .archive { aspect-ratio: 4 / 3; }
+.pont { height: 2px; background: linear-gradient(90deg, var(--trait-2), var(--orbe-lecture-1), var(--libre), var(--orbe-grand-1), var(--nacre-rose), var(--orbe-ecoute)); border-radius: 2px; }
+.mini-grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 22px; gap: 4px; margin-top: 10px; padding: 10px; border-radius: var(--rayon-md); background: var(--carte); box-shadow: inset 0 0 0 1px var(--trait); }
+.mini-grille i { border-radius: 4px; background: var(--doux); box-shadow: inset 0 0 0 1px var(--trait-2); }
+.mini-grille i.sombre { background: var(--encre); } .mini-grille i.nacre { background: var(--nacre); } .mini-grille i.photo { background: #6b6560; }
+.mini-grille i.grille { background-color: var(--carte); background-image: linear-gradient(var(--trait-2) 1px, transparent 1px), linear-gradient(90deg, var(--trait-2) 1px, transparent 1px); background-size: 5px 5px; }
+@media (max-width: 760px) { .duo-chrono { grid-template-columns: minmax(0, 1fr); } .pont { width: 2px; height: 40px; justify-self: center; } }
+
+/* lacune : vingt années en pointillé, à documenter */
+.frise-lacune { list-style: none; display: flex; justify-content: space-between; gap: 2px; max-width: 980px; margin: var(--espace-6) auto 0; padding: 26px 0 0; background: linear-gradient(90deg, var(--trait-2) 50%, transparent 0) 0 8px / 10px 1.5px repeat-x; }
+.frise-lacune li { position: relative; flex: 1; height: 16px; }
+.frise-lacune li::before { content: ''; position: absolute; left: 50%; top: -22px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--trait-2); }
+.frise-lacune li span { display: none; }
+.frise-lacune li.repere span { display: block; position: absolute; left: 50%; top: -2px; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: var(--encre-3); font-variant-numeric: tabular-nums; }
+.frise-lacune li.repere::before { width: 9px; height: 9px; margin-left: -4.5px; top: -24px; background: var(--encre); }
+.themes-lacune { justify-content: center; margin-top: var(--espace-5); }
+
+/* bandeau dans la chronologie : bord à bord */
+.avant .bandeau-chrono { margin-inline: calc(-1 * var(--marge)); }
+.avant .bandeau-chrono .grand-mot { color: var(--blanc); font-size: clamp(48px, 10vw, 170px); line-height: .95; }
+.modele-bandeau { max-width: none; }
+
+/* l’axe des relations */
+.relations { margin-top: var(--espace-6); }
+.relations-ouvrir { position: relative; border: 2px solid transparent; background: linear-gradient(var(--carte), var(--carte)) padding-box, conic-gradient(var(--orbe-lecture-1), var(--orbe-lecture-2), var(--libre), var(--orbe-grand-1), var(--nacre-rose), var(--orbe-ecoute), var(--orbe-lecture-1)) border-box; }
+.relations-liste { list-style: none; margin: var(--espace-4) auto 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--espace-3); max-width: 1000px; text-align: left; }
+.relations-liste li { padding: var(--espace-4); border-radius: var(--rayon-carte); background: var(--carte); border: 1px solid var(--trait); }
+.relations-liste a { display: grid; gap: 2px; color: var(--encre); text-decoration: none; }
+.relations-liste a b { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+.relations-liste .date-rel { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-3); }
+.relations-liste p { margin: 8px 0 0; font-size: 15px; line-height: 1.45; color: var(--encre-2); }
+.relations-liste small { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--encre-3); }
+
+/* ce que veut dire « 643 » */
+.niveaux { max-width: 1100px; margin: var(--espace-8) auto 0; padding-top: var(--espace-8); border-top: 1px solid var(--trait); }
+.niveaux .chapeau { margin-inline: auto; }
+.niveaux-liste { list-style: none; margin: var(--espace-6) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--espace-3); text-align: left; }
+.niveaux-liste li { display: grid; align-content: start; gap: 4px; padding: var(--espace-4); border-radius: var(--rayon-carte); background: var(--carte); border: 1px solid var(--trait); }
+.niveaux-liste b { font-size: 40px; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.niveaux-liste .niv { font-size: 16px; font-weight: 600; }
+.niveaux-liste p { margin: 0; font-size: 14px; line-height: 1.4; color: var(--encre-2); }
+.niveaux-liste small { font-size: 12px; color: var(--encre-3); }
+.niveaux-liste li:first-child { background: var(--encre); color: var(--blanc); border-color: var(--encre); } .niveaux-liste li:first-child p, .niveaux-liste li:first-child small { color: var(--blanc-2); }
+@media (max-width: 900px) { .niveaux-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* la conclusion */
+.conclusion { padding: var(--espace-section) var(--marge); text-align: center; background: var(--fond); }
+.conclusion blockquote { margin: 0 auto; max-width: 20ch; }
+.conclusion blockquote p { margin: 0; font-size: clamp(32px, 5.4vw, 80px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; text-wrap: balance;
+  background: linear-gradient(100deg, var(--encre) 30%, var(--orbe-ecoute), var(--orbe-lecture-1), var(--encre) 70%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: reflet 9s ease-in-out infinite; }
+.conclusion footer { margin-top: var(--espace-5); font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); }
+.conclusion-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--espace-3); margin-top: var(--espace-7); }
+@keyframes reflet { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .conclusion blockquote p { animation: none; color: var(--encre); background: none; } .archive img, .annee-courante span { transition: none; } }
+.tele-meta { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-3); }
+/* les fonds choisis dans l’éditeur */
+.entree-chrono.fond-carte { padding: var(--espace-7) var(--espace-5); border-radius: var(--rayon-xl); background: var(--carte); border-top: 0; margin-top: var(--espace-7); }
+.entree-chrono.fond-sombre { padding: var(--espace-7) var(--espace-5); border-radius: var(--rayon-xl); background: var(--encre); color: var(--blanc); border-top: 0; margin-top: var(--espace-7); }
+.entree-chrono.fond-sombre .recit, .entree-chrono.fond-sombre .date-chrono { color: var(--blanc-2); }
+.entree-chrono.fond-sombre .grand-an { -webkit-text-stroke-color: var(--blanc); }

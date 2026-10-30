@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
+<link rel="stylesheet" href="css/nuit.css">
+<script src="js/theme.js"></script>
 </head>
 <body>
 <a class="lien-evitement" href="#atelier">Aller à la grille</a>
@@ -62,6 +64,10 @@
     <div class="barre-outils barre-seconde" role="toolbar" aria-label="Composer">
       <button type="button" class="opt" id="inverser" aria-pressed="false">Le moins important d’abord</button>
       <button type="button" class="bouton" id="vider">Vider la grille</button>
+      <label class="sr-only" for="recettes">Recettes enregistrées</label><select class="champ select-recettes" id="recettes"></select>
+      <button type="button" class="opt" id="recette-garder">Garder la recette</button>
+      <button type="button" class="opt" id="recette-exporter">Exporter</button>
+      <label class="opt importer-recette">Importer<input type="file" accept="application/json,.json" id="recette-importer" hidden></label>
       <p class="compte" id="compte" role="status" aria-live="polite"></p>
     </div>
     <div class="plan">

@@ -244,3 +244,29 @@
 .reglages-image input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--encre); min-height: 24px; }
 .reglages-image select.champ { grid-column: 1 / -1; height: 40px; font-size: 14px; }
 @media (prefers-reduced-motion: reduce) { .bloc.relie::before, .fil-lumiere, .couture { animation: none; } }
+
+/* ---------- les recettes, les couches, le plan B, la musique, la galerie, les missions, l’impression ---------- */
+.select-recettes { width: auto; height: 44px; font-size: 15px; max-width: 260px; }
+.importer-recette { cursor: pointer; }
+.couches-mod, .mode-mod { display: flex; flex-wrap: wrap; gap: 4px; }
+.couches-mod .opt[aria-pressed="true"], .mode-mod .opt[aria-pressed="true"] { background: var(--encre); color: var(--blanc); border-color: var(--encre); }
+.timeline-mod li { border-left: 3px solid var(--trait-2); }
+.timeline-mod li.couche-invites { border-left-color: var(--nacre-rose); } .timeline-mod li.couche-budget { border-left-color: var(--orbe-grand-1); } .timeline-mod li.couche-musique { border-left-color: var(--orbe-ecoute); }
+.plan-b { flex-basis: 100%; margin: 0; font-size: 12.5px; color: var(--encre-2); }
+.plan-b b { font-weight: 700; }
+.titre-piece { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); }
+.creneaux-mod { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.creneau { margin: 0 0 4px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--encre-3); }
+.galerie-mod { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.galerie-mod li { position: relative; aspect-ratio: 1; border-radius: var(--rayon-sm); overflow: hidden; }
+.galerie-mod img { width: 100%; height: 100%; object-fit: cover; }
+.galerie-mod .suppr { position: absolute; top: 2px; right: 2px; background: rgba(255,255,255,.85); }
+.depot-mod { cursor: pointer; }
+.liste-mod li.faite span { text-decoration: line-through; color: var(--encre-3); }
+.liste-mod input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--encre); flex: none; }
+@media print {
+  html.impression body * { visibility: hidden !important; }
+  html.impression .module.a-imprimer, html.impression .module.a-imprimer * { visibility: visible !important; }
+  html.impression .module.a-imprimer { position: fixed; inset: 0; padding: 24mm; background: #fff; color: #000; }
+  html.impression .module.a-imprimer form, html.impression .module.a-imprimer .mode-mod, html.impression .module.a-imprimer .suppr { display: none !important; }
+}
