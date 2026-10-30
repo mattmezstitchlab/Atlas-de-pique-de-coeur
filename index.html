@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ATLAS — Voir l’invisible</title>
-<meta name="description" content="ATLAS, à la recherche du temps créé : le Cube mosaïque, vingt-cinq ans de fragments, et trois espaces pour comprendre, explorer et créer.">
+<meta name="description" content="ATLAS, à la recherche du temps créé : un seul récit, de Saint-Luc à la grille des blocs. Le Cube traverse vingt-cinq ans de fragments et les montre dans ses cases.">
 <link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
 <script>
   /* les anciens liens « /#chapitre » de l’atlas mènent désormais à la chronologie */
   (function () { var h = location.hash.slice(1); if (/^(avant|novembre|decembre|hiver|avril|mai|juin|juillet|aout|ecosysteme|octobre|demain|conclusion|achevement|fiches|e-[\w-]+)$/.test(h)) location.replace('chronologie.html' + location.search + location.hash); })();
   /* les anciennes sections de l’accueil ont rejoint les faces du Cube */
-  (function () { var v = { espaces: 'chronologie', preuves: 'chronologie', fragments: 'composition', 'saint-luc': 'archives', formes: 'relations', instrument: 'relations', essai: 'modules' }[location.hash.slice(1)]; if (v) history.replaceState(null, '', '#' + v); })();
+  (function () { var v = { espaces: 'chronologie', preuves: 'chronologie', fragments: 'composition', 'saint-luc': 'archives', formes: 'relations', instrument: 'relations', essai: 'modules', cube: 'haut-de-page' }[location.hash.slice(1)]; if (v) history.replaceState(null, '', '#' + v); })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
-<!-- Le design system AIME, dans cet ordre : les jetons, les composants, la mise en page de l’atlas ; puis l’accueil. -->
+<!-- Le design system AIME, dans cet ordre : les jetons, les composants, la mise en page de l’atlas ; puis le récit du Cube. -->
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/composants.css">
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/metamorphose.css">
-<link rel="stylesheet" href="css/accueil.css">
+<link rel="stylesheet" href="css/recit.css">
 <link rel="stylesheet" href="css/nuit.css">
 <script src="js/theme.js"></script>
 </head>
-<body class="accueil">
-<a class="lien-evitement" href="#chronologie">Aller aux faces du Cube</a>
+<body class="recit">
+<a class="lien-evitement" href="#archives">Aller au récit</a>
 <header class="tete">
   <nav class="dock-haut" aria-label="Dock du haut">
     <div class="dock-ligne">
@@ -41,112 +41,35 @@
 </header>
 
 <main>
-  <!-- Le Cube, au centre : « MATT MEZ » derrière lui, grossi par le verre (la loupe suit la silhouette du Cube) -->
-  <section class="scene-cube" id="cube" aria-labelledby="titre-page">
+  <!-- La scène, collante : la projection (grand visuel, grand titre blanc), « MATT MEZ » et la loupe, le Cube au centre -->
+  <div class="recit-scene" id="scene">
     <div class="lumieres" aria-hidden="true"></div>
-    <div class="scene" id="scene">
-      <div class="titre-plan" id="titre-plan"><h1 id="titre-page" class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></h1></div>
-      <div class="loupe" id="loupe" aria-hidden="true"><div class="titre-plan"><p class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></p></div></div>
-      <div class="cube-scene" id="cube-scene" tabindex="0" role="group" aria-roledescription="cube à tourner" aria-label="Le Cube d’ATLAS. Flèches pour le tourner, Entrée pour descendre vers la face visible." aria-describedby="cube-face">
-        <div class="cube" id="le-cube"></div>
-      </div>
+    <div class="projection" id="projection" aria-hidden="true"></div>
+    <div class="titre-plan" id="titre-plan"><h1 id="titre-page" class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></h1></div>
+    <div class="loupe" id="loupe" aria-hidden="true"><div class="titre-plan"><p class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></p></div></div>
+    <p class="intro-sous" id="intro-sous">À la recherche du temps créé<small>Faites défiler : le Cube traverse vingt-cinq ans de fragments.</small></p>
+    <div class="cube-scene" id="cube-scene" tabindex="0" role="img" aria-roledescription="cube" aria-label="Le Cube d’ATLAS. Il tourne avec le récit ; on peut aussi le saisir. Ses cases reprennent les fragments de la carte à côté.">
+      <div class="cube" id="le-cube"></div>
     </div>
-    <p class="scene-sous">À la recherche du temps créé</p>
-    <p class="cube-face" id="cube-face" aria-live="polite"></p>
-    <nav class="patron" id="patron-cube" aria-label="Le Cube déplié : la face que vous regardez"></nav>
-  </section>
+    <p class="cube-legende" id="cube-legende" aria-hidden="true"></p>
+    <div class="patron" id="patron" aria-hidden="true"></div>
+  </div>
 
-  <!-- Face avant : Chronologie -->
-  <section class="face-section preuves" id="chronologie" aria-labelledby="t-chronologie">
-    <nav class="patron repere" data-face="avant" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="surtitre">Explorer les recherches</p>
-    <h2 id="t-chronologie" class="grand-mot">Chronologie</h2>
-    <p class="chapeau">Chaque date a sa preuve : un document, une déclaration de l’auteur, ou « à vérifier », dit comme tel.</p>
-    <ul class="preuves-chiffres" id="preuves-chiffres"></ul>
-    <ul class="entrees">
-      <li><a class="entree entree-image" href="chronologie.html"><img src="media/phare.jpg" alt="Un couple au pied d’un phare face à la mer agitée au coucher du soleil" loading="lazy"><b>La chronologie</b><small>Saint-Luc, les œuvres, les preuves, 1999 – 2026</small></a></li>
-      <li><a class="entree" href="chronologie.html#avant"><b>Avant l’inventaire</b><small>1999 – 2025, entrée par entrée</small></a></li>
-      <li><a class="entree" href="chronologie.html#e-cube-grille"><b>Du cube à la grille</b><small>2002 – 2026, une lecture d’aujourd’hui</small></a></li>
-    </ul>
-  </section>
+  <!-- Le récit : une station par lieu ; chaque station dit, en texte, ce que le Cube montre dans ses cases -->
+  <div class="recit-fil" id="recit">
+    <section class="station intro" id="haut-de-page" data-station="intro" aria-label="Le Cube"></section>
+    <noscript><section class="station"><div class="carte-station"><p class="texte">Le récit du Cube a besoin de JavaScript. <a href="chronologie.html">La chronologie</a> et <a href="composition.html">la Composition</a> restent ouvertes.</p></div></section></noscript>
+  </div>
 
-  <!-- Face droite : Composition -->
-  <section class="face-section devenir" id="composition" aria-labelledby="t-composition">
-    <nav class="patron repere" data-face="droite" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="surtitre">Créer avec les blocs</p>
-    <h2 id="t-composition" class="grand-mot">Composition</h2>
-    <ol class="etapes-devenir">
-      <li><span class="schema schema-fragment" aria-hidden="true"><i></i></span><b>Un fragment</b><span>Une idée, une application, une archive.</span></li>
-      <li><span class="schema schema-bloc" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>Un bloc</b><span>Les fragments d’une même famille.</span></li>
-      <li><span class="schema schema-compo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Une composition</b><span>Les blocs reliés, sur la grille.</span></li>
-    </ol>
-    <ul class="entrees">
-      <li><a class="entree entree-mosaique" href="composition.html"><span class="mosaique-vive" id="mosaique-vive" aria-hidden="true"></span><b>La grille</b><small>Les blocs, les relations, les recettes</small></a></li>
-      <li><a class="entree" href="composition.html#plus"><b>Le +</b><small>D’une demande, avec vos mots, à la grille</small></a></li>
-      <li><a class="entree" href="cube.html"><b>Le Cube de Saint-Luc</b><small>Cinq faces mosaïques et la chronologie à l’intérieur (maquette)</small></a></li>
-    </ul>
-  </section>
-
-  <!-- Face arrière : Archives -->
-  <section class="face-section saint-luc" id="archives" aria-labelledby="t-archives">
-    <nav class="patron repere" data-face="arriere" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="annees-geantes" aria-hidden="true">1999<span>—</span>2005</p>
-    <div class="saint-luc-tete">
-      <p class="surtitre">Saint-Luc, 1999 – 2005</p>
-      <h2 id="t-archives" class="grand-mot">Archives</h2>
-      <p class="chapeau">Six années de formation, à Tournai. Le carré, le cube, la mosaïque, l’image en mouvement.</p>
+  <!-- La fin : le Cube déplié devient la grille des blocs -->
+  <section class="plateau" id="grille" aria-labelledby="t-grille">
+    <div class="plateau-tete">
+      <p class="surtitre">Le Cube, déplié</p>
+      <h2 id="t-grille" class="grand-mot">La grille</h2>
+      <p class="chapeau" id="grille-principe"></p>
     </div>
-    <div class="planche">
-      <a class="piece piece-video" href="chronologie.html#e-clip-saint-luc">
-        <span class="piece-ecran"><img src="https://i.ytimg.com/vi/XgKcenvjMdI/hqdefault.jpg" alt="Image du clip UPTOWN de Matt Mez, une mosaïque de figures répétées" loading="lazy" onerror="this.remove()"><span class="piece-lire" aria-hidden="true">▶</span></span>
-        <span class="piece-legende"><b>UPTOWN</b><small>Clip · années de Saint-Luc</small></span>
-      </a>
-      <a class="piece piece-attente" href="chronologie.html#e-1999-comines"><span class="piece-place">À déposer</span><span class="piece-legende"><b>Comines, 1999</b><small>La première exposition</small></span></a>
-      <a class="piece piece-attente" href="chronologie.html#e-cube-grille"><span class="piece-place">À déposer</span><span class="piece-legende"><b>Travaux d’atelier</b><small>Carré, cube, mosaïque</small></span></a>
-    </div>
-    <ul class="entrees">
-      <li><a class="entree" href="chronologie.html#avant"><b>Toutes les archives</b><small>Leurs preuves, et celles qui attendent d’être déposées</small></a></li>
-    </ul>
-  </section>
-
-  <!-- Face gauche : Relations -->
-  <section class="face-section instrument" id="relations" aria-labelledby="t-relations">
-    <nav class="patron repere" data-face="gauche" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="surtitre">Du cube à la grille</p>
-    <h2 id="t-relations" class="grand-mot">Relations</h2>
-    <ul class="intentions">
-      <li>Les archives racontent.</li><li>Les fragments composent.</li><li>Les relations transforment.</li><li>La grille rassemble.</li>
-    </ul>
-    <div class="formes">
-      <a class="forme forme-carre" href="composition.html"><span class="figure" aria-hidden="true"><i></i></span><b>Le carré</b><span>ATLAS · la grille rassemble ce qui a été créé.</span></a>
-      <a class="forme forme-cercle" href="https://preview.lemondeaime.com/studio/one/univers" rel="noopener"><span class="figure" aria-hidden="true"></span><b>Le cercle</b><span>.0NE · le Disque fait tourner les univers. Ouvrir .0NE&nbsp;↗</span></a>
-      <a class="forme forme-point" href="chronologie.html#e-cube-grille"><span class="figure" aria-hidden="true"></span><b>Le Point</b><span>AIME · tout part d’un point.</span></a>
-    </div>
-    <blockquote><p>«&nbsp;Pendant vingt-cinq ans, j’ai créé des fragments. Aujourd’hui, j’ai trouvé comment les relier.&nbsp;»</p></blockquote>
-  </section>
-
-  <!-- Face du haut : Modules -->
-  <section class="face-section essai" id="modules" aria-labelledby="t-modules">
-    <nav class="patron repere" data-face="haut" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="surtitre">Timeline, Agenda, Facture…</p>
-    <h2 id="t-modules" class="grand-mot">Modules</h2>
-    <p class="chapeau">Deux vrais modules, reliés. Posez un moment dans la Timeline : il s’allume dans l’Agenda.</p>
-    <div class="essai-grille grille-aimantee" id="essai-grille" aria-label="Démonstration : Timeline et Agenda reliés"></div>
-    <ul class="entrees">
-      <li><a class="entree" href="composition.html#atelier"><b>Les neuf modules</b><small>Dans la grille : les relier, les fusionner</small></a></li>
-      <li><a class="entree" href="moteur.html"><b>Le moteur</b><small>Une demande reconstruite à partir de vos mots</small></a></li>
-    </ul>
-  </section>
-
-  <!-- Face du bas : Écosystème -->
-  <section class="face-section projets" id="projets" aria-labelledby="t-projets">
-    <nav class="patron repere" data-face="bas" aria-label="Cette face sur le Cube déplié"></nav>
-    <p class="surtitre">Les projets et leur état</p>
-    <h2 id="t-projets" class="grand-mot">Écosystème</h2>
-    <ul class="preuves-chiffres projets-etats" id="projets-etats"></ul>
-    <ul class="entrees">
-      <li><a class="entree entree-image" href="ecosysteme.html"><img src="media/sculpture.jpg" alt="Sculpture abstraite en métal, faite de blocs imbriqués, éclairée par un faisceau chaud sur fond sombre" loading="lazy"><b>Les projets</b><small>Chaque fiche, son état et ses fonctions</small></a></li>
-    </ul>
+    <div class="grille-aimantee recit-grille" id="recit-grille" aria-label="La composition proposée : une brique par famille"></div>
+    <p class="liens"><a class="bouton noir" href="composition.html">Ouvrir la grille dans la Composition</a> <a class="bouton" href="composition.html#plus">Le + : d’une demande à la grille</a> <a class="bouton" href="importer.html">Importer vos fichiers</a></p>
   </section>
 </main>
 
@@ -154,20 +77,21 @@
   <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
   <nav class="pied-nav" aria-label="Plan du site">
     <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
-    <div><p class="pied-titre">Aussi</p><a href="vue-cube.html">La vue Cube</a><a href="cube.html">Le Cube de Saint-Luc (maquette)</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="importer.html">L’import</a><a href="vue-cube.html">La vue Cube</a><a href="cube.html">Le Cube de Saint-Luc (maquette)</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
     <div><p class="pied-titre">L’écosystème AIME</p><a href="https://preview.lemondeaime.com/studio/one/univers" rel="noopener">Retour à AIME · .0NE, le Disque</a></div>
   </nav>
   <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
 </footer>
 
-<nav class="dock-bas" aria-label="Les lieux de la page">
+<nav class="dock-bas" aria-label="Les lieux du récit">
   <div id="dock">
-    <a class="lieu" href="#chronologie" data-face="avant">Chronologie</a>
-    <a class="lieu" href="#composition" data-face="droite">Composition</a>
-    <a class="lieu" href="#archives" data-face="arriere">Archives</a>
-    <a class="lieu" href="#relations" data-face="gauche">Relations</a>
-    <a class="lieu" href="#modules" data-face="haut">Modules</a>
-    <a class="lieu" href="#projets" data-face="bas">Écosystème</a>
+    <a class="lieu" href="#archives">Archives</a>
+    <a class="lieu" href="#chronologie">Chronologie</a>
+    <a class="lieu" href="#composition">Composition</a>
+    <a class="lieu" href="#relations">Relations</a>
+    <a class="lieu" href="#modules">Modules</a>
+    <a class="lieu" href="#projets">Écosystème</a>
+    <a class="lieu" href="#grille">La grille</a>
   </div>
 </nav>
 
@@ -175,10 +99,10 @@
 <script src="data/achevement.js"></script>
 <script src="data/modules.js"></script>
 <script src="data/chronologie.js"></script>
+<script src="data/histoire.js"></script>
+<script src="data/visuels.js"></script>
 <script src="data/projets.js"></script>
 <script src="js/briques.js"></script>
-<script src="js/modules.js"></script>
-<script src="js/cube.js"></script>
-<script src="js/accueil.js"></script>
+<script src="js/recit.js"></script>
 </body>
 </html>
