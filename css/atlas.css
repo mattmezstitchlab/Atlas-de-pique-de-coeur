@@ -1,0 +1,67 @@
+/* L’Atlas de pique de cœur : la mise en page propre à l’atlas, par-dessus tokens.css et composants.css.
+   Des chapitres en « moments » (la timeline du Jour J), l’écosystème en fiches filtrables, demain sur la bande noire. */
+:root { color-scheme: light; }
+body { background: var(--fond); color: var(--encre); font-family: var(--font-sans); }
+main { display: block; }
+.page { padding-inline: var(--marge); }
+.hero { min-height: clamp(460px, 72vh, 820px); margin: 14px var(--marge) 0; }
+.hero-contenu .surtitre { color: rgba(255,255,255,.8); }
+.hero-titre { font-size: clamp(64px, 15vw, 260px); }
+.hero-sous-titre { max-width: 34ch; }
+.chiffres { display: flex; flex-wrap: wrap; gap: 12px 40px; margin: 28px 0 0; padding: 0; list-style: none; }
+.chiffres li { display: grid; gap: 2px; }
+.chiffres b { font-size: clamp(28px, 3.4vw, 44px); font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+.chiffres span { font-size: 14px; color: rgba(255,255,255,.78); }
+
+.chapitre { padding-block: var(--espace-section); border-top: 1px solid var(--trait); }
+.chapitre.premier { border-top: 0; padding-top: 96px; }
+.chapitre-tete { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 1100px; }
+.chapitre .grand-mot { font-size: clamp(48px, 9vw, 150px); }
+.date-chapitre { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); font-variant-numeric: tabular-nums; }
+
+.journee { margin: 56px 0 0; max-width: 980px; }
+.moment-tete h3 { margin: 0; font-size: clamp(24px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
+.moment-tete p { margin: 6px 0 0; color: var(--encre-2); font-size: 17px; line-height: 1.5; max-width: 62ch; }
+.moment-num { min-width: 92px; }
+.moment-source { margin: 10px 0 0; font-size: 13px; color: var(--encre-3); }
+.moment-source code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--papier); padding: 1px 6px; border-radius: 5px; color: var(--encre-2); overflow-wrap: anywhere; }
+.puces { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.puces li { padding: 5px 11px; border-radius: 999px; background: var(--carte); border: 1px solid var(--trait); font-size: 14px; font-weight: 500; }
+
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 28px; margin-top: 56px; }
+.duo .visuel { height: clamp(18rem, 34vw, 30rem); }
+
+/* l'écosystème */
+.filtres { display: flex; flex-wrap: wrap; gap: 8px; margin: 40px 0 0; }
+.filtres .opt { gap: 8px; }
+.filtres .opt small { font-size: 13px; font-weight: 600; opacity: .7; font-variant-numeric: tabular-nums; }
+.fiches { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+.fiche { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: var(--carte); border: 1px solid var(--trait); min-width: 0; }
+.fiche-haut { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fiche .cat { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--encre-3); }
+.fiche h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; text-wrap: balance; }
+.fiche p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--encre-2); }
+.fiche .puces li { font-size: 13px; padding: 4px 10px; background: var(--fond); }
+.fiche a.ouvrir { margin-top: auto; padding-top: 6px; font-size: 15px; font-weight: 600; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.etat { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--papier); color: var(--encre); white-space: nowrap; }
+.etat.prod { background: var(--encre); color: #fff; }
+.etat.prod::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--libre); }
+.etat.dev { background: var(--option-fond); box-shadow: inset 0 0 0 1px var(--option-trait); }
+.etat.archi { background: var(--carte); box-shadow: inset 0 0 0 1px var(--encre); }
+.note-source { margin: 20px 0 0; font-size: 15px; color: var(--encre-2); max-width: 70ch; }
+
+/* demain */
+.bande-sombre { margin: 0; padding: 120px var(--marge); }
+.bande-sombre .grand-mot { color: #fff; font-size: clamp(48px, 9vw, 150px); }
+.bande-sombre .date-chapitre, .bande-sombre .chapeau { color: rgba(255,255,255,.75); }
+.etapes { list-style: none; margin: 56px 0 0; padding: 0; display: grid; gap: 0; max-width: 980px; counter-reset: e; }
+.etapes li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px 16px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.3); }
+.etapes li::before { counter-increment: e; content: counter(e); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); padding-top: 6px; font-variant-numeric: tabular-nums; }
+.etapes b { display: block; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+.etapes span { display: block; margin-top: 4px; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.75); }
+.nouveau b { color: #fff; }
+
+.tete { top: env(safe-area-inset-top, 0px); }
+.dock-bas { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+.lieu { cursor: pointer; }
+@media (max-width: 720px) { .dock-haut .rangee .outil:nth-child(n+4) { display: none; } .moment-num { min-width: 0; } .chapitre { padding-block: 88px; } }

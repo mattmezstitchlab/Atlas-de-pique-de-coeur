@@ -1,0 +1,81 @@
+/* Le moteur : la saisie, la grille universelle d’une demande, les statistiques à l’échelle.
+   Par-dessus tokens.css, composants.css et atlas.css. Couleurs, rayons et espaces : les jetons seulement. */
+.titre-moteur { font-size: clamp(64px, 13vw, 220px); }
+
+/* la saisie et ce que le moteur a reconnu, côte à côte */
+.atelier { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--espace-6); margin-top: var(--espace-7); align-items: start; }
+.saisie, .vos-mots { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--espace-3); min-width: 0; }
+.champ.zone { display: block; width: 100%; max-width: 100%; min-width: 0; height: auto; min-height: 168px; padding: var(--espace-3); line-height: 1.5; resize: vertical; }
+.champ.zone:focus-visible { outline: 2px solid var(--encre); outline-offset: 3px; }
+#exemples { margin: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--espace-2) var(--espace-3); align-items: center; }
+.sens { display: flex; flex-wrap: wrap; gap: var(--espace-2); }
+.papier-mots { min-height: 168px; font-size: 18px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.legende-mots { margin: 0; display: flex; flex-wrap: wrap; gap: var(--espace-2); font-size: 14px; color: var(--encre-2); }
+.non-dit { color: var(--encre-3); }
+
+/* les demandes reconstruites : la même grille pour toutes */
+.resume { margin: var(--espace-7) 0 0; font-size: 17px; font-weight: 600; }
+.demandes-reconstruites { margin-top: var(--espace-4); }
+.demande-etats { display: flex; flex-wrap: wrap; gap: var(--espace-2); margin-bottom: var(--espace-3); }
+.grille-demande { margin: var(--espace-4) 0 0; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); }
+.grille-demande dd { overflow-wrap: anywhere; }
+.grille-demande dd.non-dit { font-style: italic; }
+.manque { margin-top: var(--espace-4); padding: var(--espace-3) var(--espace-4); border-radius: var(--rayon-md); background: var(--carte); border: 1px solid var(--trait); }
+.manque .puces { margin-top: var(--espace-2); }
+.etiquette-manque { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-3); }
+.fonde { margin: var(--espace-3) 0 0; font-size: 15px; color: var(--encre-2); }
+@media (max-width: 560px) { .grille-demande { grid-template-columns: minmax(0, 1fr); gap: 2px; } .grille-demande dd { margin-bottom: var(--espace-2); } }
+
+/* les demandes mesurées, à l’échelle 0 – 30 % */
+.echelle { position: relative; height: 20px; margin: var(--espace-7) 0 0 calc(min(32%, 300px) + var(--espace-5)); margin-right: calc(96px + var(--espace-5)); font-size: 12px; color: var(--encre-3); font-variant-numeric: tabular-nums; }
+.echelle span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.barres { list-style: none; margin: var(--espace-2) 0 0; padding: 0; display: grid; gap: 0; }
+.barre-ligne { display: grid; grid-template-columns: min(32%, 300px) minmax(0, 1fr) 96px; gap: var(--espace-1) var(--espace-5); align-items: center; padding: var(--espace-3) 0; border-top: 1px solid var(--trait); }
+.barre-nom { display: grid; gap: 2px; min-width: 0; }
+.barre-nom b { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.barre-nom span { font-size: 14px; color: var(--encre-3); }
+.barre-piste { position: relative; height: 22px; border-radius: var(--rayon-xs); background: repeating-linear-gradient(to right, var(--trait) 0 1px, transparent 1px 33.333%); background-color: var(--doux); }
+.barre-min { position: absolute; left: 0; top: 0; bottom: 0; border-radius: var(--rayon-xs); background: var(--encre); }
+.barre-ecart { position: absolute; top: 0; bottom: 0; background: var(--trait-2); border-radius: 0 var(--rayon-xs) var(--rayon-xs) 0; }
+.barre-val { display: grid; white-space: nowrap; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.barre-val small { font-size: 12px; font-weight: 500; color: var(--encre-3); }
+.barre-note { grid-column: 2 / -1; margin: 0; font-size: 14px; color: var(--encre-2); }
+@media (max-width: 720px) {
+  .echelle { margin-left: 0; margin-right: calc(100px + var(--espace-3)); }
+  .barre-ligne { grid-template-columns: minmax(0, 1fr) 100px; gap: var(--espace-2) var(--espace-3); }
+  .barre-nom { grid-column: 1 / -1; }
+  .barre-note { grid-column: 1 / -1; }
+  .barre-val { font-size: 15px; }
+  .barre-val small { white-space: normal; }
+}
+
+/* la forme de la demande : une seule bande à l’échelle */
+.sous-titre { margin: var(--espace-8) 0 var(--espace-4); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+.formes { display: flex; gap: 4px; min-width: 0; }
+.forme-part { display: grid; gap: 2px; align-content: start; min-width: 0; padding: var(--espace-3); border-radius: var(--rayon-md); background: var(--encre); color: var(--blanc); }
+.forme-part:nth-child(2) { background: var(--dock); }
+.forme-part:nth-child(3) { background: var(--papier); color: var(--encre); }
+.forme-part b { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.forme-part span { font-size: 16px; font-weight: 600; }
+.forme-part small { font-size: 13px; opacity: .8; overflow-wrap: anywhere; }
+@media (max-width: 560px) { .formes { flex-direction: column; } .forme-part { flex: none !important; } }
+
+/* les chiffres repères */
+.tuiles { list-style: none; margin: var(--espace-5) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: var(--espace-4); }
+.tuiles li { display: grid; gap: var(--espace-2); align-content: start; padding: var(--espace-5); border-radius: 16px; background: var(--carte); border: 1px solid var(--trait); }
+.tuiles b { font-size: 44px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.tuiles p { margin: 0; font-size: 17px; line-height: 1.45; color: var(--encre-2); }
+.tuiles small { font-size: 13px; color: var(--encre-3); }
+
+/* l’ordre inversé */
+.etapes.inverse li span { margin: 0 0 4px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blanc-3); }
+.etapes.inverse li p { margin: 6px 0 0; font-size: 16px; line-height: 1.5; color: var(--blanc-2); }
+#ordre-inverse > .chapeau:last-child { margin-top: var(--espace-7); }
+
+/* les sources */
+.sources { padding-inline: var(--marge); }
+.liste-sources { list-style: none; margin: var(--espace-5) 0 0; padding: 0; display: grid; gap: 0; max-width: 980px; }
+.liste-sources li { display: grid; gap: 4px; padding: var(--espace-3) 0; border-top: 1px solid var(--trait); }
+.liste-sources a { font-size: 17px; font-weight: 600; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.liste-sources span { font-size: 14px; color: var(--encre-3); }
