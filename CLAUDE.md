@@ -24,7 +24,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 | Chemin | Ce que c’est |
 | --- | --- |
-| `index.html` | L’accueil : le Cube au centre (`js/cube.js`), « MATT MEZ » derrière lui et grossi par le verre (la loupe), puis une section par face du Cube : Chronologie, Composition, Archives, Relations, Modules, Écosystème, chacune avec ses entrées. Pas de boutons : le dock du bas porte les six faces (survol = le Cube tourne, clic = la section) ; le patron (le Cube déplié) dit où l’on est |
+| `index.html` | L’accueil, une seule page : le Récit du Cube (`js/recit.js`). Le Cube reste au centre de l’écran et le récit défile par-dessus, dans l’ordre du temps : Archives (Saint-Luc), Chronologie 1999 – 2025, chaque époque de 2025 – 2026 et Demain, Composition, Relations, Modules, Écosystème. À chaque station, le Cube tourne vers sa face et remplit ses cases mosaïques avec les fragments de la station ; la carte de la station dit la même chose en texte. Derrière, la projection (grand visuel, grand titre blanc). Au début, « MATT MEZ » derrière le Cube, grossi par le verre (la loupe). À la fin, le Cube se déplie en croix et devient la grille des blocs (`data/achevement.js`). Le dock du bas porte les lieux du récit |
 | `chronologie.html` | La Chronologie : le hero, 1999 – 2025, les époques 2025 – 2026, la conclusion |
 | `composition.html` | La Composition (Métamorphose) : l’arbre, la grille, les modules, les relations, les fusions, les recettes |
 | `cube.html` · `data/cube.js` · `js/cube-saint-luc.js` · `css/cube-saint-luc.css` | Le Cube de Saint-Luc (maquette) : cinq faces en grilles mosaïques, la sixième ouverte sur la chronologie intérieure, une seule mémoire de fragments (chaque fragment posé au plus une fois ; la rotation ne touche jamais aux données), le Cube à plat sans 3D. Les noms des faces sont une hypothèse (`data/cube.js`) |
@@ -53,7 +53,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `js/chronologie.js` | L’affichage de la chronologie : sept modèles (papier, magazine, téléviseur, archive, duo, lacune, bandeau), l’axe des relations |
 | `js/admin.js` · `js/coffre.js` | L’éditeur, et le coffre local des images (IndexedDB) |
 | `js/theme.js` · `css/nuit.css` | Jour, Nuit, Auto |
-| `js/cube.js` · `js/accueil.js` · `css/accueil.css` | Le Cube (vraie 3D CSS, saisi partout dans la scène, toucher, clavier ; une face touchée descend vers sa section), la loupe (enveloppe des sommets projetés → `clip-path`), les repères (dock, patron) et l’accueil |
+| `js/recit.js` · `css/recit.css` | Le Récit du Cube : les stations (construites depuis les données), le Cube en vraie 3D CSS mené par le défilement et saisissable (il revient à sa place), les mosaïques (une tuile peut couvrir plusieurs cases), la projection, la loupe (enveloppe des sommets projetés → `clip-path`), le dépliage en croix, la grille des blocs |
 | `docs/ADMINISTRATION.md` | Ce qui existe, ce qui manque, et la proposition de vraie administration (serveur, authentification, LIFEBOOK) |
 | `js/moteur.js` | Le moteur : `analyser(texte)` est une fonction pure, l’affichage vient après |
 | `js/traducteur.js` · `data/traduction.js` | Le « + » de la Composition : `traduire(analyse)` (pure) propose des fragments et des modules à partir de la lecture du moteur ; après confirmation, `ATLAS.grille.poser()` les pose, reliés. Une composition structurée, rien n’est exécuté (`docs/TRADUCTEUR.md`) |
@@ -64,7 +64,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 - **La chronologie 1999 – 2025** : par l’éditeur (`administration.html`), puis « Publier », et le fichier exporté remplace `data/chronologie.js`. Une date non documentée reste « à vérifier » ; une relation porte toujours sa justification ; une archive privée ne sort jamais de l’éditeur.
 - **Un nouveau moment** : une entrée dans le chapitre voulu de `data/histoire.js`, avec sa source.
-- **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas.
+- **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas de la chronologie, et comme une station du Récit sur l’accueil.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
 - **Une nouvelle application Base44** : une ligne de plus dans `data/applications.js`, avec sa date de création et sa famille.
 - **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
