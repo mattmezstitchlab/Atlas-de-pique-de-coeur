@@ -5,7 +5,10 @@
        le Temps (Chronologie ↔ Archives), la Structure (Composition ↔ Relations), l’Usage (Modules ↔ Écosystème).
    - L’orbe, au centre, ne navigue pas (ce n’est pas le Disque) : elle marque le centre, porte les trois axes,
      et relie la case choisie à ce qui la touche réellement (des fils de lumière vers les autres faces). La toucher ramène au centre.
-   - Le panneau à côté dit la même chose en texte : c’est aussi la vue sans 3D. */
+   - Le panneau à côté dit la même chose en texte : c’est aussi la vue sans 3D.
+   - La projection : derrière le Cube, le fond projette la face en regard (son grand visuel, son grand titre blanc) et fait défiler
+     ses fragments ; une case choisie est projetée depuis l’orbe (son visuel s’il existe, sinon sa fiche : date, preuve, texte).
+     Les projections précédentes restent en fantômes : le Cube projette ce qu’il a importé. */
 (function () {
   var A = window.ATLAS, C = A.chronologie, H = A.histoire;
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
@@ -17,19 +20,32 @@
   function item(id, o) { o.id = id; items[id] = o; liens[id] = liens[id] || {}; return o; }
   function relier(a, b) { if (!items[a] || !items[b] || a === b) return; liens[a][b] = 1; liens[b][a] = 1; }
   var annee = function (e) { return String(e.dateStart || '').slice(0, 4); };
+  /* les visuels réels : par id, ou le premier de la famille (data/visuels.js) */
+  var VIS = {}, VFAM = {}; (A.visuels || []).forEach(function (v) { VIS[v.id] = v; if (!VFAM[v.famille]) VFAM[v.famille] = v; });
+  var PREUVE = { document: 'établi par document', declare: 'déclaré par l’auteur', 'a-verifier': 'à vérifier' };
   var entreeDe = {};
   var chrono = C.entrees.map(function (e) {
     (e.archiveIds || []).forEach(function (a) { entreeDe[a] = e.id; });
-    return item('e:' + e.id, { court: annee(e), titre: e.title, sous: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), href: 'chronologie.html#' + e.id });
-  }).concat(H.chapitres.map(function (c) { return item('c:' + c.id, { court: c.id.slice(0, 3), titre: c.titre, sous: 'Époque ' + c.id + ' · 2025 – 2026', href: 'chronologie.html#' + c.id }); }));
-  var archives = C.archives.map(function (a) { return item('a:' + a.id, { court: String(a.originalDate || '').slice(0, 4), titre: a.title, sous: (a.originalDate || 'date à vérifier') + (a.attente ? ' · à déposer' : ''), href: 'chronologie.html#' + (entreeDe[a.id] || 'avant') }); });
+    var yt = /[?&]v=([\w-]{6,})/.exec(e.video || '');
+    return item('e:' + e.id, { court: annee(e), titre: e.title, sous: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), href: 'chronologie.html#' + e.id,
+      date: annee(e) + (e.dateEnd && e.dateEnd !== e.dateStart ? ' – ' + e.dateEnd : ''), img: yt ? { src: 'https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg', alt: 'Image du clip ' + e.title } : null,
+      texte: e.narrative, fiche: [['Preuve', PREUVE[e.evidenceStatus] || e.evidenceStatus], ['Personnes', (e.people || []).map(function (p) { return p.nom || p.name || p; }).join(', ')], ['Archives', (e.archiveIds || []).length || '']] });
+  }).concat(H.chapitres.map(function (c) { var v = VIS[c.bandeau]; return item('c:' + c.id, { court: c.id.slice(0, 3), titre: c.titre, sous: 'Époque ' + c.id + ' · 2025 – 2026', href: 'chronologie.html#' + c.id,
+    date: c.date, img: v ? { src: v.src, alt: v.alt } : null, texte: c.chapeau, fiche: [['Moments', (c.moments || []).length || '']] }); }));
+  var archives = C.archives.map(function (a) { return item('a:' + a.id, { court: String(a.originalDate || '').slice(0, 4), titre: a.title, sous: (a.originalDate || 'date à vérifier') + (a.attente ? ' · à déposer' : ''), href: 'chronologie.html#' + (entreeDe[a.id] || 'avant'),
+    date: a.originalDate || 'à vérifier', fiche: [['Nature', a.mediaType], ['Auteur', a.author], ['Source', a.source], ['État', a.attente ? 'à déposer : la pièce n’est pas encore numérisée' : 'publiée']] }); });
   var NATURE = { devenu: 'devenu', eclaire: 'éclaire', suite: 'suite' };
   var relations = C.relations.map(function (r, i) {
-    return item('r:' + i, { court: NATURE[r.nature] || r.nature, titre: (r.justification || '').split(' : ')[0] || r.nature, sous: 'Relation « ' + (NATURE[r.nature] || r.nature) + ' » · ' + r.de.replace(/^e-/, '') + ' → ' + r.vers.replace(/^(chapitre|page):/, ''), href: 'chronologie.html#' + r.de, rel: r });
+    return item('r:' + i, { court: NATURE[r.nature] || r.nature, titre: (r.justification || '').split(' : ')[0] || r.nature, sous: 'Relation « ' + (NATURE[r.nature] || r.nature) + ' » · ' + r.de.replace(/^e-/, '') + ' → ' + r.vers.replace(/^(chapitre|page):/, ''), href: 'chronologie.html#' + r.de, rel: r,
+      date: 'Relation', texte: r.justification, fiche: [['De', r.de.replace(/^e-/, '')], ['Vers', r.vers.replace(/^(chapitre|page):/, '')], ['Nature', NATURE[r.nature] || r.nature]] });
   });
-  var familles = A.familles.map(function (f) { return item('f:' + f.id, { court: f.nom.split(/[ ,]/)[0], titre: f.nom, sous: 'Famille · ' + A.applications.filter(function (a) { return a[2] === f.id; }).length + ' applications', href: 'composition.html#atelier' }); });
-  var modules = A.modules.map(function (m) { return item('m:' + m.id, { court: m.titre, titre: m.titre, sous: 'Module · ' + (m.capacites.length ? m.capacites.length + ' capacités de l’atlas' : 'né des noms répétés'), href: 'composition.html#atelier', famille: m.famille }); });
-  var projets = A.projets.map(function (p, i) { return item('p:' + i, { court: p.titre.split(/[ —,]/)[0], titre: p.titre, sous: p.etat + (p.annee ? ' · ' + p.annee : ''), href: 'ecosysteme.html', etat: p.etat }); });
+  var familles = A.familles.map(function (f) { var n = A.applications.filter(function (a) { return a[2] === f.id; }), v = VFAM[f.id];
+    return item('f:' + f.id, { court: f.nom.split(/[ ,]/)[0], titre: f.nom, sous: 'Famille · ' + n.length + ' applications', href: 'composition.html#atelier',
+      date: n.length ? n[0][0].slice(0, 7).replace('-', ' · ') + ' → ' + n[n.length - 1][0].slice(0, 7).replace('-', ' · ') : '', img: v ? { src: v.src, alt: v.alt } : null, fiche: [['Applications', n.length], ['Première', n.length ? n[0][1] : '']] }); });
+  var modules = A.modules.map(function (m) { var v = VFAM[m.famille]; return item('m:' + m.id, { court: m.titre, titre: m.titre, sous: 'Module · ' + (m.capacites.length ? m.capacites.length + ' capacités de l’atlas' : 'né des noms répétés'), href: 'composition.html#atelier', famille: m.famille,
+    date: 'Module', img: v ? { src: v.src, alt: v.alt } : null, texte: m.role, fiche: [['Capacités', m.capacites.join(', ')]] }); });
+  var projets = A.projets.map(function (p, i) { return item('p:' + i, { court: p.titre.split(/[ —,]/)[0], titre: p.titre, sous: p.etat + (p.annee ? ' · ' + p.annee : ''), href: 'ecosysteme.html', etat: p.etat,
+    date: p.annee, texte: p.description, fiche: [['État', p.etat], ['Catégorie', p.categorie], ['Fonctions', (p.fonctions || []).join(', ')]] }); });
 
   C.entrees.forEach(function (e) { (e.archiveIds || []).forEach(function (a) { relier('e:' + e.id, 'a:' + a); }); (e.relatedEntryIds || []).forEach(function (o) { relier('e:' + e.id, 'e:' + o); }); });
   C.relations.forEach(function (r, i) {
@@ -41,16 +57,53 @@
 
   /* ---------- les six faces : mêmes noms, mêmes places que l’accueil ---------- */
   var FACES = [
-    { id: 'avant', mot: 'Chronologie', sous: 'Explorer les recherches', axe: 'temps', liste: chrono, rx: 0, ry: 0 },
-    { id: 'droite', mot: 'Composition', sous: 'Créer avec les blocs', axe: 'structure', liste: familles, rx: 0, ry: -90 },
-    { id: 'arriere', mot: 'Archives', sous: 'Saint-Luc, 1999 – 2005', axe: 'temps', liste: archives, rx: 0, ry: -180 },
-    { id: 'gauche', mot: 'Relations', sous: 'Du cube à la grille', axe: 'structure', liste: relations, rx: 0, ry: -270 },
-    { id: 'haut', mot: 'Modules', sous: 'Timeline, Agenda, Facture…', axe: 'usage', liste: modules, rx: -90, ry: 0 },
-    { id: 'bas', mot: 'Écosystème', sous: 'Les projets et leur état', axe: 'usage', liste: projets, rx: 90, ry: 0 }
+    { id: 'avant', mot: 'Chronologie', sous: 'Explorer les recherches', axe: 'temps', liste: chrono, rx: 0, ry: 0, visuel: 'piscine' },
+    { id: 'droite', mot: 'Composition', sous: 'Créer avec les blocs', axe: 'structure', liste: familles, rx: 0, ry: -90, visuel: 'grille-roses' },
+    { id: 'arriere', mot: 'Archives', sous: 'Saint-Luc, 1999 – 2005', axe: 'temps', liste: archives, rx: 0, ry: -180, visuel: 'wagon' },
+    { id: 'gauche', mot: 'Relations', sous: 'Du cube à la grille', axe: 'structure', liste: relations, rx: 0, ry: -270, visuel: 'fils' },
+    { id: 'haut', mot: 'Modules', sous: 'Timeline, Agenda, Facture…', axe: 'usage', liste: modules, rx: -90, ry: 0, visuel: 'saxophoniste' },
+    { id: 'bas', mot: 'Écosystème', sous: 'Les projets et leur état', axe: 'usage', liste: projets, rx: 90, ry: 0, visuel: 'sculpture' }
   ];
-  var AXES = { temps: { nom: 'le Temps', dit: 'ce qui s’est passé, et ses preuves' }, structure: { nom: 'la Structure', dit: 'ce que l’on compose, et ce qui le relie' }, usage: { nom: 'l’Usage', dit: 'les outils, et les projets qui s’en servent' } };
+  var AXES = { temps: { nom: 'du Temps', dit: 'ce qui s’est passé, et ses preuves' }, structure: { nom: 'de la Structure', dit: 'ce que l’on compose, et ce qui le relie' }, usage: { nom: 'de l’Usage', dit: 'les outils, et les projets qui s’en servent' } };
   var OPPOSEE = { avant: 'arriere', arriere: 'avant', droite: 'gauche', gauche: 'droite', haut: 'bas', bas: 'haut' };
   var PAR_ID = {}; FACES.forEach(function (f) { PAR_ID[f.id] = f; f.liste.forEach(function (it) { it.face = f.id; }); });
+
+  /* ---------- la projection : derrière le Cube ---------- */
+  var proj = document.getElementById('vc-projection'), defile = document.getElementById('vc-defile'), zoneScene = document.querySelector('.vc-scene-zone');
+  var derniere = '', minuterie = 0;
+  function projeter(cle, c) {
+    if (!proj || cle === derniere) return; derniere = cle;
+    var o = document.getElementById('vc-orbe').getBoundingClientRect(), z = zoneScene.getBoundingClientRect();
+    var couche = document.createElement('div');
+    couche.className = 'vc-proj' + (c.img ? ' avec-image' : ' en-texte');
+    couche.style.setProperty('--ox', (o.left + o.width / 2 - z.left).toFixed(0) + 'px'); couche.style.setProperty('--oy', (o.top + o.height / 2 - z.top).toFixed(0) + 'px');
+    var fiche = (c.fiche || []).filter(function (l) { return l[1] !== '' && l[1] !== undefined && l[1] !== null; });
+    couche.innerHTML = (c.img ? '<img src="' + esc(c.img.src) + '" alt="" onerror="this.parentNode.classList.replace(\'avec-image\',\'en-texte\');this.remove()">' : '') +
+      (c.date && !c.img ? '<p class="vc-proj-geant">' + esc(c.date) + '</p>' : '') +
+      '<div class="vc-proj-texte"><p class="vc-proj-sur">' + esc(c.sur) + '</p>' + (c.date ? '<p class="vc-proj-date">' + esc(c.date) + '</p>' : '') + '<p class="vc-proj-titre">' + fr(c.titre) + '</p>' +
+      (fiche.length ? '<dl class="vc-proj-fiche">' + fiche.map(function (l) { return '<div><dt>' + esc(l[0]) + '</dt><dd>' + fr(l[1]) + '</dd></div>'; }).join('') + '</dl>' : '') +
+      (c.texte ? '<p class="vc-proj-recit">' + fr(c.texte) + '</p>' : '') + '</div>';
+    proj.appendChild(couche);
+    var couches = proj.querySelectorAll('.vc-proj'), n = couches.length;
+    Array.prototype.forEach.call(couches, function (el, i) { var age = n - 1 - i; el.classList.toggle('fantome-1', age === 1); el.classList.toggle('fantome-2', age === 2); if (age > 2) el.remove(); });
+  }
+  function projeterFace(f) {
+    clearTimeout(minuterie);
+    minuterie = setTimeout(function () {
+      if (choisi || !f) return;
+      var v = (A.visuels || []).filter(function (x) { return x.id === f.visuel; })[0], ax = AXES[f.axe];
+      projeter('face:' + f.id, { sur: 'Face · ' + f.sous, titre: f.mot, date: f.liste.length + ' fragment' + (f.liste.length > 1 ? 's' : ''), img: v ? { src: v.src, alt: v.alt } : null,
+        texte: 'Sur l’axe ' + ax.nom + ' : ' + ax.dit + '.' });
+      if (defile) {
+        var bande = f.liste.map(function (it) { return '<span><b>' + esc(it.date || it.court) + '</b> ' + esc(it.titre) + '</span>'; }).join('');
+        defile.innerHTML = '<div class="vc-defile-piste">' + bande + bande + '</div>';
+      }
+    }, 280);
+  }
+  function projeterItem(id) {
+    var it = items[id];
+    projeter('item:' + id, { sur: PAR_ID[it.face].mot + ' · ' + it.sous, titre: it.titre, date: it.date, img: it.img, fiche: it.fiche, texte: it.texte });
+  }
 
   var scene = document.getElementById('vc-scene'), cube = document.getElementById('vc-cube'), etat = document.getElementById('vc-etat'), panneau = document.getElementById('vc-panneau');
   var dock = Array.prototype.slice.call(document.querySelectorAll('#dock .lieu[data-face]'));
@@ -111,7 +164,7 @@
     orbe.style.transform = 'rotateY(' + (-ry).toFixed(2) + 'deg) rotateX(' + (-rx).toFixed(2) + 'deg)';   /* l’orbe nous fait toujours face : une sphère */
     Array.prototype.forEach.call(cube.querySelectorAll('.vc-face'), function (el) { el.classList.toggle('de-dos', tourner(NORMALES[el.getAttribute('data-face')])[2] < -0.05); });
     var f = visible();
-    if (f !== actuelle) { actuelle = f; rendrePanneau(); dock.forEach(function (b) { b.classList.toggle('en-face', b.getAttribute('data-face') === f.id); }); cube.setAttribute('data-axe', f.axe); }
+    if (f !== actuelle) { actuelle = f; rendrePanneau(); projeterFace(f); dock.forEach(function (b) { b.classList.toggle('en-face', b.getAttribute('data-face') === f.id); }); cube.setAttribute('data-axe', f.axe); }
   }
   function boucle(t) {
     var dt = Math.min(48, t - (dernier || t)); dernier = t;
@@ -151,6 +204,7 @@
     }).join('') : '';
     if (choisi) { var it = items[choisi], n = Object.keys(liens[choisi]).length; etat.textContent = it.titre + (n ? ' · relié à ' + n + ' fragment' + (n > 1 ? 's' : '') : ' · aucune relation enregistrée'); }
     else etat.textContent = '';
+    if (choisi) projeterItem(choisi); else { derniere = ''; projeterFace(actuelle); }
     rendrePanneau();
   }
   function auCentre() { choisir(null); vers(DEPART); etat.textContent = 'Au centre : les trois axes, le Temps, la Structure, l’Usage.'; }
@@ -170,7 +224,7 @@
         '<p class="vc-actions"><a class="vc-ouvrir" href="' + esc(it.href) + '">Ouvrir dans ATLAS</a> <button type="button" class="vc-centre" data-centre>Revenir au centre</button></p></section>';
     }
     h += '<section class="vc-face-texte" aria-label="La face en regard"><p class="surtitre">Face en regard · ' + esc(f.sous) + '</p><h2>' + esc(f.mot) + '</h2>' +
-      '<p class="vc-axe-texte">Sur l’axe de ' + esc(ax.nom) + ' (' + esc(ax.dit) + '), en face de <button type="button" class="vc-lien" data-face="' + op.id + '">' + esc(op.mot) + '</button>.</p>' +
+      '<p class="vc-axe-texte">Sur l’axe ' + esc(ax.nom) + ' (' + esc(ax.dit) + '), en face de <button type="button" class="vc-lien" data-face="' + op.id + '">' + esc(op.mot) + '</button>.</p>' +
       '<ul class="vc-liste">' + f.liste.map(function (it) { return ligneItem(it.id); }).join('') + '</ul></section>';
     panneau.innerHTML = h;
   }

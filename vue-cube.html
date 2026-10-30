@@ -35,10 +35,12 @@
 
 <main class="vc">
   <section class="vc-scene-zone" aria-labelledby="vc-titre">
+    <div class="vc-projection" id="vc-projection" aria-hidden="true"></div>
+    <div class="vc-defile" id="vc-defile" aria-hidden="true"></div>
     <div class="vc-entete">
       <p class="surtitre">ATLAS · la vue Cube</p>
-      <h1 id="vc-titre" class="vc-titre">Le Cube, vu de l’intérieur</h1>
-      <p class="vc-aide">Glissez pour tourner. Touchez une case pour la choisir : l’orbe la relie à ce qui la touche. Touchez l’orbe pour revenir au centre.</p>
+      <h1 id="vc-titre" class="sr-only">Le Cube, vu de l’intérieur</h1>
+      <p class="vc-aide">Glissez pour tourner. Touchez une case : le fond la projette, l’orbe la relie à ce qui la touche. Touchez l’orbe pour revenir au centre.</p>
     </div>
     <div class="vc-scene" id="vc-scene" tabindex="0" role="group" aria-roledescription="cube à tourner" aria-label="Le Cube transparent. Flèches pour tourner ; la liste à côté donne le même contenu." aria-describedby="vc-etat">
       <div class="vc-cube" id="vc-cube"></div>
@@ -71,6 +73,7 @@
 </nav>
 
 <script src="data/applications.js"></script>
+<script src="data/visuels.js"></script>
 <script src="data/modules.js"></script>
 <script src="data/projets.js"></script>
 <script src="data/chronologie.js"></script>
