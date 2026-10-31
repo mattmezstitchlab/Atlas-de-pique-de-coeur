@@ -1,0 +1,26 @@
+# Les tests d’ATLAS, à chaque PR et sur main : les tests unitaires (node --test) et les pages ouvertes dans Chromium.
+name: Tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tests unitaires
+        run: node --test tests/*.test.mjs
+      - name: Installer Chromium (Playwright)
+        run: |
+          npm install --no-save --no-package-lock playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Les pages, comme un visiteur
+        run: |
+          node tests/serveur.mjs 8090 &
+          sleep 1
+          BASE=http://localhost:8090 node tests/e2e_pages.mjs
