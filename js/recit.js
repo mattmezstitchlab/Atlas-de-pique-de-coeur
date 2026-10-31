@@ -15,6 +15,9 @@
   var calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var VIS = {}, VFAM = {}; (A.visuels || []).forEach(function (v) { VIS[v.id] = v; if (!VFAM[v.famille]) VFAM[v.famille] = v; });
   var MOT = { avant: 'Chronologie', droite: 'Composition', arriere: 'Archives', gauche: 'Relations', haut: 'Modules', bas: 'Écosystème' };
+  /* chaque face du récit s’explore dans la vue Cube, à la même face : un seul Cube */
+  var ANCRE = { avant: 'chronologie', droite: 'composition', arriere: 'archives', gauche: 'relations', haut: 'modules', bas: 'ecosysteme' };
+  var explorer = function (face) { return 'vue-cube.html#' + ANCRE[face]; };
   var ORIENT = { avant: [0, 0], droite: [0, -90], arriere: [0, -180], gauche: [0, -270], haut: [-90, 0], bas: [90, 0] };
   /* les mosaïques : [x, y, largeur, hauteur] sur une grille n × n */
   var MOTIFS = {
@@ -80,7 +83,7 @@
     tuiles: A.familles.map(function (f) { var v = VFAM[f.id]; return { b: String(parFamille[f.id] || 0), s: f.nom, img: v && v.src, teinte: v ? '' : B.teinte(f.id), href: 'composition.html#atelier' }; }),
     carte: { sur: 'Créer avec les blocs', titre: 'Composition', texte: 'Un fragment : une idée, une application, une archive. Un bloc : les fragments d’une même famille. Une composition : les blocs reliés, sur la grille.',
       corps: chiffres([[A.applications.length, 'applications Base44'], [A.familles.length, 'familles, une case chacune'], [A.achevement.briques.length, 'briques sur la grille']]) +
-        liens([['La grille', 'composition.html'], ['Le +', 'composition.html#plus'], ['Le Cube de Saint-Luc (maquette)', 'cube.html']]) } });
+        liens([['La grille', 'composition.html'], ['Le +', 'composition.html#plus']]) } });
 
   /* les Relations : celles que la chronologie justifie, et les trois formes */
   var NATURE = { devenu: 'devenu', eclaire: 'éclaire', suite: 'suite' };
@@ -90,7 +93,7 @@
     carte: { sur: 'Du cube à la grille', titre: 'Relations', texte: 'Les archives racontent. Les fragments composent. Les relations transforment. La grille rassemble.',
       corps: liste(C.relations.map(function (r) { return [NATURE[r.nature] || r.nature, tete(r.justification), 'chronologie.html#' + r.de]; })) +
         '<blockquote>« Pendant vingt-cinq ans, j’ai créé des fragments. Aujourd’hui, j’ai trouvé comment les relier. »</blockquote>' +
-        liens([['Entrer dans le Cube', 'vue-cube.html'], ['Le carré · la grille', 'composition.html'], ['Le cercle · .0NE ↗', 'https://www.lemondeaime.com/studio/one/univers', 1]]) } });
+        liens([['Le carré · la grille', 'composition.html'], ['Le cercle · .0NE ↗', 'https://www.lemondeaime.com/studio/one/univers', 1]]) } });
 
   /* les Modules : neuf, une case chacun */
   S.push({ id: 'modules', face: 'haut', dock: 'modules', motif: 'neuf', proj: { img: (VIS.saxophoniste || {}).src, titre: 'Modules', sur: 'Timeline, Agenda, Facture…' },
@@ -119,7 +122,9 @@
     s.cote = s.deplie ? 'gauche' : i % 2 ? 'droite' : 'gauche';
     var sec = document.createElement('section');
     sec.className = 'station'; sec.id = s.id; sec.setAttribute('data-cote', s.cote); sec.setAttribute('aria-labelledby', 't-' + s.id);
-    s.carte.id = s.id; sec.innerHTML = carte(s.carte); fil.appendChild(sec); s.el = sec;
+    s.carte.id = s.id;
+    if (s.face) s.carte.corps += '<p class="explorer"><a href="' + explorer(s.face) + '">Explorer la face ' + esc(MOT[s.face]) + ' dans le Cube</a></p>';
+    sec.innerHTML = carte(s.carte); fil.appendChild(sec); s.el = sec;
     s.tuiles = (s.tuiles || []).filter(Boolean);
   });
   S.unshift({ id: 'intro', intro: true, el: document.getElementById('haut-de-page'), dock: '' });
@@ -236,7 +241,7 @@
     cube.classList.toggle('deplie', !!s.deplie);
     projeter(s);
     var f = s.face ? '<b>' + esc(MOT[s.face]) + '</b> · ' : '';
-    legende.innerHTML = s.intro ? '' : s.deplie ? '<b>Le Cube déplié</b> · six faces, une grille' : f + fr(s.carte.titre);
+    legende.innerHTML = s.intro ? '' : s.deplie ? '<b>Le Cube déplié</b> · six faces, une grille' : f + fr(s.carte.titre) + ' · <a href="' + explorer(s.face) + '" tabindex="-1">explorer</a>';
   }
   function dock(v) {
     var cible = plateau.getBoundingClientRect().top < vh * .5 ? 'grille' : (S[active] && S[active].dock) || '';

@@ -35,8 +35,8 @@ with sync_playwright() as pw:
         if 'adresses' in ETAPES:
             for p, titre in [('/', 'ATLAS'), ('/chronologie', 'Chronologie'), ('/composition', 'Métamorphose'), ('/cube', 'Cube'), ('/ecosysteme', ''), ('/moteur', ''), ('/administration', '')]:
                 r = pg.goto(url(p)); ok(r.status == 200, f'{N} {p} répond ({r.status})')
-            pg.goto(url('/metamorphose')); ok(pg.url.split('?')[0].endswith('/composition'), f'{N} /metamorphose → /composition')
-            pg.goto(url('/admin')); ok(pg.url.split('?')[0].endswith('/administration'), f'{N} /admin → /administration')
+            pg.goto(url('/metamorphose')); pg.wait_for_url(re.compile(r'/composition'), timeout=10000); ok(re.search(r'/composition(\.html)?$', pg.url.split('?')[0]) is not None, f'{N} /metamorphose → /composition')
+            pg.goto(url('/admin')); pg.wait_for_url(re.compile(r'/administration'), timeout=10000); ok(re.search(r'/administration(\.html)?$', pg.url.split('?')[0]) is not None, f'{N} /admin → /administration')
 
         if 'plus' in ETAPES or 'publication' in ETAPES:
             pg.goto(url('/composition')); pg.evaluate('localStorage.clear()'); pg.reload()
