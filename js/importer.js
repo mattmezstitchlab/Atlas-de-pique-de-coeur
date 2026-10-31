@@ -5,6 +5,9 @@
      Archives : vos fichiers ·  Relations : ce qui relie deux fichiers, avec sa raison
      Modules : ce que votre demande appelle (js/moteur.js → js/traducteur.js) ·  Écosystème : l’état, ce qui manque
    Rien n’est envoyé : tout est lu dans le navigateur. Les PDF passent par pdf.js (js/vendor/pdfjs, la version de l’atelier Point Zéro).
+   Les archives ZIP sont dépliées (jusqu’à deux niveaux) : chaque fichier devient un fragment, « contenu dans » son archive, avec la date
+   qu’il porte dans l’archive. Les traces de macOS (__MACOSX, .DS_Store) sont comptées, pas importées. Les doublons exacts sont reconnus
+   par leur empreinte SHA-256. Un dossier entier peut être déposé.
    L’export : un dossier web rangé (.zip), le PDF (par l’impression du navigateur), le manifeste (.json). */
 (function () {
   var A = window.ATLAS = window.ATLAS || {};
@@ -20,8 +23,13 @@
   /* ---------- lire un fichier, quel qu’il soit ---------- */
   var TYPES = { pdf: 'pdf', png: 'image', jpg: 'image', jpeg: 'image', webp: 'image', gif: 'image', svg: 'image', avif: 'image',
     txt: 'texte', md: 'texte', markdown: 'texte', csv: 'tableau', tsv: 'tableau', json: 'json', html: 'html', htm: 'html',
-    mp3: 'audio', wav: 'audio', m4a: 'audio', ogg: 'audio', mp4: 'video', mov: 'video', webm: 'video' };
-  var NOM_TYPE = { pdf: 'PDF', image: 'Image', texte: 'Texte', tableau: 'Tableau', json: 'Données', html: 'Page web', audio: 'Son', video: 'Vidéo', autre: 'Autre format' };
+    mp3: 'audio', wav: 'audio', m4a: 'audio', ogg: 'audio', mp4: 'video', mov: 'video', webm: 'video', zip: 'archive', dst: 'broderie', pes: 'broderie' };
+  /* le code et la configuration se lisent comme du texte (jamais exécutés) */
+  'js jsx ts tsx mjs cjs mts css scss sass less vue svelte astro py rb php java kt swift go rs c h cpp sh sql yml yaml toml ini xml jsonc patch diff log env example gitignore rtf tex srt vtt'.split(' ').forEach(function (x) { TYPES[x] = TYPES[x] || 'texte'; });
+  /* des noms trop communs pour relier deux projets à eux seuls */
+  var CODE = /\.(js|jsx|ts|tsx|mjs|cjs|mts|css|scss|sass|less|vue|svelte|astro|py|rb|php|java|kt|swift|go|rs|c|h|cpp|sh|sql|jsonc|patch|diff|lock)$/i;
+  var GENERIQUES = ('readme index main app style styles package package-lock config vite.config tsconfig utils types constants license changelog favicon logo robots manifest home page layout router routes store api test setup').split(' ');
+  var NOM_TYPE = { pdf: 'PDF', image: 'Image', texte: 'Texte', tableau: 'Tableau', json: 'Données', html: 'Page web', audio: 'Son', video: 'Vidéo', archive: 'Archive ZIP', broderie: 'Broderie machine', autre: 'Autre format' };
   var CITE = /[\w\-.]+\.(?:pdf|png|jpe?g|webp|gif|svg|csv|tsv|txt|md|html?|json|mp3|wav|m4a|mp4|mov|webm|docx?|xlsx?|pptx?|zip)\b/gi;
 
   function dates(texte) {
@@ -75,15 +83,18 @@
   function lire(f, i) {
     var ext = (f.name.split('.').pop() || '').toLowerCase(), type = f.name.indexOf('.') === -1 ? 'autre' : (TYPES[ext] || 'autre');
     var d = { id: 'f' + i, nom: f.name, base: f.name.replace(/\.[^.]+$/, ''), ext: ext, type: type, taille: f.size, modifie: f.lastModified, fichier: f,
-      url: URL.createObjectURL(f), texte: '', alertes: [], cite: [], pages: 0 };
+      url: URL.createObjectURL(f), texte: '', alertes: [], cite: [], pages: 0, chemin: f.chemin || f.webkitRelativePath || f.name, archive: f.archive || '', dateArchive: f.dateArchive || '', empreinte: f.empreinte || '' };
+    if (f.deplie) d.alertes = d.alertes.concat(f.deplie);
     if (!f.size) d.alertes.push('Le fichier est vide.');
     var fin = function () {
-      d.cite = ((d.texte || '') + ' ' + (d.refs || []).join(' ')).match(CITE) || []; d.cite = d.cite.map(function (x) { return x.split('/').pop(); }).filter(function (x, k, t) { return t.indexOf(x) === k && x !== d.nom; });
+      /* le code cite des noms de fichiers à tout moment (variables, exemples) : on ne les compte pas comme des citations */
+      d.cite = CODE.test(d.nom) ? [] : ((d.texte || '') + ' ' + (d.refs || []).join(' ')).match(CITE) || []; d.cite = d.cite.map(function (x) { return x.split('/').pop(); }).filter(function (x, k, t) { return t.indexOf(x) === k && x !== d.nom; });
       d.dates = dates(d.texte + ' ' + d.nom); d.mots = mots(d.texte + ' ' + d.base.replace(/[-_]/g, ' '));
       return d;
     };
     if (type === 'image') return new Promise(function (ok) { var im = new Image(); im.onload = function () { d.format = im.naturalWidth + ' × ' + im.naturalHeight + ' px'; d.apercu = d.url; ok(fin()); }; im.onerror = function () { d.alertes.push('L’image n’a pas pu être affichée.'); ok(fin()); }; im.src = d.url; });
     if (type === 'pdf') return f.arrayBuffer().then(function (b) { return lirePdf(d, b); }).then(fin);
+    if (type === 'broderie') return f.arrayBuffer().then(function (b) { lireBroderie(d, new Uint8Array(b)); return fin(); });
     if (type === 'texte' || type === 'tableau' || type === 'json' || type === 'html') return f.text().then(function (t) {
       if (type === 'html') {
         var doc = new DOMParser().parseFromString(t.replace(/<\/(h\d|p|div|li|td|th|tr|section|article|header|footer|title)>|<br\s*\/?>/gi, '$& '), 'text/html');   /* un espace entre les blocs : sinon les mots se collent */
@@ -100,36 +111,206 @@
       if (/�/.test(t)) d.alertes.push('Certains caractères ne sont pas dans l’encodage attendu (UTF-8) : ils sont remplacés par �.');
       return fin();
     });
-    if (type === 'audio' || type === 'video') return Promise.resolve(fin());
+    if (type === 'audio' || type === 'video' || type === 'archive') return Promise.resolve(fin());
     d.alertes.push('Format « .' + ext + ' » non lu ici : il est gardé tel quel, et rangé dans l’export.');
     return Promise.resolve(fin());
+  }
+
+  /* ---------- les archives : un ZIP se déplie, sans bibliothèque (le navigateur sait décompresser : DecompressionStream) ---------- */
+  var LIMITES = { entrees: 3000, octets: 400 * 1048576, ratio: 200, profondeur: 2 };
+  var estZip = function (u8) { return u8.length > 3 && u8[0] === 0x50 && u8[1] === 0x4b && u8[2] === 0x03 && u8[3] === 0x04; };
+  function nomZip(u8, utf8) {
+    try { return new TextDecoder('utf-8', { fatal: true }).decode(u8); } catch (e) { return new TextDecoder(utf8 ? 'utf-8' : 'windows-1252').decode(u8); }
+  }
+  /* un chemin sûr : ni racine, ni « .. » (pas de « zip slip ») */
+  var cheminSur = function (n) { return n.replace(/\\/g, '/').split('/').filter(function (x) { return x && x !== '.' && x !== '..'; }).join('/'); };
+  function dateDos(jour, heure) {
+    var a = 1980 + (jour >> 9), m = (jour >> 5) & 15, j = jour & 31;
+    if (a <= 1980 || m < 1 || m > 12 || j < 1) return null;   /* 1980 : la date par défaut d’un outil qui a effacé la vraie date */
+    return new Date(a, m - 1, j, heure >> 11, (heure >> 5) & 63, (heure & 31) * 2);
+  }
+  function inflate(octets) {
+    if (typeof DecompressionStream === 'undefined') return Promise.reject(new Error('ce navigateur ne sait pas décompresser'));
+    return new Response(new Blob([octets]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer();
+  }
+  function deplier(f, profondeur) {
+    return f.arrayBuffer().then(function (buf) {
+      var u8 = new Uint8Array(buf), v = new DataView(buf), r = { fichiers: [], caches: 0, chiffres: 0, ignores: [], total: 0, commentaire: '' };
+      var fin = -1; for (var k = u8.length - 22; k >= Math.max(0, u8.length - 65557); k--) if (v.getUint32(k, true) === 0x06054b50) { fin = k; break; }
+      if (fin < 0) { r.erreur = 'le répertoire de l’archive est introuvable : elle est peut-être tronquée'; return r; }
+      var n = v.getUint16(fin + 10, true), pos = v.getUint32(fin + 16, true), lc = v.getUint16(fin + 20, true);
+      if (lc) r.commentaire = nomZip(u8.subarray(fin + 22, fin + 22 + lc), true).trim();
+      if (pos === 0xffffffff || n === 0xffff) { r.erreur = 'archive ZIP64 (très grande) : pas encore dépliée ici'; return r; }
+      var taches = [];
+      for (var i = 0; i < n && pos + 46 <= u8.length; i++) {
+        if (v.getUint32(pos, true) !== 0x02014b50) { r.erreur = 'le répertoire de l’archive est abîmé après ' + i + ' entrées'; break; }
+        var drapeaux = v.getUint16(pos + 8, true), methode = v.getUint16(pos + 10, true), heure = v.getUint16(pos + 12, true), jour = v.getUint16(pos + 14, true);
+        var comp = v.getUint32(pos + 20, true), brut = v.getUint32(pos + 24, true), ln = v.getUint16(pos + 28, true), le = v.getUint16(pos + 30, true), lk = v.getUint16(pos + 32, true), local = v.getUint32(pos + 42, true);
+        var brutNom = nomZip(u8.subarray(pos + 46, pos + 46 + ln), drapeaux & 0x800), nom = cheminSur(brutNom);
+        pos += 46 + ln + le + lk;
+        if (!nom || /[\/\\]$/.test(brutNom)) continue;   /* un dossier */
+        var base = nom.split('/').pop();
+        if (/(^|\/)__MACOSX\//.test(nom) || base.charAt(0) === '.') { r.caches++; continue; }
+        if (drapeaux & 1) { r.chiffres++; r.ignores.push(nom + ' (chiffré : il faut son mot de passe)'); continue; }
+        if (r.fichiers.length + taches.length >= LIMITES.entrees) { r.ignores.push('au-delà de ' + LIMITES.entrees + ' fichiers : le reste n’est pas déplié'); break; }
+        if (comp && brut / comp > LIMITES.ratio) { r.ignores.push(nom + ' (compression anormale : refusé par prudence)'); continue; }
+        r.total += brut;
+        if (r.total > LIMITES.octets) { r.ignores.push('au-delà de ' + poids(LIMITES.octets) + ' dépliés : le reste n’est pas déplié'); break; }
+        if (v.getUint32(local, true) !== 0x04034b50) { r.ignores.push(nom + ' (entrée abîmée)'); continue; }
+        var debut = local + 30 + v.getUint16(local + 26, true) + v.getUint16(local + 28, true), donnees = u8.subarray(debut, debut + comp);
+        taches.push((function (nom, base, methode, donnees, date) {
+          var p = methode === 0 ? Promise.resolve(donnees) : methode === 8 ? inflate(donnees) : Promise.reject(new Error('méthode de compression ' + methode + ' non lue'));
+          return p.then(function (o) {
+            var g = new File([o], base, { lastModified: date ? date.getTime() : f.lastModified });
+            g.chemin = (f.chemin || f.name) + '/' + nom; g.archive = f.chemin || f.name;
+            if (date) g.dateArchive = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            return g;
+          }, function (e) { r.ignores.push(nom + ' (' + e.message + ')'); return null; });
+        })(nom, base, methode, donnees, dateDos(jour, heure)));
+      }
+      return Promise.all(taches).then(function (fs) {
+        r.fichiers = fs.filter(Boolean);
+        /* une archive dans l’archive se déplie aussi, jusqu’à la profondeur permise */
+        return Promise.all(r.fichiers.map(function (g) {
+          if (!/\.zip$/i.test(g.name) || profondeur >= LIMITES.profondeur) return [g];
+          return deplier(g, profondeur + 1).then(function (s2) { g.deplie = resumeArchive(s2); r.caches += s2.caches; return [g].concat(s2.fichiers); });
+        })).then(function (l) { r.fichiers = [].concat.apply([], l); return r; });
+      });
+    });
+  }
+  function resumeArchive(r) {
+    var a = [];
+    if (r.erreur) a.push('Archive non dépliée : ' + r.erreur + '.');
+    else a.push('Archive dépliée : ' + r.fichiers.length + ' fichier' + (r.fichiers.length > 1 ? 's' : '') + ' (' + poids(r.total) + ').');
+    if (r.caches) a.push(r.caches + ' trace' + (r.caches > 1 ? 's' : '') + ' de macOS (__MACOSX, .DS_Store) comptée' + (r.caches > 1 ? 's' : '') + ', non importée' + (r.caches > 1 ? 's' : '') + ' : elles disent quand et par quel logiciel les fichiers ont été téléchargés.');
+    if (r.commentaire) a.push('Commentaire caché de l’archive : « ' + r.commentaire.slice(0, 160) + ' ».');
+    r.ignores.slice(0, 8).forEach(function (x) { a.push('Non déplié : ' + x + '.'); });
+    if (r.ignores.length > 8) a.push('Et ' + (r.ignores.length - 8) + ' autres entrées non dépliées.');
+    return a;
+  }
+  /* tout ce qui est déposé, archives dépliées */
+  function deplierTout(fs) {
+    return Promise.all(fs.map(function (f) {
+      return f.slice(0, 4).arrayBuffer().then(function (h) {
+        if (!estZip(new Uint8Array(h))) return [f];
+        return deplier(f, 1).then(function (r) { f.deplie = resumeArchive(r); return [f].concat(r.fichiers); }, function (e) { f.deplie = ['Archive non dépliée : ' + e.message + '.']; return [f]; });
+      });
+    })).then(function (l) { return [].concat.apply([], l); });
+  }
+  /* l’empreinte : deux fichiers aux octets identiques ont la même */
+  function empreintes(fs) {
+    if (!(window.crypto && crypto.subtle)) return Promise.resolve(fs);
+    return Promise.all(fs.map(function (f) {
+      if (f.size > 200 * 1048576) return f;
+      return f.arrayBuffer().then(function (b) { return crypto.subtle.digest('SHA-256', b); }).then(function (h) { f.empreinte = Array.prototype.map.call(new Uint8Array(h), function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); return f; });
+    }));
+  }
+
+  /* ---------- la broderie machine : Tajima .dst et Brother .pes, lus comme pyembroidery (MIT) les lit ----------
+     Un fichier de machine est une suite de déplacements (en dixièmes de millimètre) : des points, des sauts, des changements de fil.
+     On dessine le tracé tel que la machine le broderait, et on le compare à ce que le fichier annonce : un écart est dit. */
+  /* les 64 fils Brother du format PEC (pyembroidery, EmbThreadPec) */
+  var PEC = [null,'#0e1f7c','#0a55a3','#008777','#4b6baf','#ed171f','#d15c00','#913697','#e49acb','#915fac','#9ed67d','#e8a900','#feba35','#ffff00','#70bc1f','#ba9800','#a8a8a8','#7d6f00','#ffffb3','#4f5556','#000000','#0b3d91','#770176','#293133','#2a1301','#f64a8a','#b27624','#fcbbc5','#fe370f','#f0f0f0','#6a1c8a','#a8ddc4','#2584bb','#feb343','#fff36b','#d0a660','#d15400','#66ba49','#134a46','#878787','#d8ccc6','#435607','#fdd9de','#f993bc','#003822','#b2afd4','#686ab0','#efe3b9','#f73866','#b54b64','#132b1a','#c70156','#fe9e32','#a8deeb','#00673e','#4e2990','#2f7e20','#ffcccc','#ffd911','#095ba6','#f0f970','#e3f35b','#ff9900','#fff08d','#ffc8c8'];
+  var PEC_NOMS = '|Prussian Blue|Blue|Teal Green|Cornflower Blue|Red|Reddish Brown|Magenta|Light Lilac|Lilac|Mint Green|Deep Gold|Orange|Yellow|Lime Green|Brass|Silver|Russet Brown|Cream Brown|Pewter|Black|Ultramarine|Royal Purple|Dark Gray|Dark Brown|Deep Rose|Light Brown|Salmon Pink|Vermilion|White|Violet|Seacrest|Sky Blue|Pumpkin|Cream Yellow|Khaki|Clay Brown|Leaf Green|Peacock Blue|Gray|Warm Gray|Dark Olive|Flesh Pink|Pink|Deep Green|Lavender|Wisteria Violet|Beige|Carmine|Amber Red|Olive Green|Dark Fuchsia|Tangerine|Light Blue|Emerald Green|Purple|Moss Green|Flesh Pink|Harvest Gold|Electric Blue|Lemon Yellow|Fresh Green|Orange|Cream Yellow|Applique'.split('|');
+  var bit = function (v, n) { return (v >> n) & 1; };
+  function lireDst(u8) {
+    var ent = {}; new TextDecoder('windows-1252').decode(u8.subarray(0, 512)).split(/[\r\n]/).forEach(function (l) { var m = /^([A-Z+-]{2}):\s*(.*)$/.exec(l); if (m) ent[m[1]] = m[2].replace(/\x1a.*$/, '').trim(); });
+    var pts = [], x = 0, y = 0, fil = 0;
+    for (var i = 512; i + 2 < u8.length; i += 3) {
+      var a = u8[i], b = u8[i + 1], c = u8[i + 2];
+      if ((c & 0xF3) === 0xF3) break;
+      x += 81 * bit(c, 2) - 81 * bit(c, 3) + 27 * bit(b, 2) - 27 * bit(b, 3) + 9 * bit(a, 2) - 9 * bit(a, 3) + 3 * bit(b, 0) - 3 * bit(b, 1) + bit(a, 0) - bit(a, 1);
+      y -= 81 * bit(c, 5) - 81 * bit(c, 4) + 27 * bit(b, 5) - 27 * bit(b, 4) + 9 * bit(a, 5) - 9 * bit(a, 4) + 3 * bit(b, 7) - 3 * bit(b, 6) + bit(a, 7) - bit(a, 6);
+      if ((c & 0xC3) === 0xC3) { fil++; pts.push([x, y, 0, fil]); continue; }
+      pts.push([x, y, (c & 0x83) === 0x83 ? 0 : 1, fil]);
+    }
+    var n = function (k) { return ent[k] !== undefined && /^[+-]?\d+$/.test(ent[k]) ? Math.abs(parseInt(ent[k], 10)) : null; };
+    var annonce = n('+X') !== null && n('-X') !== null && n('+Y') !== null && n('-Y') !== null ? { l: n('+X') + n('-X'), h: n('+Y') + n('-Y'), points: n('ST'), fils: n('CO') !== null ? n('CO') + 1 : null } : null;
+    return { format: 'Tajima DST', nom: ent.LA || '', pts: pts, fils: fil + 1, couleurs: null, annonce: annonce };
+  }
+  function lirePes(u8) {
+    var v = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), txt = function (a, b) { return new TextDecoder('windows-1252').decode(u8.subarray(a, b)); };
+    if (txt(0, 4) !== '#PES') return null;
+    var p = v.getUint32(8, true); if (p + 532 > u8.length) return { erreur: 'la partie PEC est hors du fichier' };
+    var nom = txt(p + 3, p + 19).trim(), cc = u8[p + 48], idx = Array.prototype.slice.call(u8.subarray(p + 49, p + 49 + cc + 1));
+    var q = p + 49 + cc + 1 + 0x1D0 - cc + 3 + 0x0B, pts = [], x = 0, y = 0, fil = 0, s7 = function (b) { return b > 63 ? b - 128 : b; }, s12 = function (c) { c &= 0xFFF; return c > 0x7FF ? c - 0x1000 : c; };
+    while (q + 1 < u8.length) {
+      var v1 = u8[q++], v2 = u8[q++], saut = false, dx, dy;
+      if (v1 === 0xFF && v2 === 0x00) break;
+      if (v1 === 0xFE && v2 === 0xB0) { q++; fil++; continue; }
+      if (v1 & 0x80) { if (v1 & 0x30) saut = true; dx = s12((v1 << 8) | v2); v2 = u8[q++]; } else dx = s7(v1);
+      if (v2 & 0x80) { if (v2 & 0x30) saut = true; dy = s12((v2 << 8) | u8[q++]); } else dy = s7(v2);
+      x += dx; y += dy; pts.push([x, y, saut ? 0 : 1, fil]);
+    }
+    return { format: 'Brother PES ' + txt(4, 8), nom: nom, pts: pts, fils: fil + 1, couleurs: idx.map(function (k) { return { hex: PEC[k % PEC.length] || '#888888', nom: PEC_NOMS[k % PEC.length] || '' }; }), annoncesFils: cc + 1 };
+  }
+  function lireBroderie(d, u8) {
+    var r = d.ext === 'pes' ? lirePes(u8) : lireDst(u8);
+    if (!r || r.erreur) { d.alertes.push('Broderie illisible : ' + (r ? r.erreur : 'ce n’est pas un fichier PES') + '.'); return; }
+    var pp = r.pts.filter(function (t) { return t[2]; }), points = pp.length;
+    if (!points) { d.alertes.push('Aucun point lisible là où le format ' + r.format.split(' ')[0] + ' les attend : le fichier semble mal écrit par le logiciel qui l’a produit.'); return; }
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    pp.forEach(function (t) { if (t[0] < x0) x0 = t[0]; if (t[0] > x1) x1 = t[0]; if (t[1] < y0) y0 = t[1]; if (t[1] > y1) y1 = t[1]; });
+    var l = (x1 - x0) / 10, h = (y1 - y0) / 10, mm = function (v) { return v >= 1000 ? (v / 1000).toFixed(1).replace('.', ',') + ' m' : Math.round(v) + ' mm'; };
+    d.broderie = { format: r.format, nom: r.nom, points: points, sauts: r.pts.length - points, fils: r.fils, l: l, h: h, couleurs: r.couleurs };
+    d.format = r.format + ' · ' + points.toLocaleString('fr-FR') + ' points · ' + r.fils + ' fil' + (r.fils > 1 ? 's' : '') + ' · ' + mm(l) + ' × ' + mm(h);
+    d.texte = [r.nom, r.couleurs ? r.couleurs.map(function (c) { return c.nom; }).join(' ') : ''].join(' ');
+    /* ce que le fichier annonce, contre ce qu’il contient */
+    if (r.annonce) {
+      var al = r.annonce.l / 10, ah = r.annonce.h / 10;
+      if (al && ah && (l > al * 1.2 + 2 || h > ah * 1.2 + 2)) d.alertes.push('Le tracé ne correspond pas à l’en-tête : ' + mm(al) + ' × ' + mm(ah) + ' annoncés, ' + mm(l) + ' × ' + mm(h) + ' lus. Le fichier semble mal écrit par le logiciel qui l’a produit : une machine broderait autre chose que prévu.');
+      if (r.annonce.points && Math.abs(r.annonce.points - points) > r.annonce.points * 0.05 && Math.abs(r.annonce.points - r.pts.length) > r.annonce.points * 0.05) d.alertes.push('L’en-tête annonce ' + r.annonce.points.toLocaleString('fr-FR') + ' points ; le fichier en contient ' + points.toLocaleString('fr-FR') + ' (et ' + (r.pts.length - points).toLocaleString('fr-FR') + ' sauts).');
+    } else if (l > 500 || h > 500) d.alertes.push('Le tracé mesure ' + mm(l) + ' × ' + mm(h) + ' : aucun cadre de brodeuse n’est aussi grand. Le fichier semble mal écrit par le logiciel qui l’a produit.');
+    if (r.annoncesFils && r.annoncesFils !== r.fils) d.alertes.push('Le fichier annonce ' + r.annoncesFils + ' fils, mais en change ' + (r.fils - 1) + ' fois (' + r.fils + ' fils).');
+    if (!r.couleurs) d.alertes.push('Un fichier .dst ne porte pas les couleurs des fils : le tracé est dessiné en teintes de repère.');
+    /* le tracé, dessiné comme la machine le broderait : un trait par point, rien pour les sauts */
+    var c = document.createElement('canvas'), T = 640, m = 24, e = Math.min((T - 2 * m) / Math.max(1, x1 - x0), (T - 2 * m) / Math.max(1, y1 - y0));
+    c.width = c.height = T; var g = c.getContext('2d'); g.fillStyle = '#f7f4ee'; g.fillRect(0, 0, T, T); g.lineWidth = 1.4; g.lineCap = 'round';
+    var REPERES = ['#4b5a88', '#bc4365', '#2f7e20', '#d15c00', '#6a1c8a', '#0a55a3', '#b27624', '#134a46'], prec = null;
+    r.pts.forEach(function (t) {
+      var X = m + (t[0] - x0) * e, Y = m + (t[1] - y0) * e;
+      if (t[2] && prec && prec[3] === t[3]) { g.strokeStyle = r.couleurs && r.couleurs[t[3]] ? r.couleurs[t[3]].hex : REPERES[t[3] % REPERES.length]; g.beginPath(); g.moveTo(prec[4], prec[5]); g.lineTo(X, Y); g.stroke(); }
+      prec = [t[0], t[1], t[2], t[3], X, Y];
+    });
+    d.apercu = c.toDataURL('image/png');
   }
 
   /* ---------- relier : seulement ce qui est réellement lié, avec sa raison ---------- */
   function relier(docs) {
     var rel = [], n = docs.length, df = {};
     docs.forEach(function (d) { Object.keys(d.mots).forEach(function (w) { df[w] = (df[w] || 0) + 1; }); });
-    var limite = Math.max(2, Math.floor(n / 2));
+    var limite = Math.max(2, Math.min(Math.floor(n / 2), 6));
+    /* les doublons exacts : reliés au premier exemplaire seulement (pas tous entre eux) ; un fichier vide n’est le doublon de rien */
+    var premier = {}; docs.forEach(function (d) { if (d.empreinte && d.taille && !premier[d.empreinte]) premier[d.empreinte] = d; });
     for (var i = 0; i < n; i++) for (var j = i + 1; j < n; j++) {
       var a = docs[i], b = docs[j], raisons = [];
-      if (sans(a.base) === sans(b.base)) raisons.push('même nom de fichier');
+      [[a, b], [b, a]].forEach(function (p) { if (p[1].archive && p[1].archive === p[0].chemin) raisons.push(p[1].nom + ' est contenu dans ' + p[0].nom); });
+      if (a.empreinte && a.taille && a.empreinte === b.empreinte) { if (premier[a.empreinte] === a || premier[a.empreinte] === b) raisons.push('même contenu : empreinte identique (doublon exact)'); }
+      /* deux fichiers de la même archive sont déjà reliés par elle : on ne les compare pas entre eux */
+      else if (a.archive && a.archive === b.archive) { if (raisons.length) rel.push({ a: a.id, b: b.id, raisons: raisons, communs: [] }); continue; }
+      else if (sans(a.base) === sans(b.base) && GENERIQUES.indexOf(sans(a.base)) === -1) raisons.push('même nom de fichier');
+      /* du code : seules la citation exacte, le contenu et le nom comptent ; ses mots et ses noms de variables ne relient pas des projets */
+      var code = CODE.test(a.nom) || CODE.test(b.nom);
       [[a, b], [b, a]].forEach(function (p) {
         var x = p[0], y = p[1];
         if (x.cite.some(function (c) { return sans(c) === sans(y.nom); })) raisons.push(x.nom + ' cite ' + y.nom);
-        else if (y.base.length >= 5 && sans(x.texte).indexOf(sans(y.base).replace(/[-_]/g, ' ')) !== -1) raisons.push(x.nom + ' nomme « ' + y.base + ' »');
+        else if (!code && y.base.length >= 5 && GENERIQUES.indexOf(sans(y.base)) === -1 && sans(x.texte).indexOf(sans(y.base).replace(/[-_]/g, ' ')) !== -1) raisons.push(x.nom + ' nomme « ' + y.base + ' »');
       });
-      var dd = a.dates.filter(function (x) { return b.dates.indexOf(x) !== -1; });
+      var dd = code ? [] : a.dates.filter(function (x) { return b.dates.indexOf(x) !== -1; });
       if (dd.length) raisons.push('même date : ' + dd.map(dateFr).join(', '));
-      var communs = Object.keys(a.mots).filter(function (w) { return b.mots[w] && df[w] <= limite; }).sort(function (x, y) { return (b.mots[y] + a.mots[y]) - (b.mots[x] + a.mots[x]); });
+      var communs = code ? [] : Object.keys(a.mots).filter(function (w) { return b.mots[w] && df[w] <= limite; }).sort(function (x, y) { return (b.mots[y] + a.mots[y]) - (b.mots[x] + a.mots[x]); });
       if (communs.length >= 3) raisons.push('mots en commun : ' + communs.slice(0, 4).join(', '));
-      if (raisons.length) rel.push({ a: a.id, b: b.id, raisons: raisons, communs: communs });
+      /* un lien fort (contenu, doublon, citation, même nom) rassemble ; un lien faible entre deux archives différentes est montré, sans fondre les archives */
+      var origine = function (d) { return d.archive || (d.type === 'archive' ? d.chemin : ''); }, ailleurs = origine(a) !== origine(b);
+      var fort = raisons.some(function (x) { return /contenu|empreinte/.test(x) || !ailleurs && /cite|même nom/.test(x); });
+      if (raisons.length) rel.push({ a: a.id, b: b.id, raisons: raisons, communs: communs, fort: fort || !origine(a) && !origine(b) });
     }
     return rel;
   }
   function groupes(docs, rel) {
     var parent = {}; docs.forEach(function (d) { parent[d.id] = d.id; });
     var trouve = function (x) { while (parent[x] !== x) x = parent[x] = parent[parent[x]]; return x; };
-    rel.forEach(function (r) { parent[trouve(r.a)] = trouve(r.b); });
+    rel.forEach(function (r) { if (r.fort !== false) parent[trouve(r.a)] = trouve(r.b); });
     var g = {}; docs.forEach(function (d) { var k = trouve(d.id); (g[k] = g[k] || []).push(d); });
     return Object.keys(g).map(function (k) { return g[k]; }).sort(function (x, y) { return y.length - x.length; });
   }
@@ -155,14 +336,19 @@
       return item('d:' + d.id, { court: (d.ext || '?').toUpperCase().slice(0, 4), titre: d.nom, sous: NOM_TYPE[d.type] + ' · ' + poids(d.taille) + (d.pages ? ' · ' + d.pages + ' page' + (d.pages > 1 ? 's' : '') : ''),
         date: NOM_TYPE[d.type] + (d.pages ? ' · ' + d.pages + ' p.' : ''), img: d.apercu ? { src: d.apercu, alt: 'Aperçu de ' + d.nom } : null, href: d.url, ouvrir: 'Ouvrir le fichier', telecharger: d.nom,
         texte: extrait(d.texte), etat: d.alertes.length ? 'En développement' : '',
-        fiche: [['Format', d.format || ''], ['Dates trouvées', d.dates.map(dateFr).join(', ')], ['Cite', d.cite.join(', ')], ['Lecture', d.alertes.length ? d.alertes.length + ' remarque' + (d.alertes.length > 1 ? 's' : '') : 'complète']],
+        fiche: [['Format', d.format || ''], ['Chemin', d.chemin !== d.nom ? d.chemin : ''], ['Date dans l’archive', d.dateArchive ? dateFr(d.dateArchive) : ''], ['Dates trouvées', d.dates.map(dateFr).join(', ')], ['Cite', d.cite.join(', ')],
+          ['Doublon de', docs.filter(function (x) { return x !== d && d.empreinte && x.empreinte === d.empreinte; }).map(function (x) { return x.chemin; }).join(', ')], ['Empreinte', d.empreinte ? 'SHA-256 ' + d.empreinte.slice(0, 12) + '…' : ''],
+          ['Lecture', d.alertes.length ? d.alertes.length + ' remarque' + (d.alertes.length > 1 ? 's' : '') : 'complète']],
         detail: (d.alertes.length ? '<ul class="imp-alertes">' + d.alertes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') + visionneuse(d) });
     });
-    var parDate = {}; docs.forEach(function (d) { d.dates.forEach(function (x) { (parDate[x] = parDate[x] || []).push(d); }); });
+    /* deux sortes de dates, dites comme telles : écrites dans le texte, ou portées par le fichier dans son archive */
+    var parDate = {}, place = function (x, d, k) { var e = parDate[x] = parDate[x] || { texte: [], archive: [] }; if (e[k].indexOf(d) === -1) e[k].push(d); };
+    docs.forEach(function (d) { d.dates.forEach(function (x) { place(x, d, 'texte'); }); if (d.dateArchive) place(d.dateArchive, d, 'archive'); });
     var chrono = Object.keys(parDate).sort().map(function (x) {
-      var it = item('t:' + x, { court: x.slice(8) + '/' + x.slice(5, 7), titre: dateFr(x), sous: 'Dans ' + parDate[x].length + ' fichier' + (parDate[x].length > 1 ? 's' : ''), date: dateFr(x),
-        texte: 'Trouvée dans : ' + parDate[x].map(function (d) { return d.nom; }).join(', ') + '.' });
-      parDate[x].forEach(function (d) { lier(it.id, 'd:' + d.id); }); return it;
+      var e = parDate[x], tous = e.texte.concat(e.archive.filter(function (d) { return e.texte.indexOf(d) === -1; })), noms = function (l) { return l.map(function (d) { return d.nom; }).join(', '); };
+      var it = item('t:' + x, { court: x.slice(8) + '/' + x.slice(5, 7), titre: dateFr(x), sous: (e.texte.length ? 'Écrite dans ' + e.texte.length + ' fichier' + (e.texte.length > 1 ? 's' : '') : 'Date de ' + e.archive.length + ' fichier' + (e.archive.length > 1 ? 's' : '') + ' dans l’archive'), date: dateFr(x),
+        texte: (e.texte.length ? 'Écrite dans : ' + noms(e.texte) + '. ' : '') + (e.archive.length ? 'Date du fichier dans l’archive : ' + noms(e.archive) + '.' : '') });
+      tous.forEach(function (d) { lier(it.id, 'd:' + d.id); }); return it;
     });
     var relations = etat.rel.map(function (r, i) {
       var a = docs.filter(function (d) { return d.id === r.a; })[0], b = docs.filter(function (d) { return d.id === r.b; })[0];
@@ -174,7 +360,8 @@
       etat.rel.forEach(function (r) { if (g.some(function (d) { return d.id === r.a; })) r.communs.slice(0, 3).forEach(function (w) { communs[w] = (communs[w] || 0) + 1; }); });
       /* le titre : le mot partagé par le plus de fichiers du groupe, préféré s’il est aussi dans la demande */
       var dem = sans(etat.demande), score = function (w) { return g.filter(function (d) { return d.mots[w]; }).length + (dem.indexOf(w) !== -1 ? 2 : 0) + communs[w] / 10; };
-      var titre = g.length > 1 ? (Object.keys(communs).sort(function (x, y) { return score(y) - score(x); })[0] || g[0].base) : g[0].base;
+      var arch = g.filter(function (d) { return d.type === 'archive'; })[0];
+      var titre = arch ? arch.base : g.length > 1 ? (Object.keys(communs).sort(function (x, y) { return score(y) - score(x); })[0] || g[0].base) : g[0].base;
       titre = titre.replace(/[-_]/g, ' '); titre = titre.charAt(0).toUpperCase() + titre.slice(1);
       g.titre = titre;
       var it = item('g:' + i, { court: g.length > 1 ? '×' + g.length : '1', titre: g.length > 1 ? titre : titre + ' (seul)', sous: g.length > 1 ? 'Document rassemblé · ' + g.length + ' fichiers reliés' : 'Non relié aux autres fichiers', date: g.length > 1 ? g.length + ' fichiers' : 'Seul',
@@ -191,7 +378,7 @@
     var manques = [];
     docs.forEach(function (d) {
       d.cite.forEach(function (c) { if (!noms[sans(c)]) { var it = item('x:cite:' + slug(c), items['x:cite:' + slug(c)] || { court: 'manque', titre: c, sous: 'Cité, mais absent de l’import', date: 'Manquant', texte: '', etat: 'Prototype' }); it.texte = (it.texte ? it.texte + ' ' : 'Cité par ') + d.nom + '.'; lier(it.id, 'd:' + d.id); if (manques.indexOf(it) === -1) manques.push(it); } });
-      d.alertes.forEach(function (a, k) { if (/^Page|pas pu|non lu|vide|encodage/.test(a)) { var it = item('x:' + d.id + ':' + k, { court: 'à lire', titre: d.nom, sous: a.split(' : ')[0], date: 'Lecture', texte: a, etat: 'Prototype' }); lier(it.id, 'd:' + d.id); manques.push(it); } });
+      d.alertes.forEach(function (a, k) { if (/^Page|pas pu|non lu|vide|encodage|chiffré|^Archive non|^Broderie illisible|mal écrit/.test(a)) { var it = item('x:' + d.id + ':' + k, { court: 'à lire', titre: d.nom, sous: a.split(' : ')[0], date: 'Lecture', texte: a, etat: 'Prototype' }); lier(it.id, 'd:' + d.id); manques.push(it); } });
     });
     (etat.lecture ? etat.lecture.manques : []).forEach(function (q, k) { manques.push(item('x:q:' + k, { court: '?', titre: q, sous: 'Votre demande ne le dit pas encore', date: 'À préciser', texte: 'Le moteur a lu votre demande ; cette information manque pour aller au bout.' })); });
     etat.manques = manques;
@@ -212,6 +399,7 @@
     if (d.type === 'image') return '<img class="imp-vue" src="' + esc(d.url) + '" alt="' + esc(d.nom) + '">';
     if (d.type === 'pdf') return (d.apercu ? '<img class="imp-vue" src="' + d.apercu + '" alt="Première page de ' + esc(d.nom) + '">' : '') + (d.texte ? '<p class="imp-texte">' + esc(d.texte.slice(0, 900)) + (d.texte.length > 900 ? '…' : '') + '</p>' : '');
     if (d.type === 'tableau' && d.lignes) return '<div class="imp-tableau"><table>' + d.lignes.slice(0, 12).map(function (l, i) { return '<tr>' + l.map(function (c) { return (i ? '<td>' : '<th>') + esc(c) + (i ? '</td>' : '</th>'); }).join('') + '</tr>'; }).join('') + '</table></div>';
+    if (d.type === 'broderie' && d.apercu) return '<img class="imp-vue" src="' + d.apercu + '" alt="Le tracé de la broderie ' + esc(d.nom) + ', dessiné point par point">' + (d.broderie && d.broderie.couleurs ? '<p class="imp-texte">Fils : ' + esc(d.broderie.couleurs.map(function (c) { return c.nom; }).filter(function (x, k, t) { return x && t.indexOf(x) === k; }).join(', ')) + '.</p>' : '');
     if (d.type === 'audio') return '<audio class="imp-vue" controls src="' + esc(d.url) + '"></audio>';
     if (d.type === 'video') return '<video class="imp-vue" controls src="' + esc(d.url) + '"></video>';
     if (d.texte) return '<p class="imp-texte">' + esc(d.texte.slice(0, 900)) + (d.texte.length > 900 ? '…' : '') + '</p>';
@@ -243,12 +431,13 @@
       '</main></body></html>';
   }
   function chemins() {
-    var c = {}; etat.groupes.forEach(function (g) { var dossier = 'fichiers/' + (g.length > 1 ? slug(g.titre) : 'non-relies') + '/'; g.forEach(function (d) { c[d.id] = dossier + d.nom; if (d.apercu && d.type === 'pdf') c[d.id + ':apercu'] = 'apercus/' + slug(d.base) + '.jpg'; }); });
+    var c = {}, pris = {}, libre = function (x) { var y = x, k = 2; while (pris[y]) y = x.replace(/(\.[^.\/]+)?$/, ' (' + k++ + ')$1'); pris[y] = 1; return y; };
+    etat.groupes.forEach(function (g) { var dossier = 'fichiers/' + (g.length > 1 ? slug(g.titre) : 'non-relies') + '/'; g.forEach(function (d) { c[d.id] = libre(dossier + d.nom); if (d.apercu && d.type === 'pdf') c[d.id + ':apercu'] = libre('apercus/' + slug(d.base) + '.jpg'); }); });
     return c;
   }
   function manifeste() {
     return { format: 'atlas-document', version: 1, cree: new Date().toISOString(), demande: etat.demande, lecture: etat.lecture,
-      fichiers: etat.docs.map(function (d) { return { nom: d.nom, type: d.type, taille: d.taille, pages: d.pages || undefined, dates: d.dates, cite: d.cite, remarques: d.alertes }; }),
+      fichiers: etat.docs.map(function (d) { return { nom: d.nom, chemin: d.chemin !== d.nom ? d.chemin : undefined, type: d.type, taille: d.taille, sha256: d.empreinte || undefined, dateArchive: d.dateArchive || undefined, pages: d.pages || undefined, dates: d.dates, cite: d.cite, remarques: d.alertes }; }),
       relations: etat.rel.map(function (r) { var n = function (id) { return etat.docs.filter(function (d) { return d.id === id; })[0].nom; }; return { a: n(r.a), b: n(r.b), raisons: r.raisons }; }),
       documents: etat.groupes.map(function (g) { return { titre: g.titre, fichiers: g.map(function (d) { return d.nom; }) }; }),
       manques: etat.manques.map(function (m) { return { quoi: m.titre, pourquoi: m.sous, detail: m.texte }; }) };
@@ -325,21 +514,25 @@
   var liste = document.getElementById('imp-liste'), lancer = document.getElementById('imp-lancer'), statut = document.getElementById('imp-statut'), etape1 = document.getElementById('imp-etape1'), barre = document.getElementById('imp-barre');
   var enAttente = [];
   function montrerAttente() {
-    liste.innerHTML = enAttente.map(function (f, i) { return '<li><span>' + esc(f.name) + '</span><small>' + poids(f.size) + '</small><button type="button" class="imp-retirer" data-i="' + i + '" aria-label="Retirer ' + esc(f.name) + '">Retirer</button></li>'; }).join('');
+    liste.innerHTML = enAttente.map(function (f, i) { return '<li><span>' + esc(f.chemin || f.webkitRelativePath || f.name) + '</span><small>' + poids(f.size) + '</small><button type="button" class="imp-retirer" data-i="' + i + '" aria-label="Retirer ' + esc(f.name) + '">Retirer</button></li>'; }).join('');
     lancer.disabled = !enAttente.length;
-    statut.textContent = enAttente.length ? enAttente.length + ' fichier' + (enAttente.length > 1 ? 's' : '') + ' prêt' + (enAttente.length > 1 ? 's' : '') + '. Décrivez ce que vous voulez, puis métamorphosez.' : 'Déposez vos fichiers : PDF, images, textes, tableaux, pages web, sons, vidéos… Rien n’est envoyé.';
+    statut.textContent = enAttente.length ? enAttente.length + ' fichier' + (enAttente.length > 1 ? 's' : '') + ' prêt' + (enAttente.length > 1 ? 's' : '') + '. Décrivez ce que vous voulez, puis métamorphosez.' : 'Déposez vos fichiers ou un dossier entier : PDF, images, textes, tableaux, pages web, sons, vidéos, archives ZIP… Rien n’est envoyé.';
   }
-  function ajouter(fs) { Array.prototype.forEach.call(fs, function (f) { if (!enAttente.some(function (x) { return x.name === f.name && x.size === f.size; })) enAttente.push(f); }); montrerAttente(); }
+  function ajouter(fs) { Array.prototype.forEach.call(fs, function (f) { var c = f.chemin || f.webkitRelativePath || f.name; if (!enAttente.some(function (x) { return (x.chemin || x.webkitRelativePath || x.name) === c && x.size === f.size; })) enAttente.push(f); }); montrerAttente(); }
   function metamorphoser() {
     if (!enAttente.length) return Promise.resolve();
     statut.textContent = 'Lecture de ' + enAttente.length + ' fichier' + (enAttente.length > 1 ? 's' : '') + '…'; lancer.disabled = true;
     etat.docs.forEach(function (d) { URL.revokeObjectURL(d.url); });
-    return Promise.all(enAttente.map(lire)).then(function (docs) {
+    return deplierTout(enAttente.slice()).then(empreintes).then(function (fs) {
+      if (fs.length > enAttente.length) statut.textContent = 'Archives dépliées : ' + fs.length + ' fichiers à lire…';
+      return Promise.all(fs.map(lire));
+    }).then(function (docs) {
       etat.docs = docs; etat.demande = demandeEl.value.trim(); etat.lecture = lireDemande(etat.demande);
       etat.rel = relier(docs); etat.groupes = groupes(docs, etat.rel);
       A.vueCube.charger(source());
-      var g = etat.groupes.filter(function (x) { return x.length > 1; }).length;
-      barre.innerHTML = '<p class="imp-resume"><b>' + docs.length + ' fichier' + (docs.length > 1 ? 's' : '') + '</b> · ' + etat.rel.length + ' relation' + (etat.rel.length > 1 ? 's' : '') + ' · ' + g + ' document' + (g > 1 ? 's' : '') + ' rassemblé' + (g > 1 ? 's' : '') + ' · ' + etat.manques.length + ' manque' + (etat.manques.length > 1 ? 's' : '') + '</p>' +
+      var g = etat.groupes.filter(function (x) { return x.length > 1; }).length, vus = {}, doublons = docs.filter(function (d) { if (!d.empreinte) return false; var deja = vus[d.empreinte]; vus[d.empreinte] = 1; return deja; }).length;
+      var archives = docs.filter(function (d) { return d.type === 'archive'; }).length;
+      barre.innerHTML = '<p class="imp-resume"><b>' + docs.length + ' fichier' + (docs.length > 1 ? 's' : '') + '</b> · ' + etat.rel.length + ' relation' + (etat.rel.length > 1 ? 's' : '') + ' · ' + g + ' document' + (g > 1 ? 's' : '') + ' rassemblé' + (g > 1 ? 's' : '') + ' · ' + etat.manques.length + ' manque' + (etat.manques.length > 1 ? 's' : '') + (archives ? ' · ' + archives + ' archive' + (archives > 1 ? 's' : '') + ' dépliée' + (archives > 1 ? 's' : '') : '') + (doublons ? ' · ' + doublons + ' doublon' + (doublons > 1 ? 's' : '') : '') + '</p>' +
         '<p class="imp-exports"><button type="button" class="imp-bouton" data-export="zip">Dossier web (.zip)</button><button type="button" class="imp-bouton" data-export="pdf">PDF</button><button type="button" class="imp-bouton" data-export="json">Manifeste</button><button type="button" class="imp-bouton imp-discret" data-export="recommencer">Modifier l’import</button></p>';
       etape1.hidden = true; barre.hidden = false; document.body.classList.add('imp-fait');
       return etat;
@@ -349,7 +542,23 @@
     champ.addEventListener('change', function () { ajouter(champ.files); champ.value = ''; });
     ['dragenter', 'dragover'].forEach(function (t) { depot.addEventListener(t, function (e) { e.preventDefault(); depot.classList.add('survol'); }); });
     ['dragleave', 'drop'].forEach(function (t) { depot.addEventListener(t, function (e) { e.preventDefault(); depot.classList.remove('survol'); }); });
-    depot.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files) ajouter(e.dataTransfer.files); });
+    /* un dossier déposé : on parcourt ses sous-dossiers ; le chemin est gardé */
+    var parcourir = function (entree, chemin) {
+      if (entree.isFile) return new Promise(function (ok) { entree.file(function (f) { f.chemin = chemin + f.name; ok([f]); }, function () { ok([]); }); });
+      if (!entree.isDirectory) return Promise.resolve([]);
+      var lecteur = entree.createReader(), tout = [];
+      return new Promise(function (ok) { (function lot() { lecteur.readEntries(function (l) { if (!l.length) return ok(tout); tout = tout.concat(l); lot(); }, function () { ok(tout); }); })(); })
+        .then(function (l) { return Promise.all(l.filter(function (x) { return x.name.charAt(0) !== '.'; }).map(function (x) { return parcourir(x, chemin + entree.name + '/'); })); })
+        .then(function (l) { return [].concat.apply([], l); });
+    };
+    depot.addEventListener('drop', function (e) {
+      var dt = e.dataTransfer; if (!dt) return;
+      var entrees = Array.prototype.map.call(dt.items || [], function (it) { return it.webkitGetAsEntry ? it.webkitGetAsEntry() : null; }).filter(Boolean);
+      if (entrees.some(function (x) { return x.isDirectory; })) Promise.all(entrees.map(function (x) { return parcourir(x, ''); })).then(function (l) { ajouter([].concat.apply([], l)); });
+      else if (dt.files) ajouter(dt.files);
+    });
+    var dossier = document.getElementById('imp-dossier');
+    if (dossier) dossier.addEventListener('change', function () { ajouter(Array.prototype.filter.call(dossier.files, function (f) { return !/(^|\/)\./.test(f.webkitRelativePath || f.name); })); dossier.value = ''; });
     liste.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (b) { enAttente.splice(+b.getAttribute('data-i'), 1); montrerAttente(); } });
     lancer.addEventListener('click', metamorphoser);
     document.getElementById('imp-exemple').addEventListener('click', function () { exemple().then(function (x) { enAttente = []; ajouter(x.fichiers); demandeEl.value = x.demande; return metamorphoser(); }); });
@@ -363,5 +572,5 @@
     A.vueCube.charger(source());
     montrerAttente();
   }
-  A.importer = { lire: lire, relier: relier, groupes: groupes, dates: dates, source: source, zip: zip, crc32: crc32, exporterZip: exporterZip, manifeste: manifeste, documentHtml: documentHtml, exemple: exemple, metamorphoser: metamorphoser, etat: etat, ajouter: ajouter, pdfMinimal: pdfMinimal };
+  A.importer = { deplier: deplier, deplierTout: deplierTout, empreintes: empreintes, lire: lire, relier: relier, groupes: groupes, dates: dates, source: source, zip: zip, crc32: crc32, exporterZip: exporterZip, manifeste: manifeste, documentHtml: documentHtml, exemple: exemple, metamorphoser: metamorphoser, etat: etat, ajouter: ajouter, pdfMinimal: pdfMinimal };
 })();

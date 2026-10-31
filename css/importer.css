@@ -9,6 +9,9 @@
 .imp-depot { display: grid; gap: 4px; place-items: center; min-height: 128px; padding: var(--espace-5); border-radius: var(--rayon-md); border: 1.5px dashed var(--trait-2); background: var(--fond); text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
 .imp-depot:hover, .imp-depot.survol, .imp-depot:focus-within { border-color: var(--encre); background: var(--carte); }
 .imp-depot-mot { font-size: 17px; font-weight: 600; } .imp-depot small { font-size: 13.5px; color: var(--encre-3); max-width: 46ch; }
+.imp-dossier { margin: 8px 0 0; text-align: center; }
+.imp-dossier label { display: inline-flex; align-items: center; min-height: 40px; padding: 0 6px; font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.imp-dossier label:focus-within { outline: 2px solid var(--encre); outline-offset: 2px; border-radius: 6px; }
 .imp-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 180px; overflow: auto; }
 .imp-liste li { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 4px 4px 4px 12px; border-radius: 10px; border: 1px solid var(--trait); }
 .imp-liste span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14.5px; font-weight: 500; } .imp-liste small { color: var(--encre-3); font-size: 13px; }
