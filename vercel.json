@@ -132,6 +132,10 @@
       "destination": "/cube.html"
     },
     {
+      "source": "/mariage",
+      "destination": "/mariage.html"
+    },
+    {
       "source": "/atlas",
       "destination": "/chronologie.html"
     }

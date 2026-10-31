@@ -1,0 +1,52 @@
+/* Le Cube du Jour J : par-dessus la vue Cube (css/vue-cube.css). Au-dessus du Cube : qui regarde (chacun sa face),
+   et le Jour J heure par heure ; sous la scène, le concept en clair, sur le papier. */
+.mariage .vc-scene-zone { --c: clamp(190px, min(24vw, 31vh), 330px); padding-top: 84px; gap: var(--espace-2); }
+.mj-entete { gap: 2px; }
+.mj-exemple { display: inline-block; margin-left: 8px; padding: 2px 10px; border-radius: var(--rayon-pilule); border: 1px solid rgba(255,255,255,.4); font-size: 11px; letter-spacing: .08em; color: var(--blanc); }
+.mj-titre { margin: 0; font-size: clamp(30px, 3.4vw, 48px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+.mj-compte { margin: 0; font-size: 15px; color: rgba(255,255,255,.75); }
+
+.mj-jourj { position: relative; z-index: 3; display: grid; gap: 8px; justify-items: center; width: min(100%, 760px); padding: var(--espace-3) var(--espace-4); border-radius: var(--rayon-carte); background: rgba(5,5,6,.62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+/* la projection reste derrière : le défilé des fragments se tait ici, les commandes du Jour J sont au-dessus */
+.mariage .vc-defile { display: none; }
+.mj-roles { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.mj-role { min-height: 40px; padding: 0 14px; border-radius: var(--rayon-pilule); border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.04); color: var(--blanc); font: 500 14px/1 var(--font-sans); cursor: pointer; }
+.mj-role:hover { border-color: rgba(255,255,255,.7); }
+.mj-role[aria-pressed="true"] { background: var(--blanc); border-color: var(--blanc); color: var(--encre); font-weight: 600; }
+.mj-role:focus-visible, .mj-bouton:focus-visible, .mj-curseur:focus-visible { outline: 2px solid var(--nacre-lilas); outline-offset: 3px; }
+.mj-resume { margin: 0; font-size: 14px; color: rgba(255,255,255,.8); }
+.mj-resume b { color: var(--blanc); }
+.mj-manque { color: var(--option-trait); font-weight: 600; }
+.mj-temps { display: flex; align-items: center; gap: 12px; width: 100%; }
+.mj-etiquette { flex: none; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.mj-curseur { flex: 1; min-width: 0; height: 40px; accent-color: var(--nacre-lilas); }
+.mj-bouton { flex: none; min-height: 40px; padding: 0 16px; border-radius: var(--rayon-pilule); border: 1px solid var(--blanc); background: transparent; color: var(--blanc); font: 600 14px/1 var(--font-sans); cursor: pointer; }
+.mj-bouton[aria-pressed="true"] { background: var(--blanc); color: var(--encre); }
+.mj-maintenant { margin: 0; min-height: 1.5em; font-size: 15px; color: var(--blanc); }
+.mj-maintenant small { color: rgba(255,255,255,.65); }
+.mj-suite { display: inline-block; margin-left: 8px; color: rgba(255,255,255,.7); }
+
+/* le panneau : les fiches d’un moment, d’un document, d’une personne */
+.mj-fiche { display: grid; gap: 6px; margin: 0; }
+.mj-fiche div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px; font-size: 14px; }
+.mj-fiche dt { color: var(--encre-3); font-weight: 600; }
+.mj-fiche dd { margin: 0; }
+.mj-raison { margin: 0; font-size: 15px; line-height: 1.5; }
+.mj-note { margin: var(--espace-3) 0 0; font-size: 13px; color: var(--encre-3); }
+
+/* le concept, sous la scène */
+.mj-explication { grid-column: 1 / -1; padding: var(--espace-section) var(--marge); background: var(--fond); color: var(--encre); border-top: 1px solid var(--trait); }
+.mj-explication h2 { margin: 0 0 var(--espace-5); font-size: clamp(32px, 4vw, 56px); font-weight: 600; letter-spacing: -0.035em; }
+.mj-idees { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--espace-4); margin: 0; padding: 0; list-style: none; max-width: 1180px; }
+.mj-idees li { padding: var(--espace-5); border-radius: var(--rayon-carte); background: var(--carte); border: 1px solid var(--trait); font-size: 15.5px; line-height: 1.55; color: var(--encre-2); }
+.mj-idees b { display: block; margin-bottom: 6px; font-size: 19px; letter-spacing: -0.01em; color: var(--encre); }
+.mj-idees a { color: var(--encre); }
+.mj-explication .mj-note { max-width: 70ch; margin-top: var(--espace-5); }
+
+@media (max-width: 960px) {
+  .mariage .vc-scene-zone { position: relative; height: auto; min-height: 100svh; padding: 84px 16px 112px; }
+  .mariage .vc-scene-zone { --c: min(62vw, 300px); }
+  .mj-temps { flex-wrap: wrap; justify-content: center; }
+  .mj-curseur { flex-basis: 100%; }
+  .mj-explication { padding: var(--espace-8) 16px; }
+}

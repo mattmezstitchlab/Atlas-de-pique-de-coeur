@@ -290,12 +290,12 @@
   }
   A.vueCube = { charger: charger, sourceAtlas: sourceAtlas, faces: function () { return FACES; }, items: function () { return items; }, liens: function () { return liens; },
     choisir: choisir, vers: function (id) { vers(PAR_ID[id]); }, visible: function () { return actuelle && actuelle.id; }, choisi: function () { return choisi; } };
-  /* la page d’import charge sa propre source ; sinon, l’atlas */
-  if (document.body.getAttribute('data-source') !== 'import') charger(sourceAtlas());
+  /* une page qui déclare sa source (l’import, le mariage) la charge elle-même ; sinon, l’atlas */
+  if (!document.body.hasAttribute('data-source')) charger(sourceAtlas());
   /* venir d’une face du récit (accueil) : vue-cube.html#chronologie, #composition, #archives, #relations, #modules, #ecosysteme */
   var ANCRE = { chronologie: 'avant', composition: 'droite', archives: 'arriere', relations: 'gauche', modules: 'haut', ecosysteme: 'bas' };
   function suivreAncre() { var h = location.hash.slice(1), id = ANCRE[h] || h; if (PAR_ID[id]) vers(PAR_ID[id]); }
-  if (document.body.getAttribute('data-source') !== 'import') { suivreAncre(); window.addEventListener('hashchange', suivreAncre); }
+  if (!document.body.hasAttribute('data-source')) { suivreAncre(); window.addEventListener('hashchange', suivreAncre); }
   window.addEventListener('resize', function () { poserAxes(); if (choisi) choisir(choisi); });
   if ('IntersectionObserver' in window) new IntersectionObserver(function (v) { cancelAnimationFrame(raf); if (v[0].isIntersecting) { dernier = 0; raf = requestAnimationFrame(boucle); } }).observe(scene);
   else raf = requestAnimationFrame(boucle);

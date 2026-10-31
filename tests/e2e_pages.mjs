@@ -6,7 +6,7 @@
 import { createRequire } from "node:module";
 const { chromium } = createRequire(import.meta.url)("playwright");   /* installé à côté (CI) ou globalement */
 const B = (process.env.BASE || "http://localhost:8090").replace(/\/$/, ""), P = (process.env.PREFIXE || "").replace(/\/$/, ""), RACINE = B + P + "/";
-const PAGES = [["/", true], ["/chronologie", true], ["/composition", true], ["/vue-cube", true], ["/importer", true], ["/ecosysteme", true], ["/moteur", true], ["/administration", false]];
+const PAGES = [["/", true], ["/chronologie", true], ["/composition", true], ["/vue-cube", true], ["/importer", true], ["/ecosysteme", true], ["/moteur", true], ["/mariage", true], ["/administration", false]];
 let bons = 0, mauvais = 0;
 const ok = (c, m) => { c ? bons++ : mauvais++; console.log((c ? "✓ " : "✗ ") + m); };
 const opts = process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {};
@@ -53,6 +53,19 @@ for (const [ancienne, nouvelle] of [["/metamorphose", "/composition"], ["/admin"
   const r = await pg.goto(B + P + "/composition/" + id); await pg.waitForSelector(".creation-etat[data-code]", { timeout: 10000 }).catch(() => {});
   const d = await pg.evaluate(() => ({ code: document.querySelector(".creation-etat") && document.querySelector(".creation-etat").getAttribute("data-code"), adresse: (document.getElementById("creation-adresse") || {}).textContent }));
   ok(r.status() === 200 && d.code === "ok" && d.adresse === B + P + "/composition/" + id && !erreurs.length, `une création publiée sous ${P || "/"} (${d.code}, ${erreurs.length} erreur)`); await pg.close();
+}
+/* le Cube du Jour J : ce qui manque est trouvé ; chacun sa face, et les montants restent aux mariés */
+{
+  const pg = await b.newPage({ viewport: { width: 1280, height: 800 } }); await pg.goto(B + P + "/mariage"); await pg.waitForTimeout(600);
+  const d = await pg.evaluate(() => {
+    const titres = ATLAS.mariageCube.manques().map(x => x.titre).join(" | ");
+    const dj = ATLAS.mariageCube.source("dj"), invites = ATLAS.mariageCube.vue("invites");
+    const montantsDJ = Object.values(dj.items).filter(it => /€/.test(it.sous + " " + (it.detail || ""))).length;
+    return { titres, montantsDJ, invitesDocs: invites.docs.length, invitesManques: invites.manques.length };
+  });
+  ok(/pas signé/.test(d.titres) && /deux endroits/.test(d.titres) && /sans plan B/.test(d.titres) && /régime/.test(d.titres), "le Cube du Jour J trouve ce qui manque (contrat, double présence, plan B, régimes)");
+  ok(d.montantsDJ === 0 && d.invitesDocs === 1 && d.invitesManques === 0, `chacun sa face : aucun montant pour le DJ (${d.montantsDJ}), un seul document et rien à régler pour les invités`);
+  await pg.close();
 }
 /* le récit : des stations, et le Cube qui remplit ses cases */
 {
