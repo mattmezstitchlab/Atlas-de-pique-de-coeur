@@ -6,10 +6,10 @@
   var A = window.ATLAS, P = A.publication, B = A.bloc;
   var $ = function (id) { return document.getElementById(id); };
   var etat = $('creation-etat'), grille = $('creation-grille');
-  /* <base href="/"> : les ancres de la page restent sur la page */
+  /* la base (« / », ou « /atlas/ » sous lemondeaime.com) : les ancres de la page restent sur la page */
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function (a) { a.setAttribute('href', location.pathname + location.search + a.getAttribute('href')); });
 
-  var m = /^\/composition\/([^/]+)\/?$/.exec(location.pathname), id = m ? decodeURIComponent(m[1]) : new URLSearchParams(location.search).get('id');
+  var m = /^(?:\/atlas)?\/composition\/([^/]+)\/?$/.exec(location.pathname), id = m ? decodeURIComponent(m[1]) : new URLSearchParams(location.search).get('id');
   function refuser(code, texte) {
     grille.innerHTML = ''; grille.hidden = true; $('creation-pied').hidden = true;
     $('creation-titre').textContent = 'Création introuvable';
@@ -54,7 +54,7 @@
     var tous = {}; pub.blocs.forEach(function (b) { tous[b.uid] = b; (b.parts || []).forEach(function (x) { tous[x.uid] = x; }); });
     $('creation-liens').innerHTML = pub.liens.length ? pub.liens.map(function (l) { return '<li>' + B.fr(nomDe(tous[l[0]])) + ' → ' + B.fr(nomDe(tous[l[1]])) + '</li>'; }).join('') : '<li>Aucun lien.</li>';
     $('creation-date').textContent = B.date(pub.publieLe);
-    $('creation-adresse').textContent = location.origin + '/composition/' + pub.id;
+    $('creation-adresse').textContent = location.origin + (/^\/atlas(\/|$)/.test(location.pathname) ? '/atlas' : '') + '/composition/' + pub.id;
     $('creation-reference').textContent = JSON.stringify({ format: 'atlas-reference', version: 1, type: 'composition', id: pub.id });
     $('creation-pied').hidden = false;
     etat.textContent = pub.blocs.length + ' bloc' + (pub.blocs.length > 1 ? 's' : '') + ', ' + pub.liens.length + ' lien' + (pub.liens.length > 1 ? 's' : '') + ' · en lecture seule.';

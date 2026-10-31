@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {
@@ -82,47 +82,58 @@
       ]
     }
   ],
-  "redirects": [
-    {
-      "source": "/metamorphose",
-      "destination": "/composition",
-      "permanent": true
-    },
-    {
-      "source": "/metamorphose.html",
-      "destination": "/composition",
-      "permanent": true
-    },
-    {
-      "source": "/admin",
-      "destination": "/administration",
-      "permanent": true
-    },
-    {
-      "source": "/admin.html",
-      "destination": "/administration",
-      "permanent": true
-    },
-    {
-      "source": "/atlas",
-      "destination": "/chronologie",
-      "permanent": false
-    },
-    {
-      "source": "/cube",
-      "destination": "/vue-cube",
-      "permanent": true
-    },
-    {
-      "source": "/cube.html",
-      "destination": "/vue-cube",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/composition/:id",
-      "destination": "/creation"
+      "destination": "/creation.html"
+    },
+    {
+      "source": "/chronologie",
+      "destination": "/chronologie.html"
+    },
+    {
+      "source": "/composition",
+      "destination": "/composition.html"
+    },
+    {
+      "source": "/importer",
+      "destination": "/importer.html"
+    },
+    {
+      "source": "/vue-cube",
+      "destination": "/vue-cube.html"
+    },
+    {
+      "source": "/ecosysteme",
+      "destination": "/ecosysteme.html"
+    },
+    {
+      "source": "/moteur",
+      "destination": "/moteur.html"
+    },
+    {
+      "source": "/administration",
+      "destination": "/administration.html"
+    },
+    {
+      "source": "/creation",
+      "destination": "/creation.html"
+    },
+    {
+      "source": "/metamorphose",
+      "destination": "/metamorphose.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/cube",
+      "destination": "/cube.html"
+    },
+    {
+      "source": "/atlas",
+      "destination": "/chronologie.html"
     }
   ]
 }

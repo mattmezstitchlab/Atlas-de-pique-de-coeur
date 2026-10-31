@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<base href="/">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Une création publiée — ATLAS</title>
@@ -12,18 +11,21 @@
 <meta property="og:site_name" content="ATLAS">
 <meta property="og:title" content="Une création publiée — ATLAS">
 <meta property="og:description" content="Une composition de la Métamorphose, publiée volontairement, en lecture seule.">
-<meta property="og:image" content="https://atlas-de-pique-de-coeur.vercel.app/media/phare.jpg">
+<meta property="og:image" content="https://atlas.lemondeaime.com/media/phare.jpg">
 <meta property="og:image:alt" content="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
-<link rel="preload" href="fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/police.css">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/composants.css">
-<link rel="stylesheet" href="css/atlas.css">
-<link rel="stylesheet" href="css/metamorphose.css">
-<link rel="stylesheet" href="css/nuit.css">
-<script src="js/theme.js"></script>
+<!-- Une création publiée répond à /composition/<id>, à la racine d’ATLAS ou sous /atlas/ sur lemondeaime.com :
+     la base est posée d’abord, et les ressources sont écrites après elle (sinon le navigateur les précharge au mauvais endroit). -->
+<script>
+(function () {
+  var r = /^\/atlas(\/|$)/.test(location.pathname) ? '/atlas/' : '/';
+  window.ATLAS_RACINE = r;
+  document.write('<base href="' + r + '"><link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">' +
+    '<link rel="preload" href="fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>' +
+    ['css/police.css', 'css/tokens.css', 'css/composants.css', 'css/atlas.css', 'css/metamorphose.css', 'css/nuit.css'].map(function (f) { return '<link rel="stylesheet" href="' + f + '">'; }).join('') +
+    '<script src="js/theme.js"><\/script>');
+})();
+</script>
 </head>
 <body>
 <a class="lien-evitement" href="#creation">Aller à la création</a>
@@ -74,13 +76,6 @@
   <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
 </footer>
 
-<script src="data/applications.js"></script>
-<script src="data/achevement.js"></script>
-<script src="data/visuels.js"></script>
-<script src="data/modules.js"></script>
-<script src="data/lexique.js"></script>
-<script src="js/briques.js"></script>
-<script src="js/publication.js"></script>
-<script src="js/creation.js"></script>
+<script>document.write(['data/applications.js', 'data/achevement.js', 'data/visuels.js', 'data/modules.js', 'data/lexique.js', 'js/briques.js', 'js/publication.js', 'js/creation.js'].map(function (f) { return '<script src="' + f + '"><\/script>'; }).join(''));</script>
 </body>
 </html>

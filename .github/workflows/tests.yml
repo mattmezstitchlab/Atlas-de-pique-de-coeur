@@ -24,3 +24,9 @@ jobs:
           node tests/serveur.mjs 8090 &
           sleep 1
           BASE=http://localhost:8090 node tests/e2e_pages.mjs
+      - name: Les mêmes pages, sous www.lemondeaime.com/atlas/ (simulé)
+        run: |
+          node tests/serveur.mjs 8091 &
+          ATLAS=http://localhost:8091 node tests/lemondeaime.mjs 8092 &
+          sleep 1
+          BASE=http://localhost:8092 PREFIXE=/atlas node tests/e2e_pages.mjs

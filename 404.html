@@ -4,14 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Page introuvable — Atlas de pique de cœur</title>
-<link rel="icon" type="image/svg+xml" href="/design-system/assets/aime-orbe.svg">
-<link rel="preload" href="/fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/police.css">
-<link rel="stylesheet" href="/css/tokens.css">
-<link rel="stylesheet" href="/css/composants.css">
-<link rel="stylesheet" href="/css/atlas.css">
-<link rel="stylesheet" href="css/nuit.css">
-<script src="js/theme.js"></script>
+<!-- La 404 peut répondre à n’importe quelle profondeur, à la racine d’ATLAS ou sous /atlas/ sur lemondeaime.com :
+     la base est posée d’abord, et les feuilles de style sont écrites après elle (sinon le navigateur les précharge au mauvais endroit). -->
+<script>
+(function () {
+  var r = /^\/atlas(\/|$)/.test(location.pathname) ? '/atlas/' : '/';
+  document.write('<base href="' + r + '"><link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">' +
+    ['css/police.css', 'css/tokens.css', 'css/composants.css', 'css/atlas.css', 'css/nuit.css'].map(function (f) { return '<link rel="stylesheet" href="' + f + '">'; }).join('') +
+    '<script src="js/theme.js"><\/script>');
+})();
+</script>
 </head>
 <body>
 <header class="tete">
@@ -19,10 +21,10 @@
     <div class="dock-ligne">
       <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
       <span class="separateur" aria-hidden="true"></span>
-      <a class="outil" href="/index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
       <div class="rangee"><span class="separateur" aria-hidden="true"></span>
-        <a class="outil" href="/chronologie.html">Chronologie</a>
-        <a class="outil" href="/composition.html">Composition</a>
+        <a class="outil" href="chronologie.html">Chronologie</a>
+        <a class="outil" href="composition.html">Composition</a>
       </div>
     </div>
   </nav>
@@ -33,16 +35,16 @@
     <h1 id="titre-404" class="signature" style="font-size:clamp(40px, 13vw, 220px)">Introuvable</h1>
     <p class="chapeau">Cette page n’existe pas, ou elle a changé d’adresse. L’histoire de tous les projets AIME vous attend sur l’atlas.</p>
     <div style="display:flex;flex-wrap:wrap;gap:var(--espace-3);margin-top:var(--espace-7)">
-      <a class="bouton noir" href="/">Revenir à l’accueil</a>
-      <a class="bouton" href="/chronologie">Ouvrir la chronologie</a>
+      <a class="bouton noir" href="index.html">Revenir à l’accueil</a>
+      <a class="bouton" href="chronologie.html">Ouvrir la chronologie</a>
     </div>
   </section>
 </main>
 <footer class="pied">
-  <a href="/index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
   <nav class="pied-nav" aria-label="Plan du site">
-    <div><p class="pied-titre">Les trois espaces</p><a href="/index.html">Accueil · Comprendre</a><a href="/chronologie.html">Chronologie · Explorer</a><a href="/composition.html">Composition · Créer</a></div>
-    <div><p class="pied-titre">Aussi</p><a href="/vue-cube.html">La vue Cube</a><a href="/ecosysteme.html">L’écosystème</a><a href="/moteur.html">Le moteur</a><a href="/administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="vue-cube.html">La vue Cube</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
     <div><p class="pied-titre">L’écosystème AIME</p><a href="https://www.lemondeaime.com/" rel="noopener">Retour à Le Monde AIME</a></div>
   </nav>
   <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>

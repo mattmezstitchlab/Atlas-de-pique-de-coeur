@@ -12,7 +12,8 @@
   preparer.addEventListener('click', function () {
     try { courant = P.publier(A.grille.etat(), { titre: titre.value, description: desc.value }); }
     catch (e) { courant = null; res.hidden = true; statut.textContent = e.message; return; }
-    var adresse = location.origin + '/composition/' + courant.id;
+    /* ATLAS vit à la racine de son domaine, ou sous /atlas/ sur lemondeaime.com */
+    var adresse = location.origin + (/^\/atlas(\/|$)/.test(location.pathname) ? '/atlas' : '') + '/composition/' + courant.id;
     $('publier-id').textContent = courant.id;
     $('publier-adresse').textContent = adresse;
     $('publier-reference').textContent = JSON.stringify({ format: 'atlas-reference', version: 1, type: 'composition', id: courant.id });
