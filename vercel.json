@@ -94,6 +94,16 @@
       "source": "/atlas",
       "destination": "/chronologie",
       "permanent": false
+    },
+    {
+      "source": "/cube",
+      "destination": "/vue-cube",
+      "permanent": true
+    },
+    {
+      "source": "/cube.html",
+      "destination": "/vue-cube",
+      "permanent": true
     }
   ],
   "rewrites": [

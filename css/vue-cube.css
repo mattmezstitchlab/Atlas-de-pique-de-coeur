@@ -12,6 +12,7 @@
 .vc-entete .surtitre { color: rgba(255,255,255,.65); }
 .vc-titre { margin: 0; font-size: clamp(30px, 3.6vw, 52px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
 .vc-aide { margin: 4px 0 0; font-size: 15px; color: rgba(255,255,255,.7); }
+.vc-aide a { color: var(--blanc); text-underline-offset: 3px; }
 .vc-scene { position: relative; width: var(--c); height: var(--c); margin: calc(var(--c) * .1) 0 calc(var(--c) * .16); perspective: calc(var(--c) * 3.2); touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; border-radius: 12px; outline-offset: 30px; }
 .vc-scene.glisse { cursor: grabbing; }
 .vc-scene:focus-visible { outline: 2px solid var(--nacre-lilas); }
