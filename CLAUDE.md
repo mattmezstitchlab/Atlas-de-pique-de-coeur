@@ -10,7 +10,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 
 ## Les règles qui font la différence
 
-- **Rien hors de l’atlas** : pas de lien vers le studio de broderie ni la boutique ; pas de Disque reconstruit ici. Une seule sortie : le lien « Retour à AIME · .0NE » (pied de page, et le cercle de l’accueil). Le bouton ATLAS du dock du haut ramène à l’accueil.
+- **Rien hors de l’atlas** : pas de lien vers le studio de broderie ni la boutique ; pas de Disque reconstruit ici. Une seule sortie : le lien « Retour à Le Monde AIME » (pied de page, vers www.lemondeaime.com, dont ATLAS est un projet) ; et, dans le récit de l’accueil, le cercle .0NE (www.lemondeaime.com/studio/one/univers). Le bouton ATLAS du dock du haut ramène à l’accueil.
 - **Trois espaces, des adresses définitives** : `/` (Accueil · Comprendre), `/chronologie` (Explorer), `/composition` (Créer). Une création publiée : `/composition/<id>`, en lecture seule. Aussi : `/importer` (l’import : les fichiers dans le Cube), `/vue-cube` (la vue Cube, en verre), `/ecosysteme`, `/moteur`, `/administration` (éditeur local, sans connexion : jamais présenté comme un espace sécurisé). Les anciennes adresses (`/metamorphose`, `/admin`, `/cube`, `/#chapitre`) redirigent.
 - **En français**, vouvoiement, phrases entières, typographie française (espace insécable avant `:` `;` `?` `!`, apostrophe ’, « guillemets »).
 - **L’encre sur le papier** : `encre` sur `fond`, surfaces en `carte`, filets en `trait`. La couleur vient des photos et de la nacre de l’orbe, jamais des boutons.
@@ -34,6 +34,8 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `administration.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
 | `metamorphose.html` · `admin.html` | Renvois vers les nouvelles adresses, pour les anciens liens hors Vercel |
 | `moteur.html` | Le moteur : reconstruit une demande à partir des mots de la personne, et les statistiques qui le fondent |
+| `css/police.css` · `fonts/inter-tight/` | La police, servie par le site (Inter Tight variable, latin et latin étendu, licence OFL dans `fonts/inter-tight/OFL.txt`) : aucune page n’appelle Google |
+| `tests/` · `.github/workflows/tests.yml` | Les tests : `node --test tests/*.test.mjs`, et `tests/e2e_pages.mjs` qui ouvre chaque page comme un visiteur (sans erreur, sans défilement horizontal, police locale, aperçu de partage) puis le récit et l’import ; lancés à chaque PR. En local : `node tests/serveur.mjs 8090 &` puis `BASE=http://localhost:8090 node tests/e2e_pages.mjs` |
 | `css/tokens.css` | Les jetons compilés (générés depuis `design-system/tokens.json`) |
 | `css/composants.css` | Les composants du site lemondeaime.com (boutons, champs, docks, cartes, pastilles…) |
 | `css/atlas.css` | La mise en page propre à l’atlas |
@@ -44,6 +46,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `data/lexique.js` | Les mots que le moteur reconnaît (intentions, moments, lieux, conditions, ordre) |
 | `data/visuels.js` | La bibliothèque des visuels (photo, texte alt, famille) : les bandeaux de la chronologie et les blocs « visuel » de la Métamorphose |
 | `data/chronologie.js` | La chronologie **publiée** 1999 – 2025 (entrées, archives, relations) : public, produit par l’éditeur |
+| `data/temps.json` · `outils/temps.mjs` | Le temps d’ATLAS pour le calendrier du Disque de lemondeaime.com (format `atlas-temps` v1) : les entrées publiées de la chronologie et les jours de création des applications, chacun avec sa précision et sa source. Généré, jamais écrit à la main ; lisible depuis lemondeaime.com |
 | `data/statistiques.js` | Ce que les gens demandent aux agents IA et ce qu’ils veulent en faire, avec leurs sources |
 | `js/atlas.js` | L’affichage des données et le dock du bas |
 | `js/briques.js` | La forme d’un bloc dans la Charte (fragment ou brique), partagée par l’atlas et la Métamorphose |
@@ -68,6 +71,7 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un nouveau chapitre** : un objet de plus dans `chapitres` ; il apparaît aussi dans le dock du bas de la chronologie, et comme une station du Récit sur l’accueil.
 - **Un nouveau projet ou un changement d’état** : `data/projets.js`.
 - **Une nouvelle application Base44** : une ligne de plus dans `data/applications.js`, avec sa date de création et sa famille.
+- **Après une chronologie publiée ou une nouvelle application** : `node outils/temps.mjs` régénère `data/temps.json` (le calendrier du Disque de lemondeaime.com le lit) ; `tests/temps.test.mjs` échoue tant qu’il n’est pas à jour.
 - **Un nouveau visuel** : la photo dans `media/`, une ligne dans `data/visuels.js` avec un `alt` qui dit qui et où ; pour le mettre en bandeau d’une époque, son `id` dans le champ `bandeau` du chapitre (`data/histoire.js`).
 - **Un module** : une entrée dans `data/modules.js` (avec ses capacités sources) et sa fonction dans `CORPS` de `js/modules.js`.
 - **Une brique de l’achèvement** : `data/achevement.js` ; sa place (x, y, w, h) est en colonnes sur 12.
@@ -75,6 +79,6 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un mot que le traducteur ne relie à aucun fragment** : l’ajouter dans `data/traduction.js`, sans accents, sous le module ou la brique voulus.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
-- **Une nouvelle page** : partir de `chronologie.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.
+- **Une nouvelle page** : partir de `chronologie.html`, garder `css/police.css` puis les trois feuilles de style dans cet ordre, les balises d’aperçu de partage (`og:`), le dock du haut et le pied de page ; l’ajouter à `PAGES` dans `tests/e2e_pages.mjs`.
 
 Le site est statique, sans étape de construction : on ouvre `index.html` (l’accueil), ou on le sert tel quel (Vercel, GitHub Pages).

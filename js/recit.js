@@ -89,11 +89,11 @@
   var NATURE = { devenu: 'devenu', eclaire: 'éclaire', suite: 'suite' };
   S.push({ id: 'relations', face: 'gauche', dock: 'relations', motif: 'neuf', proj: { img: (VIS.fils || {}).src, titre: 'Relations', sur: 'Du cube à la grille' },
     tuiles: C.relations.slice(0, 6).map(function (r) { return { b: NATURE[r.nature] || r.nature, s: tete(r.justification), href: 'chronologie.html#' + r.de }; })
-      .concat([{ b: '□', s: 'Le carré · ATLAS', href: 'composition.html' }, { b: '○', s: 'Le cercle · .0NE', href: 'https://preview.lemondeaime.com/studio/one/univers' }, { b: '·', s: 'Le Point · AIME', nacre: true, href: 'chronologie.html#e-cube-grille' }]),
+      .concat([{ b: '□', s: 'Le carré · ATLAS', href: 'composition.html' }, { b: '○', s: 'Le cercle · .0NE', href: 'https://www.lemondeaime.com/studio/one/univers' }, { b: '·', s: 'Le Point · AIME', nacre: true, href: 'chronologie.html#e-cube-grille' }]),
     carte: { sur: 'Du cube à la grille', titre: 'Relations', texte: 'Les archives racontent. Les fragments composent. Les relations transforment. La grille rassemble.',
       corps: liste(C.relations.map(function (r) { return [NATURE[r.nature] || r.nature, tete(r.justification), 'chronologie.html#' + r.de]; })) +
         '<blockquote>« Pendant vingt-cinq ans, j’ai créé des fragments. Aujourd’hui, j’ai trouvé comment les relier. »</blockquote>' +
-        liens([['Le carré · la grille', 'composition.html'], ['Le cercle · .0NE ↗', 'https://preview.lemondeaime.com/studio/one/univers', 1]]) } });
+        liens([['Le carré · la grille', 'composition.html'], ['Le cercle · .0NE ↗', 'https://www.lemondeaime.com/studio/one/univers', 1]]) } });
 
   /* les Modules : neuf, une case chacun */
   S.push({ id: 'modules', face: 'haut', dock: 'modules', motif: 'neuf', proj: { img: (VIS.saxophoniste || {}).src, titre: 'Modules', sur: 'Timeline, Agenda, Facture…' },

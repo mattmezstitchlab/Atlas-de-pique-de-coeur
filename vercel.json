@@ -25,7 +25,7 @@
       ]
     },
     {
-      "source": "/(media|design-system/assets)/(.*)",
+      "source": "/(media|design-system/assets|fonts)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -43,6 +43,19 @@
         {
           "key": "Cache-Control",
           "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/data/temps.json",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=86400"
         }
       ]
     },
