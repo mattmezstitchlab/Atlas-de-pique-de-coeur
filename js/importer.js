@@ -23,13 +23,13 @@
   /* ---------- lire un fichier, quel qu’il soit ---------- */
   var TYPES = { pdf: 'pdf', png: 'image', jpg: 'image', jpeg: 'image', webp: 'image', gif: 'image', svg: 'image', avif: 'image',
     txt: 'texte', md: 'texte', markdown: 'texte', csv: 'tableau', tsv: 'tableau', json: 'json', html: 'html', htm: 'html',
-    mp3: 'audio', wav: 'audio', m4a: 'audio', ogg: 'audio', mp4: 'video', mov: 'video', webm: 'video', zip: 'archive' };
+    mp3: 'audio', wav: 'audio', m4a: 'audio', ogg: 'audio', mp4: 'video', mov: 'video', webm: 'video', zip: 'archive', dst: 'broderie', pes: 'broderie' };
   /* le code et la configuration se lisent comme du texte (jamais exécutés) */
   'js jsx ts tsx mjs cjs mts css scss sass less vue svelte astro py rb php java kt swift go rs c h cpp sh sql yml yaml toml ini xml jsonc patch diff log env example gitignore rtf tex srt vtt'.split(' ').forEach(function (x) { TYPES[x] = TYPES[x] || 'texte'; });
   /* des noms trop communs pour relier deux projets à eux seuls */
   var CODE = /\.(js|jsx|ts|tsx|mjs|cjs|mts|css|scss|sass|less|vue|svelte|astro|py|rb|php|java|kt|swift|go|rs|c|h|cpp|sh|sql|jsonc|patch|diff|lock)$/i;
   var GENERIQUES = ('readme index main app style styles package package-lock config vite.config tsconfig utils types constants license changelog favicon logo robots manifest home page layout router routes store api test setup').split(' ');
-  var NOM_TYPE = { pdf: 'PDF', image: 'Image', texte: 'Texte', tableau: 'Tableau', json: 'Données', html: 'Page web', audio: 'Son', video: 'Vidéo', archive: 'Archive ZIP', autre: 'Autre format' };
+  var NOM_TYPE = { pdf: 'PDF', image: 'Image', texte: 'Texte', tableau: 'Tableau', json: 'Données', html: 'Page web', audio: 'Son', video: 'Vidéo', archive: 'Archive ZIP', broderie: 'Broderie machine', autre: 'Autre format' };
   var CITE = /[\w\-.]+\.(?:pdf|png|jpe?g|webp|gif|svg|csv|tsv|txt|md|html?|json|mp3|wav|m4a|mp4|mov|webm|docx?|xlsx?|pptx?|zip)\b/gi;
 
   function dates(texte) {
@@ -94,6 +94,7 @@
     };
     if (type === 'image') return new Promise(function (ok) { var im = new Image(); im.onload = function () { d.format = im.naturalWidth + ' × ' + im.naturalHeight + ' px'; d.apercu = d.url; ok(fin()); }; im.onerror = function () { d.alertes.push('L’image n’a pas pu être affichée.'); ok(fin()); }; im.src = d.url; });
     if (type === 'pdf') return f.arrayBuffer().then(function (b) { return lirePdf(d, b); }).then(fin);
+    if (type === 'broderie') return f.arrayBuffer().then(function (b) { lireBroderie(d, new Uint8Array(b)); return fin(); });
     if (type === 'texte' || type === 'tableau' || type === 'json' || type === 'html') return f.text().then(function (t) {
       if (type === 'html') {
         var doc = new DOMParser().parseFromString(t.replace(/<\/(h\d|p|div|li|td|th|tr|section|article|header|footer|title)>|<br\s*\/?>/gi, '$& '), 'text/html');   /* un espace entre les blocs : sinon les mots se collent */
@@ -205,6 +206,75 @@
     }));
   }
 
+  /* ---------- la broderie machine : Tajima .dst et Brother .pes, lus comme pyembroidery (MIT) les lit ----------
+     Un fichier de machine est une suite de déplacements (en dixièmes de millimètre) : des points, des sauts, des changements de fil.
+     On dessine le tracé tel que la machine le broderait, et on le compare à ce que le fichier annonce : un écart est dit. */
+  /* les 64 fils Brother du format PEC (pyembroidery, EmbThreadPec) */
+  var PEC = [null,'#0e1f7c','#0a55a3','#008777','#4b6baf','#ed171f','#d15c00','#913697','#e49acb','#915fac','#9ed67d','#e8a900','#feba35','#ffff00','#70bc1f','#ba9800','#a8a8a8','#7d6f00','#ffffb3','#4f5556','#000000','#0b3d91','#770176','#293133','#2a1301','#f64a8a','#b27624','#fcbbc5','#fe370f','#f0f0f0','#6a1c8a','#a8ddc4','#2584bb','#feb343','#fff36b','#d0a660','#d15400','#66ba49','#134a46','#878787','#d8ccc6','#435607','#fdd9de','#f993bc','#003822','#b2afd4','#686ab0','#efe3b9','#f73866','#b54b64','#132b1a','#c70156','#fe9e32','#a8deeb','#00673e','#4e2990','#2f7e20','#ffcccc','#ffd911','#095ba6','#f0f970','#e3f35b','#ff9900','#fff08d','#ffc8c8'];
+  var PEC_NOMS = '|Prussian Blue|Blue|Teal Green|Cornflower Blue|Red|Reddish Brown|Magenta|Light Lilac|Lilac|Mint Green|Deep Gold|Orange|Yellow|Lime Green|Brass|Silver|Russet Brown|Cream Brown|Pewter|Black|Ultramarine|Royal Purple|Dark Gray|Dark Brown|Deep Rose|Light Brown|Salmon Pink|Vermilion|White|Violet|Seacrest|Sky Blue|Pumpkin|Cream Yellow|Khaki|Clay Brown|Leaf Green|Peacock Blue|Gray|Warm Gray|Dark Olive|Flesh Pink|Pink|Deep Green|Lavender|Wisteria Violet|Beige|Carmine|Amber Red|Olive Green|Dark Fuchsia|Tangerine|Light Blue|Emerald Green|Purple|Moss Green|Flesh Pink|Harvest Gold|Electric Blue|Lemon Yellow|Fresh Green|Orange|Cream Yellow|Applique'.split('|');
+  var bit = function (v, n) { return (v >> n) & 1; };
+  function lireDst(u8) {
+    var ent = {}; new TextDecoder('windows-1252').decode(u8.subarray(0, 512)).split(/[\r\n]/).forEach(function (l) { var m = /^([A-Z+-]{2}):\s*(.*)$/.exec(l); if (m) ent[m[1]] = m[2].replace(/\x1a.*$/, '').trim(); });
+    var pts = [], x = 0, y = 0, fil = 0;
+    for (var i = 512; i + 2 < u8.length; i += 3) {
+      var a = u8[i], b = u8[i + 1], c = u8[i + 2];
+      if ((c & 0xF3) === 0xF3) break;
+      x += 81 * bit(c, 2) - 81 * bit(c, 3) + 27 * bit(b, 2) - 27 * bit(b, 3) + 9 * bit(a, 2) - 9 * bit(a, 3) + 3 * bit(b, 0) - 3 * bit(b, 1) + bit(a, 0) - bit(a, 1);
+      y -= 81 * bit(c, 5) - 81 * bit(c, 4) + 27 * bit(b, 5) - 27 * bit(b, 4) + 9 * bit(a, 5) - 9 * bit(a, 4) + 3 * bit(b, 7) - 3 * bit(b, 6) + bit(a, 7) - bit(a, 6);
+      if ((c & 0xC3) === 0xC3) { fil++; pts.push([x, y, 0, fil]); continue; }
+      pts.push([x, y, (c & 0x83) === 0x83 ? 0 : 1, fil]);
+    }
+    var n = function (k) { return ent[k] !== undefined && /^[+-]?\d+$/.test(ent[k]) ? Math.abs(parseInt(ent[k], 10)) : null; };
+    var annonce = n('+X') !== null && n('-X') !== null && n('+Y') !== null && n('-Y') !== null ? { l: n('+X') + n('-X'), h: n('+Y') + n('-Y'), points: n('ST'), fils: n('CO') !== null ? n('CO') + 1 : null } : null;
+    return { format: 'Tajima DST', nom: ent.LA || '', pts: pts, fils: fil + 1, couleurs: null, annonce: annonce };
+  }
+  function lirePes(u8) {
+    var v = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), txt = function (a, b) { return new TextDecoder('windows-1252').decode(u8.subarray(a, b)); };
+    if (txt(0, 4) !== '#PES') return null;
+    var p = v.getUint32(8, true); if (p + 532 > u8.length) return { erreur: 'la partie PEC est hors du fichier' };
+    var nom = txt(p + 3, p + 19).trim(), cc = u8[p + 48], idx = Array.prototype.slice.call(u8.subarray(p + 49, p + 49 + cc + 1));
+    var q = p + 49 + cc + 1 + 0x1D0 - cc + 3 + 0x0B, pts = [], x = 0, y = 0, fil = 0, s7 = function (b) { return b > 63 ? b - 128 : b; }, s12 = function (c) { c &= 0xFFF; return c > 0x7FF ? c - 0x1000 : c; };
+    while (q + 1 < u8.length) {
+      var v1 = u8[q++], v2 = u8[q++], saut = false, dx, dy;
+      if (v1 === 0xFF && v2 === 0x00) break;
+      if (v1 === 0xFE && v2 === 0xB0) { q++; fil++; continue; }
+      if (v1 & 0x80) { if (v1 & 0x30) saut = true; dx = s12((v1 << 8) | v2); v2 = u8[q++]; } else dx = s7(v1);
+      if (v2 & 0x80) { if (v2 & 0x30) saut = true; dy = s12((v2 << 8) | u8[q++]); } else dy = s7(v2);
+      x += dx; y += dy; pts.push([x, y, saut ? 0 : 1, fil]);
+    }
+    return { format: 'Brother PES ' + txt(4, 8), nom: nom, pts: pts, fils: fil + 1, couleurs: idx.map(function (k) { return { hex: PEC[k % PEC.length] || '#888888', nom: PEC_NOMS[k % PEC.length] || '' }; }), annoncesFils: cc + 1 };
+  }
+  function lireBroderie(d, u8) {
+    var r = d.ext === 'pes' ? lirePes(u8) : lireDst(u8);
+    if (!r || r.erreur) { d.alertes.push('Broderie illisible : ' + (r ? r.erreur : 'ce n’est pas un fichier PES') + '.'); return; }
+    var pp = r.pts.filter(function (t) { return t[2]; }), points = pp.length;
+    if (!points) { d.alertes.push('Aucun point lisible là où le format ' + r.format.split(' ')[0] + ' les attend : le fichier semble mal écrit par le logiciel qui l’a produit.'); return; }
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    pp.forEach(function (t) { if (t[0] < x0) x0 = t[0]; if (t[0] > x1) x1 = t[0]; if (t[1] < y0) y0 = t[1]; if (t[1] > y1) y1 = t[1]; });
+    var l = (x1 - x0) / 10, h = (y1 - y0) / 10, mm = function (v) { return v >= 1000 ? (v / 1000).toFixed(1).replace('.', ',') + ' m' : Math.round(v) + ' mm'; };
+    d.broderie = { format: r.format, nom: r.nom, points: points, sauts: r.pts.length - points, fils: r.fils, l: l, h: h, couleurs: r.couleurs };
+    d.format = r.format + ' · ' + points.toLocaleString('fr-FR') + ' points · ' + r.fils + ' fil' + (r.fils > 1 ? 's' : '') + ' · ' + mm(l) + ' × ' + mm(h);
+    d.texte = [r.nom, r.couleurs ? r.couleurs.map(function (c) { return c.nom; }).join(' ') : ''].join(' ');
+    /* ce que le fichier annonce, contre ce qu’il contient */
+    if (r.annonce) {
+      var al = r.annonce.l / 10, ah = r.annonce.h / 10;
+      if (al && ah && (l > al * 1.2 + 2 || h > ah * 1.2 + 2)) d.alertes.push('Le tracé ne correspond pas à l’en-tête : ' + mm(al) + ' × ' + mm(ah) + ' annoncés, ' + mm(l) + ' × ' + mm(h) + ' lus. Le fichier semble mal écrit par le logiciel qui l’a produit : une machine broderait autre chose que prévu.');
+      if (r.annonce.points && Math.abs(r.annonce.points - points) > r.annonce.points * 0.05 && Math.abs(r.annonce.points - r.pts.length) > r.annonce.points * 0.05) d.alertes.push('L’en-tête annonce ' + r.annonce.points.toLocaleString('fr-FR') + ' points ; le fichier en contient ' + points.toLocaleString('fr-FR') + ' (et ' + (r.pts.length - points).toLocaleString('fr-FR') + ' sauts).');
+    } else if (l > 500 || h > 500) d.alertes.push('Le tracé mesure ' + mm(l) + ' × ' + mm(h) + ' : aucun cadre de brodeuse n’est aussi grand. Le fichier semble mal écrit par le logiciel qui l’a produit.');
+    if (r.annoncesFils && r.annoncesFils !== r.fils) d.alertes.push('Le fichier annonce ' + r.annoncesFils + ' fils, mais en change ' + (r.fils - 1) + ' fois (' + r.fils + ' fils).');
+    if (!r.couleurs) d.alertes.push('Un fichier .dst ne porte pas les couleurs des fils : le tracé est dessiné en teintes de repère.');
+    /* le tracé, dessiné comme la machine le broderait : un trait par point, rien pour les sauts */
+    var c = document.createElement('canvas'), T = 640, m = 24, e = Math.min((T - 2 * m) / Math.max(1, x1 - x0), (T - 2 * m) / Math.max(1, y1 - y0));
+    c.width = c.height = T; var g = c.getContext('2d'); g.fillStyle = '#f7f4ee'; g.fillRect(0, 0, T, T); g.lineWidth = 1.4; g.lineCap = 'round';
+    var REPERES = ['#4b5a88', '#bc4365', '#2f7e20', '#d15c00', '#6a1c8a', '#0a55a3', '#b27624', '#134a46'], prec = null;
+    r.pts.forEach(function (t) {
+      var X = m + (t[0] - x0) * e, Y = m + (t[1] - y0) * e;
+      if (t[2] && prec && prec[3] === t[3]) { g.strokeStyle = r.couleurs && r.couleurs[t[3]] ? r.couleurs[t[3]].hex : REPERES[t[3] % REPERES.length]; g.beginPath(); g.moveTo(prec[4], prec[5]); g.lineTo(X, Y); g.stroke(); }
+      prec = [t[0], t[1], t[2], t[3], X, Y];
+    });
+    d.apercu = c.toDataURL('image/png');
+  }
+
   /* ---------- relier : seulement ce qui est réellement lié, avec sa raison ---------- */
   function relier(docs) {
     var rel = [], n = docs.length, df = {};
@@ -308,7 +378,7 @@
     var manques = [];
     docs.forEach(function (d) {
       d.cite.forEach(function (c) { if (!noms[sans(c)]) { var it = item('x:cite:' + slug(c), items['x:cite:' + slug(c)] || { court: 'manque', titre: c, sous: 'Cité, mais absent de l’import', date: 'Manquant', texte: '', etat: 'Prototype' }); it.texte = (it.texte ? it.texte + ' ' : 'Cité par ') + d.nom + '.'; lier(it.id, 'd:' + d.id); if (manques.indexOf(it) === -1) manques.push(it); } });
-      d.alertes.forEach(function (a, k) { if (/^Page|pas pu|non lu|vide|encodage|chiffré|^Archive non/.test(a)) { var it = item('x:' + d.id + ':' + k, { court: 'à lire', titre: d.nom, sous: a.split(' : ')[0], date: 'Lecture', texte: a, etat: 'Prototype' }); lier(it.id, 'd:' + d.id); manques.push(it); } });
+      d.alertes.forEach(function (a, k) { if (/^Page|pas pu|non lu|vide|encodage|chiffré|^Archive non|^Broderie illisible|mal écrit/.test(a)) { var it = item('x:' + d.id + ':' + k, { court: 'à lire', titre: d.nom, sous: a.split(' : ')[0], date: 'Lecture', texte: a, etat: 'Prototype' }); lier(it.id, 'd:' + d.id); manques.push(it); } });
     });
     (etat.lecture ? etat.lecture.manques : []).forEach(function (q, k) { manques.push(item('x:q:' + k, { court: '?', titre: q, sous: 'Votre demande ne le dit pas encore', date: 'À préciser', texte: 'Le moteur a lu votre demande ; cette information manque pour aller au bout.' })); });
     etat.manques = manques;
@@ -329,6 +399,7 @@
     if (d.type === 'image') return '<img class="imp-vue" src="' + esc(d.url) + '" alt="' + esc(d.nom) + '">';
     if (d.type === 'pdf') return (d.apercu ? '<img class="imp-vue" src="' + d.apercu + '" alt="Première page de ' + esc(d.nom) + '">' : '') + (d.texte ? '<p class="imp-texte">' + esc(d.texte.slice(0, 900)) + (d.texte.length > 900 ? '…' : '') + '</p>' : '');
     if (d.type === 'tableau' && d.lignes) return '<div class="imp-tableau"><table>' + d.lignes.slice(0, 12).map(function (l, i) { return '<tr>' + l.map(function (c) { return (i ? '<td>' : '<th>') + esc(c) + (i ? '</td>' : '</th>'); }).join('') + '</tr>'; }).join('') + '</table></div>';
+    if (d.type === 'broderie' && d.apercu) return '<img class="imp-vue" src="' + d.apercu + '" alt="Le tracé de la broderie ' + esc(d.nom) + ', dessiné point par point">' + (d.broderie && d.broderie.couleurs ? '<p class="imp-texte">Fils : ' + esc(d.broderie.couleurs.map(function (c) { return c.nom; }).filter(function (x, k, t) { return x && t.indexOf(x) === k; }).join(', ')) + '.</p>' : '');
     if (d.type === 'audio') return '<audio class="imp-vue" controls src="' + esc(d.url) + '"></audio>';
     if (d.type === 'video') return '<video class="imp-vue" controls src="' + esc(d.url) + '"></video>';
     if (d.texte) return '<p class="imp-texte">' + esc(d.texte.slice(0, 900)) + (d.texte.length > 900 ? '…' : '') + '</p>';
