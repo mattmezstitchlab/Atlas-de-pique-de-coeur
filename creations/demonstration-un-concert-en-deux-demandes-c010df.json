@@ -1,0 +1,56 @@
+{
+  "format": "atlas-creation",
+  "version": 1,
+  "id": "demonstration-un-concert-en-deux-demandes-c010df",
+  "titre": "Démonstration : un concert en deux demandes",
+  "description": "Une composition de démonstration, née de l’exemple « Un concert » du + : une affiche, puis la répartition des tâches.",
+  "publieLe": "2026-10-30",
+  "visibility": "public",
+  "publicationStatus": "publie",
+  "blocs": [
+    {
+      "uid": "p1",
+      "type": "module",
+      "ref": "missions",
+      "x": 0,
+      "y": 0,
+      "w": 4,
+      "h": 5
+    },
+    {
+      "uid": "p2",
+      "type": "module",
+      "ref": "musique",
+      "x": 4,
+      "y": 0,
+      "w": 4,
+      "h": 5,
+      "intentions": [
+        "image"
+      ]
+    },
+    {
+      "uid": "p3",
+      "type": "brique",
+      "ref": "edition",
+      "x": 0,
+      "y": 5,
+      "w": 6,
+      "h": 2,
+      "intentions": [
+        "image"
+      ]
+    }
+  ],
+  "liens": [
+    [
+      "p1",
+      "p2"
+    ],
+    [
+      "p2",
+      "p3"
+    ]
+  ],
+  "mise": null
+}

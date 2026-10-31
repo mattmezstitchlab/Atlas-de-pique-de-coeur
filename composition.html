@@ -106,6 +106,31 @@
       </div>
     </div>
   </section>
+
+  <section id="publier" class="chapitre plus-meta publier-meta" aria-labelledby="t-publier">
+    <p class="date-chapitre">Un geste volontaire · lecture seule</p>
+    <h2 id="t-publier" class="grand-mot">Publier</h2>
+    <p class="chapeau">Votre composition reste sur cet appareil. Si vous le choisissez, préparez-en une version publique : seule la forme de la grille est gardée (les blocs, leurs places, leurs liens, les intentions reconnues). Ce que vous avez saisi n’y est jamais : ni les phrases de vos demandes, ni les informations reconnues, ni les données des modules, ni les réglages d’image.</p>
+    <div class="plus-saisie">
+      <label class="etiquette-champ" for="publier-titre">Titre public</label>
+      <input id="publier-titre" class="champ" type="text" maxlength="80" placeholder="Un concert en deux demandes" autocomplete="off">
+      <label class="etiquette-champ" for="publier-description">Description publique (facultative)</label>
+      <textarea id="publier-description" class="champ zone" rows="2" maxlength="280"></textarea>
+      <label class="plus-choix"><input type="checkbox" id="publier-accord"> <span><span><strong>Je choisis de préparer une version publique de cette composition.</strong></span><small>Le fichier est préparé ici et téléchargé ; rien n’est envoyé. Il ne devient public qu’une fois ajouté au dépôt de l’atlas.</small></span></label>
+      <div class="actions"><button type="button" class="bouton noir" id="publier-preparer" disabled>Préparer la version publique</button></div>
+    </div>
+    <p class="resume" id="publier-statut" role="status" aria-live="polite"></p>
+    <div class="publier-resultat" id="publier-resultat" hidden>
+      <dl class="etude-liste">
+        <div><dt>Identifiant</dt><dd><code id="publier-id"></code></dd></div>
+        <div><dt>Adresse, une fois ajoutée</dt><dd><code id="publier-adresse"></code></dd></div>
+        <div><dt>Référence pour .0NE</dt><dd><code id="publier-reference"></code></dd></div>
+      </dl>
+      <details><summary>Le fichier exact, tel qu’il sera public</summary><pre class="publier-apercu" id="publier-apercu"></pre></details>
+      <div class="actions"><button type="button" class="bouton noir" id="publier-telecharger">Télécharger le fichier de publication</button></div>
+      <p class="note-source">Pour publier : ajoutez ce fichier, sans le modifier, dans le dossier <code>creations/</code> du dépôt de l’atlas (voir <code>docs/PUBLICATION.md</code>). Un fichier modifié après sa préparation est refusé à la lecture.</p>
+    </div>
+  </section>
 </main>
 
 <footer class="pied">
@@ -124,6 +149,7 @@
     <a class="lieu" href="#repetitions">La réparation</a>
     <a class="lieu" href="#plus">Le +</a>
     <a class="lieu" href="#atelier">La grille</a>
+    <a class="lieu" href="#publier">Publier</a>
     <a class="lieu" href="chronologie.html#demain">Retour à demain</a>
   </div>
 </nav>
@@ -140,5 +166,7 @@
 <script src="js/moteur.js"></script>
 <script src="data/traduction.js"></script>
 <script src="js/traducteur.js"></script>
+<script src="js/publication.js"></script>
+<script src="js/publier.js"></script>
 </body>
 </html>
