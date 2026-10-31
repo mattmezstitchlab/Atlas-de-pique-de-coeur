@@ -3,7 +3,7 @@
 import http from "node:http"; import fs from "node:fs"; import path from "node:path";
 const racine = process.cwd(), port = +(process.argv[2] || 8090);
 const v = JSON.parse(fs.readFileSync(path.join(racine, "vercel.json"), "utf8"));
-const types = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".json": "application/json; charset=utf-8", ".woff2": "font/woff2" };
+const types = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".json": "application/json; charset=utf-8", ".woff2": "font/woff2" };
 const motif = s => new RegExp("^" + s.replace(/\./g, "\\.").replace(/:([a-z]+)/gi, "(?<$1>[^/]+)") + "$");
 const fichier = p => { const f = path.join(racine, p); return f.startsWith(racine) && fs.existsSync(f) && fs.statSync(f).isFile() ? f : null; };
 http.createServer((req, res) => {
