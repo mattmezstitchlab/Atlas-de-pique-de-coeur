@@ -34,6 +34,8 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 | `administration.html` | Administration → Chronologie : l’éditeur **local** (aucune connexion n’existe encore ; voir `docs/ADMINISTRATION.md`) |
 | `metamorphose.html` · `admin.html` | Renvois vers les nouvelles adresses, pour les anciens liens hors Vercel |
 | `moteur.html` | Le moteur : reconstruit une demande à partir des mots de la personne, et les statistiques qui le fondent |
+| `css/police.css` · `fonts/inter-tight/` | La police, servie par le site (Inter Tight variable, latin et latin étendu, licence OFL dans `fonts/inter-tight/OFL.txt`) : aucune page n’appelle Google |
+| `tests/` · `.github/workflows/tests.yml` | Les tests : `node --test tests/*.test.mjs`, et `tests/e2e_pages.mjs` qui ouvre chaque page comme un visiteur (sans erreur, sans défilement horizontal, police locale, aperçu de partage) puis le récit et l’import ; lancés à chaque PR. En local : `node tests/serveur.mjs 8090 &` puis `BASE=http://localhost:8090 node tests/e2e_pages.mjs` |
 | `css/tokens.css` | Les jetons compilés (générés depuis `design-system/tokens.json`) |
 | `css/composants.css` | Les composants du site lemondeaime.com (boutons, champs, docks, cartes, pastilles…) |
 | `css/atlas.css` | La mise en page propre à l’atlas |
@@ -77,6 +79,6 @@ L’atlas de l’écosystème AIME : l’histoire de tous les projets, du début
 - **Un mot que le traducteur ne relie à aucun fragment** : l’ajouter dans `data/traduction.js`, sans accents, sous le module ou la brique voulus.
 - **Un mot que le moteur ne reconnaît pas** : l’ajouter dans `data/lexique.js`, sans accents, dans la bonne liste.
 - **Un nouveau chiffre** : `data/statistiques.js`, avec sa source ; quand les comptes rendus divergent, garder l’écart (min et max).
-- **Une nouvelle page** : partir de `chronologie.html`, garder les trois feuilles de style dans cet ordre, le dock du haut et le pied de page.
+- **Une nouvelle page** : partir de `chronologie.html`, garder `css/police.css` puis les trois feuilles de style dans cet ordre, les balises d’aperçu de partage (`og:`), le dock du haut et le pied de page ; l’ajouter à `PAGES` dans `tests/e2e_pages.mjs`.
 
 Le site est statique, sans étape de construction : on ouvre `index.html` (l’accueil), ou on le sert tel quel (Vercel, GitHub Pages).
