@@ -10,7 +10,7 @@ window.ATLAS.cube = {
     { id: 'atlas', nom: 'ATLAS', verbe: 'Rassembler', role: 'Fragments, dossiers, compositions et la Métamorphose.', position: 'droite',
       lien: { titre: 'Ouvrir la Composition', href: 'composition.html' } },
     { id: 'one', nom: '.0NE', verbe: 'Agir', role: 'Les univers du Disque. Le Disque vit dans .0NE ; le Cube n’en embarque pas le moteur.', position: 'haut',
-      lien: { titre: 'Ouvrir .0NE', href: 'https://preview.lemondeaime.com/studio/one/univers', externe: true } },
+      lien: { titre: 'Ouvrir .0NE', href: 'https://www.lemondeaime.com/studio/one/univers', externe: true } },
     { id: 'liens', nom: 'LIENS', verbe: 'Relier', role: 'Le réseau, les personnes, les collaborations, la Carte universelle AIME.', position: 'gauche',
       lien: null },
     { id: 'memory', nom: 'MEMORY', verbe: 'Transmettre', role: 'Souvenirs, archives, preuves, et LIFEBOOK.', position: 'arriere',

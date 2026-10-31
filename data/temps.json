@@ -1,0 +1,5196 @@
+{
+ "format": "atlas-temps",
+ "version": 1,
+ "titre": "ATLAS — l’histoire de l’écosystème AIME",
+ "adresse": "https://atlas.lemondeaime.com",
+ "sources": {
+  "chronologie": "data/chronologie.js, version publiée 1 du 2026-10-30",
+  "applications": "data/applications.js, 643 applications Base44"
+ },
+ "elements": [
+  {
+   "id": "c-1999-comines",
+   "genre": "chronologie",
+   "titre": "Première exposition, à Comines",
+   "date": "1999",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 1999 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-saint-luc-secondaire",
+   "genre": "chronologie",
+   "titre": "Saint-Luc, l’enseignement secondaire artistique",
+   "date": "1999",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, vers 1999 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-clip-saint-luc",
+   "genre": "chronologie",
+   "titre": "UPTOWN (jusqu’en 2005)",
+   "date": "2002",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 2002 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-cube-grille",
+   "genre": "chronologie",
+   "titre": "Du cube à la grille (jusqu’en 2026)",
+   "date": "2002",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 2002 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-saint-luc-superieur",
+   "genre": "chronologie",
+   "titre": "École supérieure des arts Saint-Luc, Tournai",
+   "date": "2002",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, vers 2002 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-2005-2024",
+   "genre": "chronologie",
+   "titre": "Vingt ans de pratique (jusqu’en 2024)",
+   "date": "2005",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 2005 : à vérifier",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-2005-sortie",
+   "genre": "chronologie",
+   "titre": "Sortie de Saint-Luc, avec mention",
+   "date": "2005",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 2005 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "c-2025-monde-aime",
+   "genre": "chronologie",
+   "titre": "Le Monde AIME, l’association",
+   "date": "2025",
+   "precision": "annee",
+   "source": "chronologie publiée d’ATLAS, 2025 : déclaré par Matt",
+   "lien": "/chronologie"
+  },
+  {
+   "id": "app-2025-11-10-msa-lab",
+   "genre": "application",
+   "titre": "MSA LAB",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-rainbow-synchronicity",
+   "genre": "application",
+   "titre": "Rainbow Synchronicity",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-signature-vibratoire",
+   "genre": "application",
+   "titre": "Signature Vibratoire ×3",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-signature-vibratoire-b",
+   "genre": "application",
+   "titre": "Signature Vibratoire®",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-signature-vibratoire-b-b",
+   "genre": "application",
+   "titre": "SIGNATURE VIBRATOIRE ®",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-vybz",
+   "genre": "application",
+   "titre": "VYBZ",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-10-vybz-ai",
+   "genre": "application",
+   "titre": "VYBZ.AI",
+   "date": "2025-11-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-mariage-invisible",
+   "genre": "application",
+   "titre": "Mariage Invisible®",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-mariage-vibratoire",
+   "genre": "application",
+   "titre": "MARIAGE VIBRATOIRE® ×2",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-mariage-vibratoire-b",
+   "genre": "application",
+   "titre": "Mariage Vibratoire ×3",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-mariage-vibratoire-b-b",
+   "genre": "application",
+   "titre": "Mariage Vibratoire®",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre ×2",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-saxophone-caretaker",
+   "genre": "application",
+   "titre": "Saxophone Caretaker",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-11-wendy-the-conscious-wedding-conductor",
+   "genre": "application",
+   "titre": "WENDY® — The Conscious Wedding Conductor",
+   "date": "2025-11-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-12-adopte-un-bec",
+   "genre": "application",
+   "titre": "ADOPTE UN BEC ×2",
+   "date": "2025-11-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-12-solux",
+   "genre": "application",
+   "titre": "SOLUX ×2",
+   "date": "2025-11-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-12-solux-la-partition-du-vivant",
+   "genre": "application",
+   "titre": "SOLUX – La Partition du Vivant®",
+   "date": "2025-11-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-12-wendy-the-conscious-wedding-conductor-co",
+   "genre": "application",
+   "titre": "WENDY® — The Conscious Wedding Conductor (Copy)",
+   "date": "2025-11-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-arboria",
+   "genre": "application",
+   "titre": "ARBORIA™",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-circle-of-life",
+   "genre": "application",
+   "titre": "CIRCLE OF LIFE ×3",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-eventia",
+   "genre": "application",
+   "titre": "EVENTIA ×2",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-one",
+   "genre": "application",
+   "titre": "ONE ×3",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-philippe-de-comines",
+   "genre": "application",
+   "titre": "Philippe de Comines",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-philippe-de-comines-memoire-vivante",
+   "genre": "application",
+   "titre": "Philippe de Comines — Mémoire Vivante",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre ×5",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-13-wedding-planner",
+   "genre": "application",
+   "titre": "Wedding Planner",
+   "date": "2025-11-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-admin-flow",
+   "genre": "application",
+   "titre": "ADMIN-FLOW",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-agri-flow",
+   "genre": "application",
+   "titre": "AGRI-FLOW",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-artyst-le-passeport-numerique-universel-",
+   "genre": "application",
+   "titre": "ARTYST® – Le Passeport Numérique Universel de l’Artiste",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-eve",
+   "genre": "application",
+   "titre": "EVE",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-finara-copy",
+   "genre": "application",
+   "titre": "Finara (Copy)",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-ma-providence-templeuve",
+   "genre": "application",
+   "titre": "Ma Providence – Templeuve",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-one",
+   "genre": "application",
+   "titre": "ONE",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-orbital-copy",
+   "genre": "application",
+   "titre": "Orbital (Copy)",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-sax-shop",
+   "genre": "application",
+   "titre": "SAX-SHOP",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-saxmuseom-galaxy-of-saxes",
+   "genre": "application",
+   "titre": "SAXMUSEOM – Galaxy of Saxes",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-saxo-puzzle",
+   "genre": "application",
+   "titre": "SAXO-PUZZLE",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-taskflow-copy",
+   "genre": "application",
+   "titre": "TaskFlow (Copy)",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-14-ticket-flow",
+   "genre": "application",
+   "titre": "TICKET-FLOW",
+   "date": "2025-11-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-art-therapie-expression-transformation-g",
+   "genre": "application",
+   "titre": "ART THÉRAPIE – Expression, Transformation & Guérison Intérieure",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-faites-l-humour-pas-la-guerre-couple-edi",
+   "genre": "application",
+   "titre": "Faites l'humour, pas la guerre – Couple Edition",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-fleur-de-peau",
+   "genre": "application",
+   "titre": "FLEUR DE PEAU",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-matt-mez-sax-signature-vibratoire",
+   "genre": "application",
+   "titre": "Matt Mez Sax - Signature Vibratoire",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-point-de-croix-creator",
+   "genre": "application",
+   "titre": "Point de Croix Creator",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-sax-shop",
+   "genre": "application",
+   "titre": "SAX-SHOP",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-saxo-puzzle-3d",
+   "genre": "application",
+   "titre": "Saxo-Puzzle 3D",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-stitch-universe",
+   "genre": "application",
+   "titre": "Stitch Universe",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-15-vybz",
+   "genre": "application",
+   "titre": "VYBZ",
+   "date": "2025-11-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-16-paty-broderie-creative",
+   "genre": "application",
+   "titre": "PATY - Broderie Créative",
+   "date": "2025-11-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-16-paty-grids",
+   "genre": "application",
+   "titre": "Paty Grids",
+   "date": "2025-11-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-18-paty-grids",
+   "genre": "application",
+   "titre": "PATY GRIDS",
+   "date": "2025-11-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-20-paty",
+   "genre": "application",
+   "titre": "PATY",
+   "date": "2025-11-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-20-paty-companion-point-de-croix",
+   "genre": "application",
+   "titre": "PATY – Companion Point de Croix",
+   "date": "2025-11-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-20-paty-point-de-croix-maitre",
+   "genre": "application",
+   "titre": "PATY - Point de Croix Maître",
+   "date": "2025-11-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-20-paty-studio",
+   "genre": "application",
+   "titre": "PATY Studio",
+   "date": "2025-11-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-21-paty-point-de-croix",
+   "genre": "application",
+   "titre": "PATY Point de Croix",
+   "date": "2025-11-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-24-paty-point-de-croix-copy",
+   "genre": "application",
+   "titre": "PATY Point de Croix (Copy)",
+   "date": "2025-11-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-24-sub-systeme-universel-de-broderie-lecoin",
+   "genre": "application",
+   "titre": "SUB – Système Universel de Broderie (LECOINTRE)",
+   "date": "2025-11-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-25-sub-id",
+   "genre": "application",
+   "titre": "SUB-ID™",
+   "date": "2025-11-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-27-alpha-r2d2",
+   "genre": "application",
+   "titre": "ALPHA•R2D2",
+   "date": "2025-11-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-27-immo-timeline-3300",
+   "genre": "application",
+   "titre": "Immo-Timeline 3300®",
+   "date": "2025-11-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-27-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre ×2",
+   "date": "2025-11-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-28-livr",
+   "genre": "application",
+   "titre": "LIVR",
+   "date": "2025-11-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-28-lumina",
+   "genre": "application",
+   "titre": "LUMINA ×2",
+   "date": "2025-11-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-28-lumina-real-estate",
+   "genre": "application",
+   "titre": "Lumina Real Estate",
+   "date": "2025-11-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-geovybz",
+   "genre": "application",
+   "titre": "GeoVybz",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-lumina-le-dpe-humain",
+   "genre": "application",
+   "titre": "Lumina: Le DPE Humain®",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-safe-ticket",
+   "genre": "application",
+   "titre": "Safe-Ticket",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre ×2",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-sax-sax-infinity",
+   "genre": "application",
+   "titre": "SAX∞ (Sax Infinity)",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-saxbuilder",
+   "genre": "application",
+   "titre": "SaxBuilder",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-saxdiag",
+   "genre": "application",
+   "titre": "SaxDiag",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-saxparts",
+   "genre": "application",
+   "titre": "SaxParts",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-29-vybz",
+   "genre": "application",
+   "titre": "VYBZ",
+   "date": "2025-11-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-30-boite-aux-lettres-360",
+   "genre": "application",
+   "titre": "Boîte aux Lettres 360",
+   "date": "2025-11-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-30-eclat-secret",
+   "genre": "application",
+   "titre": "Éclat Secret",
+   "date": "2025-11-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-30-eventflow",
+   "genre": "application",
+   "titre": "EventFlow",
+   "date": "2025-11-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-30-safe-sax-3d",
+   "genre": "application",
+   "titre": "SAFE-SAX® 3D",
+   "date": "2025-11-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-11-30-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2025-11-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-01-nordik3",
+   "genre": "application",
+   "titre": "Nordik3",
+   "date": "2025-12-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-02-base-camp",
+   "genre": "application",
+   "titre": "BASE CAMP",
+   "date": "2025-12-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-02-libertyx",
+   "genre": "application",
+   "titre": "LIBERTYX®",
+   "date": "2025-12-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-02-libertyx-b",
+   "genre": "application",
+   "titre": "LIBERTYX",
+   "date": "2025-12-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-02-one-booking",
+   "genre": "application",
+   "titre": "ONE BOOKING",
+   "date": "2025-12-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-03-barbichette",
+   "genre": "application",
+   "titre": "Barbichette®",
+   "date": "2025-12-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-03-barbichette-le-duel-rigolo",
+   "genre": "application",
+   "titre": "Barbichette - Le Duel Rigolo",
+   "date": "2025-12-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-04-nomad-no-cry-liberte-protegee",
+   "genre": "application",
+   "titre": "Nomad No Cry - Liberté Protégée",
+   "date": "2025-12-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-autonom",
+   "genre": "application",
+   "titre": "AUTONOM",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-cerveau-administratif-personnel",
+   "genre": "application",
+   "titre": "Cerveau Administratif Personnel",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-homygod",
+   "genre": "application",
+   "titre": "HOMYGOD™",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-kiky",
+   "genre": "application",
+   "titre": "KIKY",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-libertyx",
+   "genre": "application",
+   "titre": "LibertyX",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-meetyx",
+   "genre": "application",
+   "titre": "MEETYX",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-05-nomad-no-cry-ultimate",
+   "genre": "application",
+   "titre": "Nomad No Cry™ Ultimate",
+   "date": "2025-12-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-cleanwander",
+   "genre": "application",
+   "titre": "CleanWander",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-grattage-republicain",
+   "genre": "application",
+   "titre": "Grattage Républicain",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-lily",
+   "genre": "application",
+   "titre": "LILY",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-matt-mez-lab",
+   "genre": "application",
+   "titre": "Matt Mez Lab",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-merci",
+   "genre": "application",
+   "titre": "Merci",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-nomad-no-cry-liberte-protegee-copy",
+   "genre": "application",
+   "titre": "Nomad No Cry - Liberté Protégée (Copy)",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-06-worky",
+   "genre": "application",
+   "titre": "Worky",
+   "date": "2025-12-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-11-chroniques-de-cocaine",
+   "genre": "application",
+   "titre": "Chroniques de Cocaïne",
+   "date": "2025-12-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-11-la-ligne-blanche",
+   "genre": "application",
+   "titre": "La Ligne Blanche",
+   "date": "2025-12-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-connexion-locale",
+   "genre": "application",
+   "titre": "Connexion Locale",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-creche-legale",
+   "genre": "application",
+   "titre": "Crèche Légale®",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-flipo-pro",
+   "genre": "application",
+   "titre": "Flipo Pro",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-justiscan",
+   "genre": "application",
+   "titre": "Justiscan",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-la-ch-tite-maison-solidaire",
+   "genre": "application",
+   "titre": "La Ch’tite Maison Solidaire",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-la-ligne-blanche",
+   "genre": "application",
+   "titre": "La Ligne Blanche",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-mariage-vivant",
+   "genre": "application",
+   "titre": "Mariage Vivant",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-matt-mez-sax-booking-events",
+   "genre": "application",
+   "titre": "Matt Mez Sax - Booking & Events",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-memoire-vive",
+   "genre": "application",
+   "titre": "Mémoire Vive",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-parcours-de-guerison-transgenerationnell",
+   "genre": "application",
+   "titre": "Parcours de Guérison Transgénérationnelle",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-saxbooker",
+   "genre": "application",
+   "titre": "SAXBOOKER",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-saxxx",
+   "genre": "application",
+   "titre": "SAXXX ×2",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-saxxx-plateforme-saxophone",
+   "genre": "application",
+   "titre": "SAXXX - Plateforme Saxophone",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-saxxx-the-global-sax-platform",
+   "genre": "application",
+   "titre": "SAXXX - The Global Sax Platform ×2",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-12-scantravel",
+   "genre": "application",
+   "titre": "ScanTravel",
+   "date": "2025-12-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-13-artisteconnect",
+   "genre": "application",
+   "titre": "ArtisteConnect",
+   "date": "2025-12-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-13-la-juste-parole",
+   "genre": "application",
+   "titre": "LA JUSTE PAROLE",
+   "date": "2025-12-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-1001-visages",
+   "genre": "application",
+   "titre": "1001 VISAGES",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-artist-connect",
+   "genre": "application",
+   "titre": "ARTIST CONNECT ×3",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-food-detective",
+   "genre": "application",
+   "titre": "Food Detective ×2",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-potato",
+   "genre": "application",
+   "titre": "POTATO®",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-respectful-remembrance",
+   "genre": "application",
+   "titre": "Respectful Remembrance",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-saxscan",
+   "genre": "application",
+   "titre": "SAXSCAN",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-14-scan-promesse",
+   "genre": "application",
+   "titre": "SCAN PROMESSE®",
+   "date": "2025-12-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-15-accordia",
+   "genre": "application",
+   "titre": "AccordIA",
+   "date": "2025-12-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-15-contrat-clair-l-agent-gardien",
+   "genre": "application",
+   "titre": "CONTRAT CLAIR — L’Agent Gardien",
+   "date": "2025-12-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-15-equidia",
+   "genre": "application",
+   "titre": "ÉQUIDIA",
+   "date": "2025-12-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-15-maestro",
+   "genre": "application",
+   "titre": "MAESTRO",
+   "date": "2025-12-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-15-presence-palliative-care",
+   "genre": "application",
+   "titre": "Presence Palliative Care",
+   "date": "2025-12-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-16-patate-crush",
+   "genre": "application",
+   "titre": "Patate Crush",
+   "date": "2025-12-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-17-l-essentiel",
+   "genre": "application",
+   "titre": "L'Essentiel",
+   "date": "2025-12-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-17-les-trames-de-tous",
+   "genre": "application",
+   "titre": "Les Trames de Tous",
+   "date": "2025-12-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-17-vivre-ensemble",
+   "genre": "application",
+   "titre": "Vivre Ensemble",
+   "date": "2025-12-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-18-classeur-le-cerveau-administratif-des-fr",
+   "genre": "application",
+   "titre": "CLASSEUR – Le cerveau administratif des Français",
+   "date": "2025-12-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-18-inkmind",
+   "genre": "application",
+   "titre": "InkMind",
+   "date": "2025-12-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-18-matt-mez-sax-reservation-musicale",
+   "genre": "application",
+   "titre": "Matt Mez Sax - Réservation Musicale",
+   "date": "2025-12-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-19-agri-admin",
+   "genre": "application",
+   "titre": "Agri-Admin",
+   "date": "2025-12-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-19-la-soupe",
+   "genre": "application",
+   "titre": "La Soupe",
+   "date": "2025-12-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-19-soupir",
+   "genre": "application",
+   "titre": "SOUPIR",
+   "date": "2025-12-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-19-super-soupe-solidaire",
+   "genre": "application",
+   "titre": "SUPER SOUPE – SOLIDAIRE",
+   "date": "2025-12-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-20-aime-canvas",
+   "genre": "application",
+   "titre": "AIME Canvas",
+   "date": "2025-12-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-20-aime-magazine",
+   "genre": "application",
+   "titre": "AIME Magazine",
+   "date": "2025-12-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-21-it-trattoria-englos",
+   "genre": "application",
+   "titre": "IT Trattoria Englos",
+   "date": "2025-12-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-21-jesus-parole-presence",
+   "genre": "application",
+   "titre": "JÉSUS - Parole & Présence",
+   "date": "2025-12-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-21-les-citoyens-patriotes",
+   "genre": "application",
+   "titre": "Les Citoyens Patriotes",
+   "date": "2025-12-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-21-servy",
+   "genre": "application",
+   "titre": "Servy",
+   "date": "2025-12-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-23-aime-magazine",
+   "genre": "application",
+   "titre": "AIME Magazine",
+   "date": "2025-12-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-23-neon-quantum-tetris",
+   "genre": "application",
+   "titre": "NEON QUANTUM TETRIS",
+   "date": "2025-12-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-23-tracteur-run",
+   "genre": "application",
+   "titre": "Tracteur Run",
+   "date": "2025-12-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-23-tractor-dash-paris-edition",
+   "genre": "application",
+   "titre": "Tractor Dash: Paris Edition",
+   "date": "2025-12-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-aime-journal",
+   "genre": "application",
+   "titre": "AIME JOURNAL",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-aime-magazine-foundation",
+   "genre": "application",
+   "titre": "AIME Magazine Foundation",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-aime-studio",
+   "genre": "application",
+   "titre": "AIME Studio",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-aime-web-magazine-ia",
+   "genre": "application",
+   "titre": "AIME - Web Magazine IA",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-calendrier-lunaire-simplifie",
+   "genre": "application",
+   "titre": "Calendrier Lunaire Simplifié",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-25-magnacreate",
+   "genre": "application",
+   "titre": "MagnaCreate",
+   "date": "2025-12-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-26-aime-magazine",
+   "genre": "application",
+   "titre": "AIME Magazine ×5",
+   "date": "2025-12-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-26-anima-piano",
+   "genre": "application",
+   "titre": "Anima Piano",
+   "date": "2025-12-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-26-curator-ai",
+   "genre": "application",
+   "titre": "Curator AI",
+   "date": "2025-12-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-26-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre ×2",
+   "date": "2025-12-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-26-sax-loop-orchestra",
+   "genre": "application",
+   "titre": "Sax Loop Orchestra",
+   "date": "2025-12-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-28-anima-geometrica",
+   "genre": "application",
+   "titre": "Anima Geometrica",
+   "date": "2025-12-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-29-customvest",
+   "genre": "application",
+   "titre": "CustomVest",
+   "date": "2025-12-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-29-la-voix-de-saxo",
+   "genre": "application",
+   "titre": "La Voix de Saxo ×2",
+   "date": "2025-12-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-29-un-seul-refuge",
+   "genre": "application",
+   "titre": "Un Seul Refuge",
+   "date": "2025-12-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-31-aime-sortir",
+   "genre": "application",
+   "titre": "AIME Sortir",
+   "date": "2025-12-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2025-12-31-solecircle",
+   "genre": "application",
+   "titre": "SoleCircle",
+   "date": "2025-12-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-02-la-signal-vivant",
+   "genre": "application",
+   "titre": "LÀ. Signal Vivant.",
+   "date": "2026-01-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-02-out",
+   "genre": "application",
+   "titre": "OUT ×2",
+   "date": "2026-01-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-04-doghub",
+   "genre": "application",
+   "titre": "DOGHUB",
+   "date": "2026-01-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-04-gameswap",
+   "genre": "application",
+   "titre": "GameSwap",
+   "date": "2026-01-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-04-solisorties-rencontrer-sortir-aider-copy",
+   "genre": "application",
+   "titre": "SoliSorties – Rencontrer. Sortir. Aider. (Copy)",
+   "date": "2026-01-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-04-sorties",
+   "genre": "application",
+   "titre": "Sorties+",
+   "date": "2026-01-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-11-ai-me-j0",
+   "genre": "application",
+   "titre": "AI+ME J0",
+   "date": "2026-01-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-11-aime",
+   "genre": "application",
+   "titre": "AIME ×5",
+   "date": "2026-01-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-12-aime",
+   "genre": "application",
+   "titre": "AIME ×2",
+   "date": "2026-01-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-12-aime-m-s",
+   "genre": "application",
+   "titre": "AIME&M'S",
+   "date": "2026-01-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-12-eventflow-pro",
+   "genre": "application",
+   "titre": "EventFlow Pro",
+   "date": "2026-01-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-12-nexus",
+   "genre": "application",
+   "titre": "Nexus",
+   "date": "2026-01-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-12-tiktrok",
+   "genre": "application",
+   "titre": "TikTrok",
+   "date": "2026-01-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-13-one",
+   "genre": "application",
+   "titre": "ONE",
+   "date": "2026-01-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-13-orchestra-events",
+   "genre": "application",
+   "titre": "Orchestra Events",
+   "date": "2026-01-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-evenement-ia",
+   "genre": "application",
+   "titre": "Événement IA",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-eventflow-pro",
+   "genre": "application",
+   "titre": "EventFlow Pro",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-lacets-solidaires",
+   "genre": "application",
+   "titre": "Lacets Solidaires",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-libertyx",
+   "genre": "application",
+   "titre": "LIBERTYX",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-one",
+   "genre": "application",
+   "titre": "ONE",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-one-proximity-radar",
+   "genre": "application",
+   "titre": "ONE: Proximity Radar",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-prompt-maitre",
+   "genre": "application",
+   "titre": "Prompt Maître",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-14-tournez-one",
+   "genre": "application",
+   "titre": "Tournez ONE",
+   "date": "2026-01-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-15-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-01-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-15-le-monde-aime-b",
+   "genre": "application",
+   "titre": "Le Monde Aime",
+   "date": "2026-01-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-16-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-01-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-17-lille-mariage",
+   "genre": "application",
+   "titre": "Lille Mariage",
+   "date": "2026-01-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-17-mariage-connect",
+   "genre": "application",
+   "titre": "Mariage Connect",
+   "date": "2026-01-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-17-weddingmatch",
+   "genre": "application",
+   "titre": "WeddingMatch",
+   "date": "2026-01-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-18-aime-sorties",
+   "genre": "application",
+   "titre": "AIME SORTIES",
+   "date": "2026-01-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-18-spoty",
+   "genre": "application",
+   "titre": "SPOTY",
+   "date": "2026-01-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-19-finder",
+   "genre": "application",
+   "titre": "Finder ×2",
+   "date": "2026-01-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-19-flowers",
+   "genre": "application",
+   "titre": "FLOWERS",
+   "date": "2026-01-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-20-central-pins",
+   "genre": "application",
+   "titre": "Central Pins",
+   "date": "2026-01-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-21-immersive-worlds-studio",
+   "genre": "application",
+   "titre": "Immersive Worlds Studio",
+   "date": "2026-01-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-22-timeheart",
+   "genre": "application",
+   "titre": "Timeheart",
+   "date": "2026-01-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-aime-m-s-the-synchronicity-instrument",
+   "genre": "application",
+   "titre": "AIME&M's — The Synchronicity Instrument",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-mosaik",
+   "genre": "application",
+   "titre": "MOSAIK™",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-timeheart",
+   "genre": "application",
+   "titre": "Timeheart ×2",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-timeheart-aime-m-s",
+   "genre": "application",
+   "titre": "TIMEHEART AIME&M's",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-timeheart-b",
+   "genre": "application",
+   "titre": "TIMEHEART",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-timeheart-ops",
+   "genre": "application",
+   "titre": "Timeheart Ops",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-23-wedding-studio",
+   "genre": "application",
+   "titre": "Wedding Studio",
+   "date": "2026-01-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-24-eventflow",
+   "genre": "application",
+   "titre": "EventFlow",
+   "date": "2026-01-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-eventflow",
+   "genre": "application",
+   "titre": "EventFlow",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-five-become-one",
+   "genre": "application",
+   "titre": "Five Become One",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-freeze",
+   "genre": "application",
+   "titre": "Freeze",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-gatherly",
+   "genre": "application",
+   "titre": "Gatherly",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-le-monde-aime-b",
+   "genre": "application",
+   "titre": "Le Monde Aimé",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-time-circle",
+   "genre": "application",
+   "titre": "Time Circle",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-time-circle-instrument",
+   "genre": "application",
+   "titre": "Time Circle Instrument",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-time-circle-line",
+   "genre": "application",
+   "titre": "Time Circle Line ×2",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-25-vibe-signature",
+   "genre": "application",
+   "titre": "Vibe Signature",
+   "date": "2026-01-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-26-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-01-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-26-local-pulse",
+   "genre": "application",
+   "titre": "Local Pulse",
+   "date": "2026-01-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-aura",
+   "genre": "application",
+   "titre": "Aura",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-bloom",
+   "genre": "application",
+   "titre": "BLOOM ×5",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-bloom-presence-oracle",
+   "genre": "application",
+   "titre": "Bloom Presence Oracle",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-chronobloom",
+   "genre": "application",
+   "titre": "ChronoBloom",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-chronocircle",
+   "genre": "application",
+   "titre": "ChronoCircle",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-jardin-des-presences",
+   "genre": "application",
+   "titre": "Jardin des Présences",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-meadow",
+   "genre": "application",
+   "titre": "Meadow",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-27-presence",
+   "genre": "application",
+   "titre": "Presence",
+   "date": "2026-01-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-28-aime-curiosity-map",
+   "genre": "application",
+   "titre": "AIME — Curiosity Map",
+   "date": "2026-01-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-28-bloom-oracle-of-presence",
+   "genre": "application",
+   "titre": "BLOOM — Oracle of Presence",
+   "date": "2026-01-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-28-momenta",
+   "genre": "application",
+   "titre": "Momenta",
+   "date": "2026-01-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-28-patternstudio",
+   "genre": "application",
+   "titre": "PatternStudio",
+   "date": "2026-01-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-aime-m-s-the-collective-celebration-syst",
+   "genre": "application",
+   "titre": "Aime & M's: The Collective Celebration System",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-aime-m-s-wedding-studio",
+   "genre": "application",
+   "titre": "Aime & M's Wedding Studio",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-bloom",
+   "genre": "application",
+   "titre": "BlOOm",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-bloom-b",
+   "genre": "application",
+   "titre": "Bloom",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-bloom-social",
+   "genre": "application",
+   "titre": "Bloom Social",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-crossstitch-ar",
+   "genre": "application",
+   "titre": "CrossStitch AR",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-le-tetris-de-jung",
+   "genre": "application",
+   "titre": "Le Tetris de Jung",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-momenta",
+   "genre": "application",
+   "titre": "MOMENTA",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-place-publique",
+   "genre": "application",
+   "titre": "Place Publique ×3",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-role",
+   "genre": "application",
+   "titre": "ROLE",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-shape-composer",
+   "genre": "application",
+   "titre": "Shape Composer",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-superposition",
+   "genre": "application",
+   "titre": "Superposition",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-29-tempo",
+   "genre": "application",
+   "titre": "Tempo",
+   "date": "2026-01-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-30-imagine-studio",
+   "genre": "application",
+   "titre": "IMAGINE Studio",
+   "date": "2026-01-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-30-role",
+   "genre": "application",
+   "titre": "ROLE",
+   "date": "2026-01-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-31-bird-bauhaus-composer",
+   "genre": "application",
+   "titre": "Bird Bauhaus Composer",
+   "date": "2026-01-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-31-prism-visualizer",
+   "genre": "application",
+   "titre": "Prism Visualizer",
+   "date": "2026-01-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-31-role-copy",
+   "genre": "application",
+   "titre": "ROLE (Copy)",
+   "date": "2026-01-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-01-31-shape-builder",
+   "genre": "application",
+   "titre": "Shape Builder",
+   "date": "2026-01-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-bird",
+   "genre": "application",
+   "titre": "BIRD ×2",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-bird-art-studio",
+   "genre": "application",
+   "titre": "BIRD Art Studio",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-birdheight-visual-system",
+   "genre": "application",
+   "titre": "Birdheight: Visual System",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-birding",
+   "genre": "application",
+   "titre": "BIRDING",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-birdy",
+   "genre": "application",
+   "titre": "BIRDY",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-01-prism",
+   "genre": "application",
+   "titre": "PRISM",
+   "date": "2026-02-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-02-02-le-monde-aime",
+   "genre": "application",
+   "titre": "Le Monde Aime ×2",
+   "date": "2026-02-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-17-matt-mez-sax-manager",
+   "genre": "application",
+   "titre": "Matt Mez Sax Manager",
+   "date": "2026-03-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-23-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-03-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-23-saxo-vivant",
+   "genre": "application",
+   "titre": "Saxo Vivant",
+   "date": "2026-03-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-24-ceremonial",
+   "genre": "application",
+   "titre": "Cérémonial",
+   "date": "2026-03-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-24-ceremonial-copy",
+   "genre": "application",
+   "titre": "Cérémonial (Copy)",
+   "date": "2026-03-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-25-ceremonial-copy-copy",
+   "genre": "application",
+   "titre": "Cérémonial (Copy) (Copy)",
+   "date": "2026-03-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-25-optivision-ai",
+   "genre": "application",
+   "titre": "OptiVision AI",
+   "date": "2026-03-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-26-lumina",
+   "genre": "application",
+   "titre": "Lumina",
+   "date": "2026-03-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-29-la-sabliere-vision",
+   "genre": "application",
+   "titre": "La Sablière Vision",
+   "date": "2026-03-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-29-lumina-sax",
+   "genre": "application",
+   "titre": "Lumina Sax",
+   "date": "2026-03-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-30-la-sabliere-vision",
+   "genre": "application",
+   "titre": "La Sablière Vision",
+   "date": "2026-03-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-30-lumina",
+   "genre": "application",
+   "titre": "Lumina",
+   "date": "2026-03-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-31-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-03-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-31-aime-b",
+   "genre": "application",
+   "titre": "AIME®",
+   "date": "2026-03-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-31-gigi",
+   "genre": "application",
+   "titre": "Gigi",
+   "date": "2026-03-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-31-gigi-app",
+   "genre": "application",
+   "titre": "Gigi — App",
+   "date": "2026-03-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-03-31-lily-app",
+   "genre": "application",
+   "titre": "Lily — App",
+   "date": "2026-03-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-01-aime-copy",
+   "genre": "application",
+   "titre": "AIME® (Copy) ×2",
+   "date": "2026-04-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-01-architecte-messenger",
+   "genre": "application",
+   "titre": "Architecte Messenger",
+   "date": "2026-04-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-aime-copy",
+   "genre": "application",
+   "titre": "AIME® (Copy)",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-aime-copy-copy",
+   "genre": "application",
+   "titre": "AIME® (Copy) (Copy)",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-captured-do-undo-com",
+   "genre": "application",
+   "titre": "Captured: do-undo.com",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-ethereal-sketch",
+   "genre": "application",
+   "titre": "Ethereal Sketch",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-handy-ui",
+   "genre": "application",
+   "titre": "Handy UI",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-inspired-by-luckybeard-digital-design-cr",
+   "genre": "application",
+   "titre": "Inspired by Luckybeard // Digital Design & Creative Branding Agency",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-seth-copy",
+   "genre": "application",
+   "titre": "SETH (Copy)",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-velour-planner",
+   "genre": "application",
+   "titre": "Velour Planner",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-08-what-does-the-best-you-look-like",
+   "genre": "application",
+   "titre": "What does The Best You look like?",
+   "date": "2026-04-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-09-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-04-09",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-11-aime",
+   "genre": "application",
+   "titre": "AIME ×2",
+   "date": "2026-04-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-11-inspired-by-planity-coiffeur-institut-de",
+   "genre": "application",
+   "titre": "Inspired by Planity : Coiffeur, Institut de beauté & Barbier en ligne",
+   "date": "2026-04-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-11-saxevent",
+   "genre": "application",
+   "titre": "SaxEvent",
+   "date": "2026-04-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-12-inspired-by-planity-coiffeur-institut-de",
+   "genre": "application",
+   "titre": "Inspired by Planity : Coiffeur, Institut de beauté & Barbier en ligne (Copy)",
+   "date": "2026-04-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-12-spira",
+   "genre": "application",
+   "titre": "SPIRA",
+   "date": "2026-04-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-13-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-04-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-13-inspired-by-planity-coiffeur-institut-de",
+   "genre": "application",
+   "titre": "Inspired by Planity : Coiffeur, Institut de beauté & Barbier en ligne (Copy)",
+   "date": "2026-04-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-14-aime-events",
+   "genre": "application",
+   "titre": "AIME Events",
+   "date": "2026-04-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-14-aime-timeline",
+   "genre": "application",
+   "titre": "AIME Timeline",
+   "date": "2026-04-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-14-lumiere-wedding",
+   "genre": "application",
+   "titre": "Lumière Wedding",
+   "date": "2026-04-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-14-premium-custom-magnets-for-bands-tours-m",
+   "genre": "application",
+   "titre": "Premium Custom Magnets for Bands, Tours & Music Brands",
+   "date": "2026-04-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-15-visua",
+   "genre": "application",
+   "titre": "Visua",
+   "date": "2026-04-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-16-aime-timeline-copy",
+   "genre": "application",
+   "titre": "AIME Timeline (Copy)",
+   "date": "2026-04-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-a-i-m-e",
+   "genre": "application",
+   "titre": "A·I·M·E",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-aime",
+   "genre": "application",
+   "titre": "Aime",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-aime-timeline-copy",
+   "genre": "application",
+   "titre": "AIME Timeline (Copy)",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-cerise-app",
+   "genre": "application",
+   "titre": "Cerise — App",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-cerise-copy",
+   "genre": "application",
+   "titre": "Cerise (Copy)",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-inspired-by-linear",
+   "genre": "application",
+   "titre": "Inspired by Linear",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-inspired-by-linear-copy",
+   "genre": "application",
+   "titre": "Inspired by Linear (Copy)",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-sebastian-graz-studio",
+   "genre": "application",
+   "titre": "Sebastian Graz · Studio",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-17-tempoday",
+   "genre": "application",
+   "titre": "TempoDay",
+   "date": "2026-04-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-18-inspired-by-runey",
+   "genre": "application",
+   "titre": "Inspired by Runey",
+   "date": "2026-04-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-18-inspired-by-runey-copy",
+   "genre": "application",
+   "titre": "Inspired by Runey (Copy)",
+   "date": "2026-04-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-aime",
+   "genre": "application",
+   "titre": "AIME ×4",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-aime-living-editorial",
+   "genre": "application",
+   "titre": "AIME Living Editorial ×2",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-aime-mariage",
+   "genre": "application",
+   "titre": "AIME Mariage",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-captured-biosites-com",
+   "genre": "application",
+   "titre": "Captured: biosites.com",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-captured-runey-app",
+   "genre": "application",
+   "titre": "Captured: runey.app",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-inspired-by-11-bar-london-at-jul-s-resta",
+   "genre": "application",
+   "titre": "Inspired by 11 Bar, London, at Jul's Restaurant",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-inspired-by-la-colombe-coffee-workshop",
+   "genre": "application",
+   "titre": "Inspired by La Colombe Coffee Workshop",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-inspired-by-perplexity",
+   "genre": "application",
+   "titre": "Inspired by Perplexity",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-inspired-by-runey",
+   "genre": "application",
+   "titre": "Inspired by Runey",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-join-waitlist-thecodeflow-co",
+   "genre": "application",
+   "titre": "Join Waitlist — thecodeflow.co",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-new-app",
+   "genre": "application",
+   "titre": "New App",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-runey",
+   "genre": "application",
+   "titre": "Runey ×2",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-19-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2026-04-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-20-aura",
+   "genre": "application",
+   "titre": "Aura",
+   "date": "2026-04-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-20-matt-mez-sax",
+   "genre": "application",
+   "titre": "Matt Mez Sax",
+   "date": "2026-04-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-20-poly-the-intelligent-cloud-file-browser",
+   "genre": "application",
+   "titre": "Poly: The Intelligent Cloud File Browser",
+   "date": "2026-04-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-20-seuil",
+   "genre": "application",
+   "titre": "Seuil",
+   "date": "2026-04-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-20-webflow-create-a-custom-website",
+   "genre": "application",
+   "titre": "Webflow: Create a custom website",
+   "date": "2026-04-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-21-calendly",
+   "genre": "application",
+   "titre": "Calendly",
+   "date": "2026-04-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-21-lumiereday",
+   "genre": "application",
+   "titre": "LumièreDay",
+   "date": "2026-04-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-21-luminalia-ai",
+   "genre": "application",
+   "titre": "Luminalia AI",
+   "date": "2026-04-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-21-runey",
+   "genre": "application",
+   "titre": "Runey",
+   "date": "2026-04-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-21-the-knot-wedding-planning-website-tools-",
+   "genre": "application",
+   "titre": "The Knot® Wedding Planning Website: Tools, Inspiration & More",
+   "date": "2026-04-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-aura-wedding-os",
+   "genre": "application",
+   "titre": "Aura Wedding OS",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-aura-wedding-os-copy",
+   "genre": "application",
+   "titre": "Aura Wedding OS (Copy)",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-chronos",
+   "genre": "application",
+   "titre": "Chronos",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-inspired-by-download-playbook-ship-apps-",
+   "genre": "application",
+   "titre": "Inspired by Download Playbook: Ship Apps & Product Features That Users Adopt Instantly",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-linear",
+   "genre": "application",
+   "titre": "Linear",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-linear-copy",
+   "genre": "application",
+   "titre": "Linear (Copy)",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-lumina-wedding-os",
+   "genre": "application",
+   "titre": "Lumina Wedding OS",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-22-the-knot-wedding-planning-website-tools-",
+   "genre": "application",
+   "titre": "The Knot® Wedding Planning Website: Tools, Inspiration & More (Copy)",
+   "date": "2026-04-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-23-aime",
+   "genre": "application",
+   "titre": "AIME ×3",
+   "date": "2026-04-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-23-awwwards",
+   "genre": "application",
+   "titre": "Awwwards",
+   "date": "2026-04-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-23-dribbble",
+   "genre": "application",
+   "titre": "Dribbble",
+   "date": "2026-04-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-23-monologue",
+   "genre": "application",
+   "titre": "Monologue",
+   "date": "2026-04-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-23-ms-foundation-s-women-of-vision-awards",
+   "genre": "application",
+   "titre": "Ms. Foundation’s Women of Vision Awards",
+   "date": "2026-04-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-a-i-m-e-copy",
+   "genre": "application",
+   "titre": "A·I·M·E (Copy)",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-aime-architecte",
+   "genre": "application",
+   "titre": "AIME Architecte",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-chronosflow",
+   "genre": "application",
+   "titre": "ChronosFlow",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-inspired-by-runey",
+   "genre": "application",
+   "titre": "Inspired by Runey",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-limova-ai",
+   "genre": "application",
+   "titre": "Limova.ai",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-lumiere-weddings",
+   "genre": "application",
+   "titre": "Lumiere Weddings",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-marketbound",
+   "genre": "application",
+   "titre": "MarketBound",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-museum-management-software",
+   "genre": "application",
+   "titre": "Museum Management Software",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-26-shopify-the-all-in-one-commerce-platform",
+   "genre": "application",
+   "titre": "Shopify: The All-in-One Commerce Platform for Businesses",
+   "date": "2026-04-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-27-aime-stamp",
+   "genre": "application",
+   "titre": "AIME Stamp",
+   "date": "2026-04-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-27-aime-wedding",
+   "genre": "application",
+   "titre": "AIME® WEDDING",
+   "date": "2026-04-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-27-matt-mez-sax-reservation",
+   "genre": "application",
+   "titre": "Matt Mez Sax – Réservation",
+   "date": "2026-04-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-27-wix-com-copy",
+   "genre": "application",
+   "titre": "Wix.com (Copy) ×2",
+   "date": "2026-04-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-28-aime-wedding-copy",
+   "genre": "application",
+   "titre": "AIME® WEDDING (Copy) ×2",
+   "date": "2026-04-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-04-29-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2026-04-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-10-cerise-studio",
+   "genre": "application",
+   "titre": "Cerise Studio ×2",
+   "date": "2026-05-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-10-new-app",
+   "genre": "application",
+   "titre": "New App",
+   "date": "2026-05-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-10-runey",
+   "genre": "application",
+   "titre": "Runey",
+   "date": "2026-05-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-10-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2026-05-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-12-aime-stamp-copy",
+   "genre": "application",
+   "titre": "AIME Stamp (Copy) ×3",
+   "date": "2026-05-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-13-aime-stamp-copy",
+   "genre": "application",
+   "titre": "AIME Stamp (Copy)",
+   "date": "2026-05-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-13-stitchlab",
+   "genre": "application",
+   "titre": "StitchLab",
+   "date": "2026-05-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-14-aime-stamp-copy-copy",
+   "genre": "application",
+   "titre": "AIME Stamp (Copy) (Copy)",
+   "date": "2026-05-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-15-aime-stamp-copy-copy",
+   "genre": "application",
+   "titre": "AIME Stamp (Copy) (Copy)",
+   "date": "2026-05-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-16-aime-stamp-registry",
+   "genre": "application",
+   "titre": "AIME® Stamp Registry ×2",
+   "date": "2026-05-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-17-aime",
+   "genre": "application",
+   "titre": "Aime",
+   "date": "2026-05-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-17-figma-the-collaborative-interface-design",
+   "genre": "application",
+   "titre": "Figma: The Collaborative Interface Design Tool ×3",
+   "date": "2026-05-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-17-framer-create-a-professional-website-fre",
+   "genre": "application",
+   "titre": "Framer: Create a professional website, free. No code website builder loved by designers.",
+   "date": "2026-05-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-18-timeline-du-mariage-by-aime",
+   "genre": "application",
+   "titre": "Timeline du Mariage - by AIME®",
+   "date": "2026-05-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-19-sandrine-sarroche-spectacles",
+   "genre": "application",
+   "titre": "Sandrine Sarroche Spectacles",
+   "date": "2026-05-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-20-aime-cachet",
+   "genre": "application",
+   "titre": "AIME Cachet",
+   "date": "2026-05-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-20-vercel-build-and-deploy-the-best-web-exp",
+   "genre": "application",
+   "titre": "Vercel: Build and deploy the best web experiences with the AI Cloud",
+   "date": "2026-05-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-21-aime-cachet-copy",
+   "genre": "application",
+   "titre": "AIME Cachet (Copy)",
+   "date": "2026-05-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-21-infinitegrid",
+   "genre": "application",
+   "titre": "InfiniteGrid",
+   "date": "2026-05-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-23-aime-cachet-copy",
+   "genre": "application",
+   "titre": "AIME Cachet (Copy)",
+   "date": "2026-05-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-23-aime-dj",
+   "genre": "application",
+   "titre": "AIME DJ ×2",
+   "date": "2026-05-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-23-inspired-by-airbnb",
+   "genre": "application",
+   "titre": "Inspired by Airbnb",
+   "date": "2026-05-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-23-visitbook-copilot",
+   "genre": "application",
+   "titre": "Visitbook Copilot",
+   "date": "2026-05-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-24-fantasia-legacy",
+   "genre": "application",
+   "titre": "Fantasia Legacy",
+   "date": "2026-05-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-24-karma-match",
+   "genre": "application",
+   "titre": "Karma Match",
+   "date": "2026-05-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-24-ranch-yassmina-djerba",
+   "genre": "application",
+   "titre": "Ranch Yassmina Djerba",
+   "date": "2026-05-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-24-saxsync",
+   "genre": "application",
+   "titre": "SaxSync",
+   "date": "2026-05-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-25-aime-cachet-os",
+   "genre": "application",
+   "titre": "AIME Cachet OS",
+   "date": "2026-05-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-25-stitchlab-ia",
+   "genre": "application",
+   "titre": "StitchLab IA",
+   "date": "2026-05-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-26-aime-cachet-copy",
+   "genre": "application",
+   "titre": "AIME Cachet (Copy)",
+   "date": "2026-05-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-26-eden-mont-noir",
+   "genre": "application",
+   "titre": "Éden Mont Noir",
+   "date": "2026-05-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-26-eden-plan",
+   "genre": "application",
+   "titre": "Éden Plan",
+   "date": "2026-05-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-anchorboard",
+   "genre": "application",
+   "titre": "AnchorBoard",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-gite-avec-spa-hauts-de-france",
+   "genre": "application",
+   "titre": "Gîte avec SPA hauts de France",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-l-eden",
+   "genre": "application",
+   "titre": "L'Éden",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-l-eden-du-brunch",
+   "genre": "application",
+   "titre": "L'Éden du Brunch",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-l-eden-du-brunch-copy",
+   "genre": "application",
+   "titre": "L'Éden du Brunch (Copy)",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-la-kermesse-des-marguerites",
+   "genre": "application",
+   "titre": "La Kermesse des Marguerites ×2",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-27-orchestra-mont-noir",
+   "genre": "application",
+   "titre": "Orchestra Mont-Noir",
+   "date": "2026-05-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-28-archeologie-musicale",
+   "genre": "application",
+   "titre": "Archéologie musicale",
+   "date": "2026-05-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-28-l-eden-carte-des-sorties",
+   "genre": "application",
+   "titre": "L’Éden — Carte des Sorties ×2",
+   "date": "2026-05-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-28-les-mots-de-l-ame",
+   "genre": "application",
+   "titre": "Les Mots de l’Âme",
+   "date": "2026-05-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-28-silence-echo",
+   "genre": "application",
+   "titre": "Silence Echo",
+   "date": "2026-05-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-29-atlas-live",
+   "genre": "application",
+   "titre": "Atlas Live",
+   "date": "2026-05-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-29-les-papillons-bleus",
+   "genre": "application",
+   "titre": "Les Papillons Bleus",
+   "date": "2026-05-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-30-nexus",
+   "genre": "application",
+   "titre": "Nexus",
+   "date": "2026-05-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-31-bureau-unifie-msa-magic-desk",
+   "genre": "application",
+   "titre": "Bureau Unifié MSA — Magic Desk",
+   "date": "2026-05-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-31-l-atelier-jour-j",
+   "genre": "application",
+   "titre": "L'Atelier Jour J ×2",
+   "date": "2026-05-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-31-l-eden-musical",
+   "genre": "application",
+   "titre": "L’Eden Musical",
+   "date": "2026-05-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-31-noteperfect",
+   "genre": "application",
+   "titre": "NotePerfect",
+   "date": "2026-05-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-05-31-point-zero-by-aime",
+   "genre": "application",
+   "titre": "Point Zéro by AIME",
+   "date": "2026-05-31",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-01-agent-miroir",
+   "genre": "application",
+   "titre": "Agent Miroir",
+   "date": "2026-06-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-01-l-atelier-du-site-vivant",
+   "genre": "application",
+   "titre": "L’Atelier du Site Vivant",
+   "date": "2026-06-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-la-bellevilloise",
+   "genre": "application",
+   "titre": "La Bellevilloise",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-maison-du-lien",
+   "genre": "application",
+   "titre": "Maison du Lien",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-maison-memoire",
+   "genre": "application",
+   "titre": "Maison Mémoire",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-notice",
+   "genre": "application",
+   "titre": "Notice",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-orchestre-monde",
+   "genre": "application",
+   "titre": "ORCHESTRE-MONDE",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-02-sarroche-studio",
+   "genre": "application",
+   "titre": "Sarroche Studio",
+   "date": "2026-06-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-03-accessiaudit",
+   "genre": "application",
+   "titre": "AccessiAudit",
+   "date": "2026-06-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-03-bilan-clair",
+   "genre": "application",
+   "titre": "Bilan Clair",
+   "date": "2026-06-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-03-meteo-synth",
+   "genre": "application",
+   "titre": "Météo Synth",
+   "date": "2026-06-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-03-tailler-les-haies",
+   "genre": "application",
+   "titre": "Tailler les Haies",
+   "date": "2026-06-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-03-tailler-les-mariages",
+   "genre": "application",
+   "titre": "Tailler les Mariages",
+   "date": "2026-06-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-04-agridossier-copilot",
+   "genre": "application",
+   "titre": "AgriDossier Copilot",
+   "date": "2026-06-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-05-creative-south-2026",
+   "genre": "application",
+   "titre": "Creative South 2026",
+   "date": "2026-06-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-05-point-zero-admin",
+   "genre": "application",
+   "titre": "Point Zéro Admin",
+   "date": "2026-06-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-06-affiche-vivante",
+   "genre": "application",
+   "titre": "Affiche Vivante",
+   "date": "2026-06-06",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-07-mon-jour-j-parfait",
+   "genre": "application",
+   "titre": "Mon Jour J Parfait",
+   "date": "2026-06-07",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-08-matt-mez-lab",
+   "genre": "application",
+   "titre": "Matt Mez Lab",
+   "date": "2026-06-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-08-mon-jour-j-parfait",
+   "genre": "application",
+   "titre": "Mon Jour J Parfait",
+   "date": "2026-06-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-09-70k-les-dossiers-miroirs",
+   "genre": "application",
+   "titre": "70K - Les Dossiers-Miroirs",
+   "date": "2026-06-09",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-09-slame",
+   "genre": "application",
+   "titre": "SLÂME",
+   "date": "2026-06-09",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-10-ai-consulting-that-builds-not-just-advis",
+   "genre": "application",
+   "titre": "AI Consulting that builds, not just advises",
+   "date": "2026-06-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-10-aime-chronograph",
+   "genre": "application",
+   "titre": "AIME Chronograph",
+   "date": "2026-06-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-10-replay-software",
+   "genre": "application",
+   "titre": "Replay Software",
+   "date": "2026-06-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-12-lillebright-fashion",
+   "genre": "application",
+   "titre": "LilleBright Fashion",
+   "date": "2026-06-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-13-la-collection-la-brigade-de-l-aigle",
+   "genre": "application",
+   "titre": "La Collection · La Brigade de l'Aigle",
+   "date": "2026-06-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-13-slame-copy",
+   "genre": "application",
+   "titre": "SLÂME (Copy)",
+   "date": "2026-06-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-13-terre-debout",
+   "genre": "application",
+   "titre": "Terre Debout",
+   "date": "2026-06-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-15-coloria",
+   "genre": "application",
+   "titre": "Coloria",
+   "date": "2026-06-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-15-social-audio-app",
+   "genre": "application",
+   "titre": "Social Audio App",
+   "date": "2026-06-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-16-choix-clair-rh",
+   "genre": "application",
+   "titre": "Choix Clair RH",
+   "date": "2026-06-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-17-aime-studio",
+   "genre": "application",
+   "titre": "AIME STUDIO",
+   "date": "2026-06-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-17-jardin-de-l-eden",
+   "genre": "application",
+   "titre": "Jardin de l'Éden",
+   "date": "2026-06-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-17-msa-campus-expert-ia",
+   "genre": "application",
+   "titre": "MSA Campus Expert IA",
+   "date": "2026-06-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-18-captured-www-supaste-com",
+   "genre": "application",
+   "titre": "Captured: www.supaste.com",
+   "date": "2026-06-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-18-music-box",
+   "genre": "application",
+   "titre": "Music Box",
+   "date": "2026-06-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-18-ruche",
+   "genre": "application",
+   "titre": "RUCHE ×2",
+   "date": "2026-06-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-18-tryon",
+   "genre": "application",
+   "titre": "TryOn",
+   "date": "2026-06-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-19-coloria-copy",
+   "genre": "application",
+   "titre": "Coloria (Copy)",
+   "date": "2026-06-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-19-unseen-studio",
+   "genre": "application",
+   "titre": "Unseen Studio®",
+   "date": "2026-06-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-20-aime-test",
+   "genre": "application",
+   "titre": "AIME TEST",
+   "date": "2026-06-20",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-21-suno",
+   "genre": "application",
+   "titre": "Suno",
+   "date": "2026-06-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-22-eleganceportfolio",
+   "genre": "application",
+   "titre": "ElegancePortfolio",
+   "date": "2026-06-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-22-linkevent",
+   "genre": "application",
+   "titre": "LINKEVENT",
+   "date": "2026-06-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-22-office-ciel",
+   "genre": "application",
+   "titre": "OFFICE CIEL",
+   "date": "2026-06-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-24-cadence",
+   "genre": "application",
+   "titre": "Cadence",
+   "date": "2026-06-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-24-echopage",
+   "genre": "application",
+   "titre": "EchoPage",
+   "date": "2026-06-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-24-elegance-portfolio",
+   "genre": "application",
+   "titre": "Elegance Portfolio",
+   "date": "2026-06-24",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-25-aime-booking",
+   "genre": "application",
+   "titre": "AIME Booking",
+   "date": "2026-06-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-25-pointzero",
+   "genre": "application",
+   "titre": "PointZero",
+   "date": "2026-06-25",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-26-pointzero-core-sandbox",
+   "genre": "application",
+   "titre": "PointZero Core Sandbox",
+   "date": "2026-06-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-26-saxbooking",
+   "genre": "application",
+   "titre": "SaxBooking",
+   "date": "2026-06-26",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-27-artistry",
+   "genre": "application",
+   "titre": "Artistry",
+   "date": "2026-06-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-27-le-petit-guide",
+   "genre": "application",
+   "titre": "Le Petit Guide ×2",
+   "date": "2026-06-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-27-syncly",
+   "genre": "application",
+   "titre": "Syncly",
+   "date": "2026-06-27",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-28-le-monde-aime-me-soul-event-os",
+   "genre": "application",
+   "titre": "LE MONDE AIME — +ME SOUL EVENT OS",
+   "date": "2026-06-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-28-radioscan-ai",
+   "genre": "application",
+   "titre": "radioscan-ai",
+   "date": "2026-06-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-28-radioscan-ai-copy",
+   "genre": "application",
+   "titre": "radioscan-ai (Copy)",
+   "date": "2026-06-28",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-29-artistry-copy-copy",
+   "genre": "application",
+   "titre": "Artistry (Copy) (Copy)",
+   "date": "2026-06-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-29-atlas-base44-matt-mez",
+   "genre": "application",
+   "titre": "Atlas Base44 Matt Mez",
+   "date": "2026-06-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-29-matt-mez-portfolio",
+   "genre": "application",
+   "titre": "Matt Mez Portfolio",
+   "date": "2026-06-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-29-sign-painting-lettering-type-design",
+   "genre": "application",
+   "titre": "Sign painting · Lettering · Type design",
+   "date": "2026-06-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-06-30-artistry-copy-copy",
+   "genre": "application",
+   "titre": "Artistry (Copy) (Copy)",
+   "date": "2026-06-30",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-03-aime-wedding-officiel-copy",
+   "genre": "application",
+   "titre": "AIME WEDDING OFFICIEL Copy",
+   "date": "2026-07-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-05-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy)",
+   "date": "2026-07-05",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-08-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy)",
+   "date": "2026-07-08",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-10-aime-temps",
+   "genre": "application",
+   "titre": "Aime® Temps",
+   "date": "2026-07-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-10-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy)",
+   "date": "2026-07-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-10-champions-hub-copy",
+   "genre": "application",
+   "titre": "Champions Hub (Copy)",
+   "date": "2026-07-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-11-saxevent-booking",
+   "genre": "application",
+   "titre": "SaxEvent Booking",
+   "date": "2026-07-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-12-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy) ×3",
+   "date": "2026-07-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-13-aime-grid",
+   "genre": "application",
+   "titre": "AIME® GRID",
+   "date": "2026-07-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-13-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-07-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-14-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy)",
+   "date": "2026-07-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-14-saxevent-booking-copy",
+   "genre": "application",
+   "titre": "SaxEvent Booking (Copy)",
+   "date": "2026-07-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-15-aime-world-os",
+   "genre": "application",
+   "titre": "AIME WORLD OS",
+   "date": "2026-07-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-15-le-monde-aime-p0-a-staging-certif",
+   "genre": "application",
+   "titre": "LE MONDE AIME — P0-A STAGING CERTIF",
+   "date": "2026-07-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-15-le-monde-aime-relation-os",
+   "genre": "application",
+   "titre": "LE MONDE AIME — RELATION OS",
+   "date": "2026-07-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-15-point-zero-the-causal-grid",
+   "genre": "application",
+   "titre": "Point Zéro - The Causal Grid",
+   "date": "2026-07-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-15-saxevent-booking-copy-copy",
+   "genre": "application",
+   "titre": "SaxEvent Booking (Copy) (Copy)",
+   "date": "2026-07-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-17-aime",
+   "genre": "application",
+   "titre": "AIME®",
+   "date": "2026-07-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-17-aime-bankosysteme",
+   "genre": "application",
+   "titre": "AIME BANKOSYSTÈME",
+   "date": "2026-07-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-18-aime-bankosysteme-copy",
+   "genre": "application",
+   "titre": "AIME BANKOSYSTÈME (Copy)",
+   "date": "2026-07-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-18-aime-live",
+   "genre": "application",
+   "titre": "AIME LIVE",
+   "date": "2026-07-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-18-chronos-watch-os",
+   "genre": "application",
+   "titre": "Chronos Watch OS",
+   "date": "2026-07-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-18-linear",
+   "genre": "application",
+   "titre": "Linear",
+   "date": "2026-07-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-18-saxevent-booking-copy-copy",
+   "genre": "application",
+   "titre": "SaxEvent Booking (Copy) (Copy)",
+   "date": "2026-07-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-aime-lieu",
+   "genre": "application",
+   "titre": "AIME® LIEU",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-aime-music-path",
+   "genre": "application",
+   "titre": "AIME® MUSIC PATH",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-aime-orbit",
+   "genre": "application",
+   "titre": "AIME® ORBIT",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-chromateque-studio",
+   "genre": "application",
+   "titre": "Chromateque Studio",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-eventpoint",
+   "genre": "application",
+   "titre": "EventPoint",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-19-l-atelier-des-v-ux",
+   "genre": "application",
+   "titre": "L'Atelier des Vœux",
+   "date": "2026-07-19",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-21-aime-l-edition-vivante-du-jour-j",
+   "genre": "application",
+   "titre": "AIME® — L’ÉDITION VIVANTE DU JOUR J",
+   "date": "2026-07-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-21-aime-rebond",
+   "genre": "application",
+   "titre": "AIME REBOND",
+   "date": "2026-07-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-21-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy) (Copy)",
+   "date": "2026-07-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-21-luma",
+   "genre": "application",
+   "titre": "Luma",
+   "date": "2026-07-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-21-super-jump-adventure-copy",
+   "genre": "application",
+   "titre": "Super Jump Adventure (Copy)",
+   "date": "2026-07-21",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-22-aime-chroma",
+   "genre": "application",
+   "titre": "AIME Chroma",
+   "date": "2026-07-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-22-le-monde-aime-preview",
+   "genre": "application",
+   "titre": "LE MONDE AIME Preview",
+   "date": "2026-07-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-22-sleep-well-creatives",
+   "genre": "application",
+   "titre": "Sleep Well Creatives",
+   "date": "2026-07-22",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-07-23-aime-w",
+   "genre": "application",
+   "titre": "AIME W",
+   "date": "2026-07-23",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-10-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-08-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-10-aime-wedding-canvas",
+   "genre": "application",
+   "titre": "AIME Wedding Canvas",
+   "date": "2026-08-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-10-aime-wedding-le-cockpit-intelligent-de-v",
+   "genre": "application",
+   "titre": "AIME® Wedding — Le cockpit intelligent de votre mariage (Copy) (Copy)",
+   "date": "2026-08-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-10-lumina-wedding",
+   "genre": "application",
+   "titre": "Lumina Wedding",
+   "date": "2026-08-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-10-nailsprofile",
+   "genre": "application",
+   "titre": "NailsProfile",
+   "date": "2026-08-10",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-11-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-08-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-11-aime-studio",
+   "genre": "application",
+   "titre": "Aime Studio",
+   "date": "2026-08-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-11-gaia",
+   "genre": "application",
+   "titre": "GAÏA",
+   "date": "2026-08-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-11-gaia-copy",
+   "genre": "application",
+   "titre": "GAÏA (Copy)",
+   "date": "2026-08-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-11-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-08-11",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-gaia-copy",
+   "genre": "application",
+   "titre": "GAÏA (Copy) ×2",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-inspired-by-netflix",
+   "genre": "application",
+   "titre": "Inspired by Netflix",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-jour-j",
+   "genre": "application",
+   "titre": "JOUR-J",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-lumina-mariage",
+   "genre": "application",
+   "titre": "Lumina Mariage",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-mariages-net",
+   "genre": "application",
+   "titre": "Mariages.net",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-netflix",
+   "genre": "application",
+   "titre": "Netflix",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-12-planity-coiffeur-institut-de-beaute-barb",
+   "genre": "application",
+   "titre": "Planity : Coiffeur, Institut de beauté & Barbier en ligne",
+   "date": "2026-08-12",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-13-aime",
+   "genre": "application",
+   "titre": "AIME®",
+   "date": "2026-08-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-13-lumina-wedding-builder-copy",
+   "genre": "application",
+   "titre": "Lumina Wedding Builder (Copy)",
+   "date": "2026-08-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-13-projet-a-origine-legacy",
+   "genre": "application",
+   "titre": "PROJET A origine / legacy",
+   "date": "2026-08-13",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-14-projet-b-studio-agentic",
+   "genre": "application",
+   "titre": "PROJET B Studio agentic",
+   "date": "2026-08-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-14-projet-c-le-monde-aime",
+   "genre": "application",
+   "titre": "PROJET C  Le Monde AIME",
+   "date": "2026-08-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-14-projet-d-timeline-jour-j",
+   "genre": "application",
+   "titre": "PROJET D TIMELINE JOUR J",
+   "date": "2026-08-14",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-15-le-monde-aime",
+   "genre": "application",
+   "titre": "LE MONDE AIME",
+   "date": "2026-08-15",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-16-hera",
+   "genre": "application",
+   "titre": "HERA",
+   "date": "2026-08-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-16-project-management-app-copy",
+   "genre": "application",
+   "titre": "Project Management App (Copy)",
+   "date": "2026-08-16",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-17-aime-cite-du-vivant",
+   "genre": "application",
+   "titre": "AIME — Cité du Vivant",
+   "date": "2026-08-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-17-aime-le-grand-jour",
+   "genre": "application",
+   "titre": "AIME — LE GRAND JOUR",
+   "date": "2026-08-17",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-08-18-aime-cite-du-vivant-copy-copy",
+   "genre": "application",
+   "titre": "AIME — Cité du Vivant (Copy) (Copy)",
+   "date": "2026-08-18",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-09-29-lumina-wedding-os",
+   "genre": "application",
+   "titre": "Lumina Wedding OS",
+   "date": "2026-09-29",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-01-aimeweddingmemory",
+   "genre": "application",
+   "titre": "AIMEWEDDINGMEMORY",
+   "date": "2026-10-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-01-l-atelier-des-noces",
+   "genre": "application",
+   "titre": "L'Atelier des Noces",
+   "date": "2026-10-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-01-new-york-wedding-os",
+   "genre": "application",
+   "titre": "NEW YORK WEDDING OS",
+   "date": "2026-10-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-01-new-york-wedding-os-copy",
+   "genre": "application",
+   "titre": "NEW YORK WEDDING OS (Copy)",
+   "date": "2026-10-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-01-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2026-10-01",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-02-aime",
+   "genre": "application",
+   "titre": "AIME",
+   "date": "2026-10-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-02-aimeweddingmemory-copy",
+   "genre": "application",
+   "titre": "AIMEWEDDINGMEMORY (Copy)",
+   "date": "2026-10-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-02-crm-copy",
+   "genre": "application",
+   "titre": "CRM (Copy)",
+   "date": "2026-10-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-02-grotesque-font-by-pangram-pangram",
+   "genre": "application",
+   "titre": "Grotesque Font by Pangram Pangram",
+   "date": "2026-10-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-02-travel-planing-app-copy",
+   "genre": "application",
+   "titre": "Travel Planing App (Copy) ×2",
+   "date": "2026-10-02",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-03-world-grid",
+   "genre": "application",
+   "titre": "World Grid",
+   "date": "2026-10-03",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  },
+  {
+   "id": "app-2026-10-04-sans-titre",
+   "genre": "application",
+   "titre": "Sans titre",
+   "date": "2026-10-04",
+   "precision": "jour",
+   "source": "Base44, date de création (relevé du 30 octobre 2026)",
+   "lien": "/"
+  }
+ ]
+}
