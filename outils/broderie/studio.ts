@@ -1,6 +1,7 @@
 /*! Noyau Point Zéro © 2026 Matt Mez Stitch Lab, MIT. Voir outils/broderie/LICENCE-POINTZERO.txt. Données couleur MakeBead, CC BY 4.0. */
 import { generer, formatParDefaut } from './moteur/motif5d/generer';
 import { DIMENSIONS, VERSION, lireCode, type Signature, type Choix } from './moteur/motif5d/code';
+import { FAMILLES, filsParFamille } from './moteur/famillesFils';
 import { FLOSS } from './moteur/dmc';
 import { toObject, ensurePalette, type Pattern, type Count } from './moteur/pattern';
 import { SYMBOL_COUNT, drawSymbol } from './moteur/symbols';
@@ -18,7 +19,7 @@ for(const d of DIMENSIONS) {
   const valeur=document.createElement('output'); valeur.id='valeur-'+d.cle; label.append(valeur);
   const input=document.createElement('input'); input.type='range'; input.min='0'; input.max='3'; input.step='1'; input.id=label.htmlFor;
   input.setAttribute('aria-describedby',valeur.id);
-  const maj=()=>{ signature[d.cle]=Number(input.value) as Choix; valeur.value=d.reponses[signature[d.cle]][0]; input.setAttribute('aria-valuetext',valeur.value); };
+  const maj=()=>{ valeur.value=d.reponses[Number(input.value)][0]; input.setAttribute('aria-valuetext',valeur.value); };
   input.value=String(signature[d.cle]); input.addEventListener('input',maj); maj();
   controles.set(d.cle,input); div.append(label,input); $('dimensions').append(div);
 }
@@ -44,7 +45,6 @@ function actualiser() {
   $<HTMLInputElement>('colonne').max=String(pattern.w); $<HTMLInputElement>('ligne').max=String(pattern.h);
   const toile=$<HTMLSelectElement>('toile'); if(!Array.from(toile.options).some(o=>Number(o.value)===pattern.count))toile.add(new Option(String(pattern.count),String(pattern.count))); toile.value=String(pattern.count);
   nuancier.value=String(actif); $('fil-actif').textContent=FLOSS[actif].code;
-  const couleurs=fils.length?fils:[actif]; $('roue').style.background=`conic-gradient(${couleurs.map((f,i)=>`${FLOSS[f].hex} ${i*100/couleurs.length}% ${(i+1)*100/couleurs.length}%`).join(',')})`;
   $('palette').replaceChildren();
   fils.forEach(f=>{const b=document.createElement('button');b.className='fil';b.title=FLOSS[f].name;b.setAttribute('aria-label','Dessiner avec le fil DMC '+FLOSS[f].code);b.setAttribute('aria-pressed',String(f===actif));const c=document.createElement('i');c.style.background=FLOSS[f].hex;b.append(c,document.createTextNode(FLOSS[f].code));b.onclick=()=>{actif=f;actualiser();};$('palette').append(b);});
   dessiner();
@@ -73,6 +73,7 @@ $('sauver').onclick=()=>{if(sauver())signaler('Ouvrage sauvegardé sur cet appar
 $('annuler').onclick=()=>{const p=historique.pop();if(!p)return;pattern=p;const r=lireCode(p.recette?.code);if(r){Object.assign(signature,r.signature);graine=r.graine;synchroniser();}if(!historique.length)$('annuler').setAttribute('disabled','');change('La dernière modification a été annulée.');};
 $('toile').onchange=()=>{souvenir();pattern.count=Number($<HTMLSelectElement>('toile').value) as Count;change('Le comptage de la toile a été mis à jour.');};
 function appliquer(x: number,y: number) {
+  if(apercu){signaler('Confirmez ou annulez l’aperçu avant de dessiner.');return;}
   if(!Number.isInteger(x)||!Number.isInteger(y)||x<0||y<0||x>=pattern.w||y>=pattern.h){signaler('Choisissez une case dans les limites de la grille.');return;}
   const outil=$<HTMLSelectElement>('outil').value, i=y*pattern.w+x;if(outil==='regarder'){signaler(`Colonne ${x+1}, ligne ${y+1} : ${pattern.cross[i]<0?'toile vide':'DMC '+FLOSS[pattern.cross[i]].code}.`);return;}
   if(outil==='broder'&&pattern.cross[i]<0){signaler('Cette case ne contient aucune croix.');return;}
@@ -89,4 +90,88 @@ $('export-svg').onclick=()=>telecharger(svgPatron(pattern),'image/svg+xml','atla
 function preparerImpression(){const host=$('patron-impression');host.replaceChildren();for(let y=0;y<pattern.h;y+=40)for(let x=0;x<pattern.w;x+=40){const page=document.createElement('div');page.className='feuille-patron';page.innerHTML=svgPatron(pattern,{x,y,w:Math.min(40,pattern.w-x),h:Math.min(40,pattern.h-y)});host.append(page);}}
 $('imprimer').onclick=()=>{preparerImpression();window.print();};window.addEventListener('beforeprint',preparerImpression);
 $<HTMLInputElement>('import-json').onchange=async e=>{const input=e.target as HTMLInputElement,f=input.files?.[0];if(!f)return;try{if(f.size>5*1024*1024)throw Error('Fichier trop volumineux (5 Mo maximum).');const p=lireCopie(JSON.parse(await f.text()));if(!confirm('Ouvrir cette copie à la place de l’ouvrage actuel ? Vous pourrez annuler.'))return;souvenir();pattern=p;actif=p.palette[0]??0;modifie=true;const r=lireCode(p.recette?.code);if(r){Object.assign(signature,r.signature);graine=r.graine;synchroniser();}change('La copie JSON a été ouverte.');}catch(err){signaler(err instanceof Error?err.message:'Copie illisible.');}finally{input.value='';}};
+// Le même classement DMC que le disque de Point Zéro, sans importer son application React.
+type Apercu = { base: Pattern; signature: Signature; graine: number; actif: number };
+let apercu: Apercu | null = null;
+let niveau: 'racine' | 'dimension' | 'fils' | 'familles' | 'nuances' = 'racine';
+let dimension = DIMENSIONS[0], sourceFil = -1, famille = '', pageNuances = 0;
+const PAGE = 12;
+const verrouilles = '#generer, #annuler, #sauver, #export-svg, #imprimer, #export-json, #import-json, #appliquer, #toile, #outil, #nuancier, #palette button, #graine';
+function verrouiller() { document.querySelectorAll<HTMLInputElement>(verrouilles).forEach(e=>e.disabled=!!apercu); if(!apercu)$<HTMLButtonElement>('annuler').disabled=!historique.length; }
+function commencerApercu() {
+  if(!apercu)apercu={base:pattern,signature:{...signature},graine,actif};
+}
+function montrerApercu(p: Pattern, texte: string) {
+  pattern=p; actualiser(); verrouiller(); $('apercu-actions').hidden=false; $('apercu-texte').textContent=texte+' Rien n’est sauvegardé avant confirmation.'; signaler('Aperçu de la métamorphose. Confirmez ou annulez.'); animer();
+}
+function animer() {
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)$('motif').animate([{opacity:.35,transform:'scale(.985)'},{opacity:1,transform:'scale(1)'}],{duration:320,easing:'ease-out'});
+}
+function apercuDimension(d: typeof DIMENSIONS[number], valeur: Choix) {
+  commencerApercu();signature[d.cle]=valeur; synchroniser();
+  const resultat=fabriquer(); resultat.pattern.count=apercu!.base.count; resultat.pattern.fabric={...apercu!.base.fabric!};
+  $('ajustements').textContent=resultat.controle.ajustements.join(' ');
+  montrerApercu(resultat.pattern,`${d.nom} : ${d.reponses[valeur][0]}. Le motif généré remplace les retouches et le suivi uniquement si vous confirmez.`);couronne();
+}
+function terminerApercu(confirmer: boolean) {
+  if(!apercu)return;
+  const a=apercu;apercu=null;$('apercu-actions').hidden=true;
+  if(confirmer){historique.push(copier(a.base));if(historique.length>20)historique.shift();modifie=true;}
+  else {pattern=a.base;Object.assign(signature,a.signature);graine=a.graine;actif=a.actif;synchroniser();}
+  actualiser();verrouiller();couronne();
+  if(confirmer){if(sauver())signaler('La métamorphose est confirmée et sauvegardée sur cet appareil.');}
+  else signaler('Aperçu annulé : votre ouvrage et son suivi sont inchangés.');
+}
+function boutonDisque(nom: string, id: string, faire:()=>void, couleur?: string, choisi=false) {
+  const b=document.createElement('button');b.type='button';b.className='disque-choix';b.dataset.choix=id;b.setAttribute('aria-label',nom);b.setAttribute('aria-pressed',String(choisi));
+  if(couleur){const c=document.createElement('i');c.style.background=couleur;b.append(c);}
+  const texte=document.createElement('span');texte.textContent=nom;b.append(texte);b.onclick=()=>{faire();if(!b.isConnected){const suivant=Array.from(document.querySelectorAll<HTMLButtonElement>('.disque-choix')).find(e=>e.dataset.choix===id)??document.querySelector<HTMLButtonElement>('.disque-choix');suivant?.focus({preventScroll:true});}};return b;
+}
+function couronne() {
+  const host=$('disque-couronne');host.replaceChildren();$('disque-pages').replaceChildren();$('disque-retour').hidden=niveau==='racine';
+  let boutons: HTMLButtonElement[]=[],titre='Les cinq gestes de la rosace';
+  if(niveau==='racine'){
+    boutons=DIMENSIONS.map(d=>boutonDisque(d.nom,d.cle,()=>{dimension=d;niveau='dimension';couronne();}));
+    boutons.push(boutonDisque('Fils DMC','fils',ouvrirFils));
+  } else if(niveau==='dimension'){
+    titre=dimension.nom+' · touchez un choix pour voir la métamorphose';
+    boutons=dimension.reponses.map(([nom],i)=>boutonDisque(nom,'valeur-'+i,()=>apercuDimension(dimension,i as Choix),undefined,signature[dimension.cle]===i));
+  } else if(niveau==='fils'){
+    titre='Remplacer un fil · choisissez le fil du motif';
+    const fils=filsUtilises(apercu?.base??pattern);
+    const max=Math.max(0,Math.ceil(fils.length/PAGE)-1);pageNuances=Math.min(pageNuances,max);
+    boutons=fils.slice(pageNuances*PAGE,(pageNuances+1)*PAGE).map(f=>boutonDisque('DMC '+FLOSS[f].code,'source-'+f,()=>{sourceFil=f;niveau='familles';pageNuances=0;couronne();},FLOSS[f].hex));
+    paginer(fils.length);
+    if(!fils.length)titre='Aucun fil à remplacer. Dessinez d’abord une croix.';
+  } else if(niveau==='familles'){
+    titre='DMC '+FLOSS[sourceFil].code+' → choisissez une famille';
+    boutons=FAMILLES.map(f=>boutonDisque(f.nom,'famille-'+f.id,()=>{famille=f.id;pageNuances=0;niveau='nuances';couronne();},f.hex));
+  } else {
+    const liste=filsParFamille().get(famille)??[];
+    titre=(FAMILLES.find(f=>f.id===famille)?.nom??'Nuances')+' · du clair au foncé';
+    boutons=liste.slice(pageNuances*PAGE,(pageNuances+1)*PAGE).map(f=>boutonDisque('DMC '+FLOSS[f].code,'nuance-'+f,()=>{
+      commencerApercu(); const p=copier(apercu!.base);
+      for(let i=0;i<p.cross.length;i++)if(p.cross[i]===sourceFil)p.cross[i]=f;
+      ensurePalette(p,f);actif=f;montrerApercu(p,`DMC ${FLOSS[sourceFil].code} → DMC ${FLOSS[f].code} (${FLOSS[f].name}). La géométrie et le suivi sont conservés.`);couronne();
+    },FLOSS[f].hex,actif===f));paginer(liste.length);
+  }
+  $('disque-titre').textContent=titre;
+  boutons.forEach((b,i)=>{const angle=(-90+i*360/boutons.length)*Math.PI/180;b.style.left=(50+42*Math.cos(angle))+'%';b.style.top=(50+42*Math.sin(angle))+'%';host.append(b);});
+}
+function paginer(n: number) {
+  const pages=Math.ceil(n/PAGE);if(pages<=1)return;
+  const h=$('disque-pages');
+  const avant=document.createElement('button');avant.className='bouton';avant.textContent='Nuances précédentes';avant.disabled=pageNuances===0;avant.onclick=()=>{pageNuances--;couronne();};
+  const apres=document.createElement('button');apres.className='bouton';apres.textContent='Nuances suivantes';apres.disabled=pageNuances>=pages-1;apres.onclick=()=>{pageNuances++;couronne();};
+  const t=document.createElement('span');t.textContent=`${pageNuances+1} / ${pages}`;h.append(avant,t,apres);
+}
+function ouvrirFils(){if(apercu)terminerApercu(false);niveau='fils';pageNuances=0;couronne();}
+$('ouvrir-nuancier').onclick=ouvrirFils;
+$('disque-retour').onclick=()=>{if(apercu)terminerApercu(false);niveau=niveau==='nuances'?'familles':niveau==='familles'?'fils':'racine';pageNuances=0;couronne();};
+$('apercu-confirmer').onclick=()=>terminerApercu(true);$('apercu-annuler').onclick=()=>terminerApercu(false);
+$('disque-studio').addEventListener('keydown',e=>{if(e.key==='Escape'){if(apercu)terminerApercu(false);else{niveau='racine';couronne();}return;}const b=Array.from(document.querySelectorAll<HTMLButtonElement>('.disque-choix'));const i=b.indexOf(document.activeElement as HTMLButtonElement);if(i<0)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();b[e.key==='Home'?0:e.key==='End'?b.length-1:(i+(e.key==='ArrowRight'?1:b.length-1))%b.length]?.focus();}});
+DIMENSIONS.forEach(d=>controles.get(d.cle)!.addEventListener('change',()=>apercuDimension(d,Number(controles.get(d.cle)!.value) as Choix)));
+window.addEventListener('beforeunload',e=>{if(apercu){e.preventDefault();e.returnValue='';}});
+couronne();
+
 actualiser();signaler(avertissement||'Votre premier motif est prêt. Choisissez un geste pour modifier la grille.');

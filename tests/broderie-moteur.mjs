@@ -1,4 +1,4 @@
-export const SOURCE_DIGEST = "931a4dcc4a428fb724d556296f394d9810b7d910549387df2ef2999d22589463";
+export const SOURCE_DIGEST = "2295e67d5d596d699af189b914236234214cb7ce211b76a81349821c8ff6ee24";
 
 // node_modules/craft-color-codes/data/json/dmc-floss.json
 var dmc_floss_default = {
@@ -1562,11 +1562,61 @@ function svgPatron(p, zone = { x: 0, y: 0, w: p.w, h: p.h }) {
   });
   return s + `<text x="24" y="${H - 16}" font-size="10">${ATTRIBUTION}</text></g></svg>`;
 }
+
+// moteur/famillesFils.ts
+var FAMILLES = [
+  { id: "blancs", nom: "Blancs et \xE9crus", hex: "#f4efe1" },
+  { id: "gris", nom: "Gris et noirs", hex: "#7c7c80" },
+  { id: "rouges", nom: "Rouges", hex: "#c8102e" },
+  { id: "roses", nom: "Roses", hex: "#e87ea1" },
+  { id: "oranges", nom: "Oranges", hex: "#f08a24" },
+  { id: "jaunes", nom: "Jaunes", hex: "#f2cd2e" },
+  { id: "verts", nom: "Verts", hex: "#4f9a3c" },
+  { id: "turquoises", nom: "Turquoises", hex: "#2aa5a0" },
+  { id: "bleus", nom: "Bleus", hex: "#2f5fb3" },
+  { id: "violets", nom: "Violets", hex: "#7b4fa8" },
+  { id: "bruns", nom: "Bruns et beiges", hex: "#8a5a36" }
+];
+function hsl2(hex) {
+  const n = parseInt(hex.replace("#", ""), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, d = max - min;
+  if (!d) return { h: 0, s: 0, l };
+  const s = d / (1 - Math.abs(2 * l - 1));
+  let h = max === r ? (g - b) / d % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  h = (h * 60 + 360) % 360;
+  return { h, s, l };
+}
+function familleDe(hex) {
+  const { h, s, l } = hsl2(hex);
+  if (s < 0.14 || l > 0.93) return l > 0.78 ? "blancs" : "gris";
+  if (l < 0.1) return "gris";
+  if (h >= 12 && h < 55 && (s < 0.45 || l < 0.36)) return l > 0.72 ? "blancs" : "bruns";
+  if (h < 12 || h >= 345) return l > 0.66 ? "roses" : "rouges";
+  if (h < 40) return "oranges";
+  if (h < 68) return "jaunes";
+  if (h < 165) return "verts";
+  if (h < 195) return "turquoises";
+  if (h < 255) return "bleus";
+  if (h < 300) return "violets";
+  return "roses";
+}
+var cache = null;
+function filsParFamille() {
+  if (cache) return cache;
+  const m = new Map(FAMILLES.map((f) => [f.id, []]));
+  FLOSS.forEach((f, i) => {
+    if (/^[0-9A-Za-z]/.test(f.code)) m.get(familleDe(f.hex)).push(i);
+  });
+  for (const [, l] of m) l.sort((a, b) => hsl2(FLOSS[b].hex).l - hsl2(FLOSS[a].hex).l);
+  cache = m;
+  return m;
+}
 export {
   ATTRIBUTION,
   CLES,
   COUNTS,
   DIMENSIONS,
+  FAMILLES,
   FLOSS,
   MAX_GRAINE,
   SIZES,
@@ -1592,10 +1642,13 @@ export {
   enClair,
   ensurePalette,
   fabricInfo,
+  familleDe,
+  filsParFamille,
   filsUtilises,
   formatParDefaut,
   fromObject,
   generer,
+  hsl2 as hsl,
   lireCode,
   lireCopie,
   lireRecetteOuvrage,

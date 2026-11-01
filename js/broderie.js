@@ -1,4 +1,4 @@
-// Sources SHA256 931a4dcc4a428fb724d556296f394d9810b7d910549387df2ef2999d22589463
+// Sources SHA256 2295e67d5d596d699af189b914236234214cb7ce211b76a81349821c8ff6ee24
 (() => {
   // node_modules/craft-color-codes/data/json/dmc-floss.json
   var dmc_floss_default = {
@@ -1285,6 +1285,55 @@
     return h >>> 0;
   }
 
+  // moteur/famillesFils.ts
+  var FAMILLES = [
+    { id: "blancs", nom: "Blancs et \xE9crus", hex: "#f4efe1" },
+    { id: "gris", nom: "Gris et noirs", hex: "#7c7c80" },
+    { id: "rouges", nom: "Rouges", hex: "#c8102e" },
+    { id: "roses", nom: "Roses", hex: "#e87ea1" },
+    { id: "oranges", nom: "Oranges", hex: "#f08a24" },
+    { id: "jaunes", nom: "Jaunes", hex: "#f2cd2e" },
+    { id: "verts", nom: "Verts", hex: "#4f9a3c" },
+    { id: "turquoises", nom: "Turquoises", hex: "#2aa5a0" },
+    { id: "bleus", nom: "Bleus", hex: "#2f5fb3" },
+    { id: "violets", nom: "Violets", hex: "#7b4fa8" },
+    { id: "bruns", nom: "Bruns et beiges", hex: "#8a5a36" }
+  ];
+  function hsl2(hex) {
+    const n = parseInt(hex.replace("#", ""), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, d = max - min;
+    if (!d) return { h: 0, s: 0, l };
+    const s = d / (1 - Math.abs(2 * l - 1));
+    let h = max === r ? (g - b) / d % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    h = (h * 60 + 360) % 360;
+    return { h, s, l };
+  }
+  function familleDe(hex) {
+    const { h, s, l } = hsl2(hex);
+    if (s < 0.14 || l > 0.93) return l > 0.78 ? "blancs" : "gris";
+    if (l < 0.1) return "gris";
+    if (h >= 12 && h < 55 && (s < 0.45 || l < 0.36)) return l > 0.72 ? "blancs" : "bruns";
+    if (h < 12 || h >= 345) return l > 0.66 ? "roses" : "rouges";
+    if (h < 40) return "oranges";
+    if (h < 68) return "jaunes";
+    if (h < 165) return "verts";
+    if (h < 195) return "turquoises";
+    if (h < 255) return "bleus";
+    if (h < 300) return "violets";
+    return "roses";
+  }
+  var cache = null;
+  function filsParFamille() {
+    if (cache) return cache;
+    const m = new Map(FAMILLES.map((f) => [f.id, []]));
+    FLOSS.forEach((f, i) => {
+      if (/^[0-9A-Za-z]/.test(f.code)) m.get(familleDe(f.hex)).push(i);
+    });
+    for (const [, l] of m) l.sort((a, b) => hsl2(FLOSS[b].hex).l - hsl2(FLOSS[a].hex).l);
+    cache = m;
+    return m;
+  }
+
   // adaptateur.ts
   var ATTRIBUTION = "Donn\xE9es couleur : craft-color-codes par MakeBead (makebead.com), licence CC BY 4.0.";
   var echapper = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[c]);
@@ -1353,8 +1402,7 @@
     input.id = label.htmlFor;
     input.setAttribute("aria-describedby", valeur.id);
     const maj = () => {
-      signature[d.cle] = Number(input.value);
-      valeur.value = d.reponses[signature[d.cle]][0];
+      valeur.value = d.reponses[Number(input.value)][0];
       input.setAttribute("aria-valuetext", valeur.value);
     };
     input.value = String(signature[d.cle]);
@@ -1428,8 +1476,6 @@
     toile.value = String(pattern.count);
     nuancier.value = String(actif);
     $("fil-actif").textContent = FLOSS[actif].code;
-    const couleurs = fils.length ? fils : [actif];
-    $("roue").style.background = `conic-gradient(${couleurs.map((f, i) => `${FLOSS[f].hex} ${i * 100 / couleurs.length}% ${(i + 1) * 100 / couleurs.length}%`).join(",")})`;
     $("palette").replaceChildren();
     fils.forEach((f) => {
       const b = document.createElement("button");
@@ -1549,6 +1595,10 @@
     change("Le comptage de la toile a \xE9t\xE9 mis \xE0 jour.");
   };
   function appliquer(x, y) {
+    if (apercu) {
+      signaler("Confirmez ou annulez l\u2019aper\xE7u avant de dessiner.");
+      return;
+    }
     if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= pattern.w || y >= pattern.h) {
       signaler("Choisissez une case dans les limites de la grille.");
       return;
@@ -1640,6 +1690,214 @@
       input.value = "";
     }
   };
+  var apercu = null;
+  var niveau = "racine";
+  var dimension = DIMENSIONS[0];
+  var sourceFil = -1;
+  var famille = "";
+  var pageNuances = 0;
+  var PAGE = 12;
+  var verrouilles = "#generer, #annuler, #sauver, #export-svg, #imprimer, #export-json, #import-json, #appliquer, #toile, #outil, #nuancier, #palette button, #graine";
+  function verrouiller() {
+    document.querySelectorAll(verrouilles).forEach((e) => e.disabled = !!apercu);
+    if (!apercu) $("annuler").disabled = !historique.length;
+  }
+  function commencerApercu() {
+    if (!apercu) apercu = { base: pattern, signature: { ...signature }, graine, actif };
+  }
+  function montrerApercu(p, texte) {
+    pattern = p;
+    actualiser();
+    verrouiller();
+    $("apercu-actions").hidden = false;
+    $("apercu-texte").textContent = texte + " Rien n\u2019est sauvegard\xE9 avant confirmation.";
+    signaler("Aper\xE7u de la m\xE9tamorphose. Confirmez ou annulez.");
+    animer();
+  }
+  function animer() {
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) $("motif").animate([{ opacity: 0.35, transform: "scale(.985)" }, { opacity: 1, transform: "scale(1)" }], { duration: 320, easing: "ease-out" });
+  }
+  function apercuDimension(d, valeur) {
+    commencerApercu();
+    signature[d.cle] = valeur;
+    synchroniser();
+    const resultat = fabriquer();
+    resultat.pattern.count = apercu.base.count;
+    resultat.pattern.fabric = { ...apercu.base.fabric };
+    $("ajustements").textContent = resultat.controle.ajustements.join(" ");
+    montrerApercu(resultat.pattern, `${d.nom} : ${d.reponses[valeur][0]}. Le motif g\xE9n\xE9r\xE9 remplace les retouches et le suivi uniquement si vous confirmez.`);
+    couronne();
+  }
+  function terminerApercu(confirmer) {
+    if (!apercu) return;
+    const a = apercu;
+    apercu = null;
+    $("apercu-actions").hidden = true;
+    if (confirmer) {
+      historique.push(copier(a.base));
+      if (historique.length > 20) historique.shift();
+      modifie = true;
+    } else {
+      pattern = a.base;
+      Object.assign(signature, a.signature);
+      graine = a.graine;
+      actif = a.actif;
+      synchroniser();
+    }
+    actualiser();
+    verrouiller();
+    couronne();
+    if (confirmer) {
+      if (sauver()) signaler("La m\xE9tamorphose est confirm\xE9e et sauvegard\xE9e sur cet appareil.");
+    } else signaler("Aper\xE7u annul\xE9 : votre ouvrage et son suivi sont inchang\xE9s.");
+  }
+  function boutonDisque(nom, id, faire, couleur, choisi = false) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "disque-choix";
+    b.dataset.choix = id;
+    b.setAttribute("aria-label", nom);
+    b.setAttribute("aria-pressed", String(choisi));
+    if (couleur) {
+      const c = document.createElement("i");
+      c.style.background = couleur;
+      b.append(c);
+    }
+    const texte = document.createElement("span");
+    texte.textContent = nom;
+    b.append(texte);
+    b.onclick = () => {
+      faire();
+      if (!b.isConnected) {
+        const suivant = Array.from(document.querySelectorAll(".disque-choix")).find((e) => e.dataset.choix === id) ?? document.querySelector(".disque-choix");
+        suivant?.focus({ preventScroll: true });
+      }
+    };
+    return b;
+  }
+  function couronne() {
+    const host = $("disque-couronne");
+    host.replaceChildren();
+    $("disque-pages").replaceChildren();
+    $("disque-retour").hidden = niveau === "racine";
+    let boutons = [], titre = "Les cinq gestes de la rosace";
+    if (niveau === "racine") {
+      boutons = DIMENSIONS.map((d) => boutonDisque(d.nom, d.cle, () => {
+        dimension = d;
+        niveau = "dimension";
+        couronne();
+      }));
+      boutons.push(boutonDisque("Fils DMC", "fils", ouvrirFils));
+    } else if (niveau === "dimension") {
+      titre = dimension.nom + " \xB7 touchez un choix pour voir la m\xE9tamorphose";
+      boutons = dimension.reponses.map(([nom], i) => boutonDisque(nom, "valeur-" + i, () => apercuDimension(dimension, i), void 0, signature[dimension.cle] === i));
+    } else if (niveau === "fils") {
+      titre = "Remplacer un fil \xB7 choisissez le fil du motif";
+      const fils = filsUtilises(apercu?.base ?? pattern);
+      const max = Math.max(0, Math.ceil(fils.length / PAGE) - 1);
+      pageNuances = Math.min(pageNuances, max);
+      boutons = fils.slice(pageNuances * PAGE, (pageNuances + 1) * PAGE).map((f) => boutonDisque("DMC " + FLOSS[f].code, "source-" + f, () => {
+        sourceFil = f;
+        niveau = "familles";
+        pageNuances = 0;
+        couronne();
+      }, FLOSS[f].hex));
+      paginer(fils.length);
+      if (!fils.length) titre = "Aucun fil \xE0 remplacer. Dessinez d\u2019abord une croix.";
+    } else if (niveau === "familles") {
+      titre = "DMC " + FLOSS[sourceFil].code + " \u2192 choisissez une famille";
+      boutons = FAMILLES.map((f) => boutonDisque(f.nom, "famille-" + f.id, () => {
+        famille = f.id;
+        pageNuances = 0;
+        niveau = "nuances";
+        couronne();
+      }, f.hex));
+    } else {
+      const liste = filsParFamille().get(famille) ?? [];
+      titre = (FAMILLES.find((f) => f.id === famille)?.nom ?? "Nuances") + " \xB7 du clair au fonc\xE9";
+      boutons = liste.slice(pageNuances * PAGE, (pageNuances + 1) * PAGE).map((f) => boutonDisque("DMC " + FLOSS[f].code, "nuance-" + f, () => {
+        commencerApercu();
+        const p = copier(apercu.base);
+        for (let i = 0; i < p.cross.length; i++) if (p.cross[i] === sourceFil) p.cross[i] = f;
+        ensurePalette(p, f);
+        actif = f;
+        montrerApercu(p, `DMC ${FLOSS[sourceFil].code} \u2192 DMC ${FLOSS[f].code} (${FLOSS[f].name}). La g\xE9om\xE9trie et le suivi sont conserv\xE9s.`);
+        couronne();
+      }, FLOSS[f].hex, actif === f));
+      paginer(liste.length);
+    }
+    $("disque-titre").textContent = titre;
+    boutons.forEach((b, i) => {
+      const angle = (-90 + i * 360 / boutons.length) * Math.PI / 180;
+      b.style.left = 50 + 42 * Math.cos(angle) + "%";
+      b.style.top = 50 + 42 * Math.sin(angle) + "%";
+      host.append(b);
+    });
+  }
+  function paginer(n) {
+    const pages = Math.ceil(n / PAGE);
+    if (pages <= 1) return;
+    const h = $("disque-pages");
+    const avant = document.createElement("button");
+    avant.className = "bouton";
+    avant.textContent = "Nuances pr\xE9c\xE9dentes";
+    avant.disabled = pageNuances === 0;
+    avant.onclick = () => {
+      pageNuances--;
+      couronne();
+    };
+    const apres = document.createElement("button");
+    apres.className = "bouton";
+    apres.textContent = "Nuances suivantes";
+    apres.disabled = pageNuances >= pages - 1;
+    apres.onclick = () => {
+      pageNuances++;
+      couronne();
+    };
+    const t = document.createElement("span");
+    t.textContent = `${pageNuances + 1} / ${pages}`;
+    h.append(avant, t, apres);
+  }
+  function ouvrirFils() {
+    if (apercu) terminerApercu(false);
+    niveau = "fils";
+    pageNuances = 0;
+    couronne();
+  }
+  $("ouvrir-nuancier").onclick = ouvrirFils;
+  $("disque-retour").onclick = () => {
+    if (apercu) terminerApercu(false);
+    niveau = niveau === "nuances" ? "familles" : niveau === "familles" ? "fils" : "racine";
+    pageNuances = 0;
+    couronne();
+  };
+  $("apercu-confirmer").onclick = () => terminerApercu(true);
+  $("apercu-annuler").onclick = () => terminerApercu(false);
+  $("disque-studio").addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (apercu) terminerApercu(false);
+      else {
+        niveau = "racine";
+        couronne();
+      }
+      return;
+    }
+    const b = Array.from(document.querySelectorAll(".disque-choix"));
+    const i = b.indexOf(document.activeElement);
+    if (i < 0) return;
+    if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {
+      e.preventDefault();
+      b[e.key === "Home" ? 0 : e.key === "End" ? b.length - 1 : (i + (e.key === "ArrowRight" ? 1 : b.length - 1)) % b.length]?.focus();
+    }
+  });
+  DIMENSIONS.forEach((d) => controles.get(d.cle).addEventListener("change", () => apercuDimension(d, Number(controles.get(d.cle).value))));
+  window.addEventListener("beforeunload", (e) => {
+    if (apercu) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+  couronne();
   actualiser();
   signaler(avertissement || "Votre premier motif est pr\xEAt. Choisissez un geste pour modifier la grille.");
 })();

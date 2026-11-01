@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 // Tests sans installation de dépendances : la CI existante peut les exécuter tels quels.
-const { SOURCE_DIGEST, generer, formatParDefaut, FLOSS, toObject, lireCopie, svgPatron, ATTRIBUTION } = await import('./broderie-moteur.mjs');
+const { FAMILLES, filsParFamille, SOURCE_DIGEST, generer, formatParDefaut, FLOSS, toObject, lireCopie, svgPatron, ATTRIBUTION } = await import('./broderie-moteur.mjs');
 test('les bundles correspondent aux sources versionnées',()=>{
   const fichiers=readdirSync('outils/broderie',{recursive:true}).filter(f=>/\.(ts|mjs)$/.test(f)&&!f.startsWith('node_modules')).sort();
   const digest=createHash('sha256');
@@ -42,4 +42,9 @@ test('patron : symboles, légende DMC, attribution et texte échappé',()=>{
   assert.ok(svg.includes(ATTRIBUTION));assert.ok(svg.includes('une case = une croix'));
   for(const i of new Set(p.cross))if(i>=0)assert.ok(svg.includes('DMC '+FLOSS[i].code));
   const page=svgPatron(p,{x:40,y:40,w:21,h:21});assert.ok(page.includes('Colonnes 41–61'));
+});
+
+test('le nuancier de lemondeaime couvre chaque référence une seule fois',()=>{
+ const m=filsParFamille(), fils=FAMILLES.flatMap(f=>m.get(f.id));
+ assert.equal(fils.length,FLOSS.length);assert.equal(new Set(fils).size,FLOSS.length);
 });

@@ -31,9 +31,31 @@ for(const largeur of [1280,390]) {
   await p.setInputFiles('#import-json',{name:'faux.json',mimeType:'application/json',buffer:Buffer.from('{}')});
   await p.waitForFunction(()=>document.querySelector('#etat').textContent.includes('refusée'));assert.match(await p.textContent('#mesures'),/1 brodées/);
   await p.selectOption('#toile','18');assert.match(await p.textContent('#mesures'),/8,6 × 8,6 cm/);
+  // Le disque change vraiment le motif, mais ne touche pas à la copie locale avant validation.
+  const local=()=>p.evaluate(()=>localStorage.getItem('atlas-broderie-v1'));
+  const sauvegarde=await local(), avantDisque=await image();
+  await p.click('[data-choix="trace"]');await p.click('[data-choix="valeur-1"]');
+  assert.notEqual(await image(),avantDisque);assert.equal(await local(),sauvegarde);
+  assert.ok(await p.locator('#export-json').isDisabled());
+  await p.click('#apercu-annuler');assert.equal(await image(),avantDisque);assert.equal(await local(),sauvegarde);
+  await p.click('[data-choix="valeur-1"]');await p.click('#apercu-confirmer');
+  assert.notEqual(await local(),sauvegarde);
+  await p.click('#annuler');assert.equal(await image(),avantDisque);
+  // Parcours repris de lemondeaime : fil du motif → famille → nuances paginées.
+  await p.click('#ouvrir-nuancier');await p.locator('[data-choix^="source-"]').first().click();
+  await p.click('[data-choix="famille-bleus"]');
+  await p.getByRole('button',{name:'Nuances suivantes',exact:true}).click();
+  const remplace=await local();
+  await p.locator('[data-choix^="nuance-"]').first().click();assert.equal(await local(),remplace);
+  await p.click('#apercu-annuler');assert.equal(await local(),remplace);
+  await p.locator('[data-choix^="nuance-"]').first().click();await p.click('#apercu-confirmer');
+  const apresFil=JSON.parse(await local()), avantFil=JSON.parse(remplace);
+  assert.deepEqual(apresFil.cross.map(v=>v>=0),avantFil.cross.map(v=>v>=0));
+  assert.deepEqual(apresFil.done,avantFil.done);assert.notDeepEqual(apresFil.cross,avantFil.cross);
+  await p.click('#annuler');assert.deepEqual(JSON.parse(await local()).cross,avantFil.cross);
   await p.evaluate(()=>dispatchEvent(new Event('beforeprint')));assert.equal(await p.locator('.feuille-patron').count(),4);
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  assert.deepEqual(erreurs,[]);console.log(`✓ Studio ${largeur} px : variation, annulation, dessin, suivi, reprise, JSON, SVG, refus, toile et 4 feuilles d’impression`);
+  assert.deepEqual(erreurs,[]);console.log(`✓ Studio ${largeur} px : variation, annulation, dessin, suivi, reprise, JSON, SVG, refus, toile, disque réversible, remplacement DMC et 4 feuilles d’impression`);
   await p.close();
 }
 } finally {await b.close();}
