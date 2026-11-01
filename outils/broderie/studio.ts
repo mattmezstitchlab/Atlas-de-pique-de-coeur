@@ -116,7 +116,7 @@ function apercuDimension(d: typeof DIMENSIONS[number], valeur: Choix) {
 function terminerApercu(confirmer: boolean) {
   if(!apercu)return;
   const a=apercu;apercu=null;$('apercu-actions').hidden=true;
-  if(confirmer){historique.push(copier(a.base));if(historique.length>20)historique.shift();modifie=true;}
+  if(confirmer){if(niveau==='nuances')sourceFil=actif;historique.push(copier(a.base));if(historique.length>20)historique.shift();modifie=true;}
   else {pattern=a.base;Object.assign(signature,a.signature);graine=a.graine;actif=a.actif;synchroniser();}
   actualiser();verrouiller();couronne();
   if(confirmer){if(sauver())signaler('La métamorphose est confirmée et sauvegardée sur cet appareil.');}

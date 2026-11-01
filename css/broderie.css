@@ -57,3 +57,4 @@
 @media(max-width: 1000px) { .studio-layout { grid-template-columns: minmax(0, 1fr); } .ouvrage, .fils, .reglages { grid-column: 1; grid-row: auto; } .ouvrage { grid-row: 1; } .fils { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media(max-width: 620px) { .disque-choix { width: 66px; font-size: 11px; padding: 2px; } .disque-choix i { width: 23px; height: 23px; } .disque-studio .tambour { border-width: 5px; padding: 3px; } .fils, #dimensions { grid-template-columns: minmax(0,1fr); } }
 @media(prefers-reduced-motion: reduce) { .disque-studio * { animation: none !important; transition: none !important; } }
+@media(max-width: 620px) { .studio-broderie .tete { position: relative; } }

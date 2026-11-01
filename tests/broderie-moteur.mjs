@@ -1,4 +1,4 @@
-export const SOURCE_DIGEST = "2295e67d5d596d699af189b914236234214cb7ce211b76a81349821c8ff6ee24";
+export const SOURCE_DIGEST = "034f9e2d358d9f7cb17c703f43e78fefae8138fe57391d75258eae18891b49cc";
 
 // node_modules/craft-color-codes/data/json/dmc-floss.json
 var dmc_floss_default = {

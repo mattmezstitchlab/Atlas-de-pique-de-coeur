@@ -1,4 +1,4 @@
-// Sources SHA256 2295e67d5d596d699af189b914236234214cb7ce211b76a81349821c8ff6ee24
+// Sources SHA256 034f9e2d358d9f7cb17c703f43e78fefae8138fe57391d75258eae18891b49cc
 (() => {
   // node_modules/craft-color-codes/data/json/dmc-floss.json
   var dmc_floss_default = {
@@ -1734,6 +1734,7 @@
     apercu = null;
     $("apercu-actions").hidden = true;
     if (confirmer) {
+      if (niveau === "nuances") sourceFil = actif;
       historique.push(copier(a.base));
       if (historique.length > 20) historique.shift();
       modifie = true;
