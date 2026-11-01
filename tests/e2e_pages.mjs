@@ -6,7 +6,7 @@
 import { createRequire } from "node:module";
 const { chromium } = createRequire(import.meta.url)("playwright");   /* installé à côté (CI) ou globalement */
 const B = (process.env.BASE || "http://localhost:8090").replace(/\/$/, ""), P = (process.env.PREFIXE || "").replace(/\/$/, ""), RACINE = B + P + "/";
-const PAGES = [["/", true], ["/chronologie", true], ["/composition", true], ["/vue-cube", true], ["/importer", true], ["/ecosysteme", true], ["/moteur", true], ["/administration", false]];
+const PAGES = [["/broderie", true], ["/", true], ["/chronologie", true], ["/composition", true], ["/vue-cube", true], ["/importer", true], ["/ecosysteme", true], ["/moteur", true], ["/administration", false]];
 let bons = 0, mauvais = 0;
 const ok = (c, m) => { c ? bons++ : mauvais++; console.log((c ? "✓ " : "✗ ") + m); };
 const opts = process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {};
@@ -70,5 +70,7 @@ for (const [ancienne, nouvelle] of [["/metamorphose", "/composition"], ["/admin"
   await pg.close();
 }
 await b.close();
+/* Le studio participe au même parcours CI, sans nouveau workflow. */
+await import('./e2e_broderie.mjs');
 console.log(`— ${bons}/${bons + mauvais}`);
 process.exit(mauvais ? 1 : 0);
