@@ -9,6 +9,10 @@ for(const largeur of [1280,390]) {
   const p=await b.newPage({viewport:{width:largeur,height:900}}), erreurs=[];
   p.on('pageerror',e=>erreurs.push(e.message));p.on('dialog',d=>d.accept());
   await p.goto(base+'/broderie');await p.waitForFunction(()=>document.querySelector('#mesures').textContent.includes('croix'));
+  assert.ok(await p.evaluate(()=>{
+    const l=document.querySelector('.broderie-reglage label');
+    return getComputedStyle(l).color===getComputedStyle(document.body).color && l.parentElement.getBoundingClientRect().height>=70;
+  }), 'Étiquettes en encre, réglages sans collision avec les contrôles de confort');
   const image=()=>p.$eval('#motif',c=>c.toDataURL());
   const depart=await image();
   await p.fill('#graine','8');await p.click('#generer');assert.notEqual(await image(),depart);

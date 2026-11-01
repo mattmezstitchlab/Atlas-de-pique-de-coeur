@@ -13,7 +13,7 @@ let pattern: Pattern, actif = 0, grille = false, modifie = false, avertissement 
 let graine = 7;
 const controles = new Map<string, HTMLInputElement>();
 for(const d of DIMENSIONS) {
-  const div=document.createElement('div'); div.className='reglage';
+  const div=document.createElement('div'); div.className='broderie-reglage';
   const label=document.createElement('label'); label.htmlFor='choix-'+d.cle; label.textContent=d.nom;
   const valeur=document.createElement('output'); valeur.id='valeur-'+d.cle; label.append(valeur);
   const input=document.createElement('input'); input.type='range'; input.min='0'; input.max='3'; input.step='1'; input.id=label.htmlFor;

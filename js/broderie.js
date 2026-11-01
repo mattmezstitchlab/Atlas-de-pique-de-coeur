@@ -1,4 +1,4 @@
-// Sources SHA256 91d15d34c21045ea6b0d81ee5d716cc46035a466ee12e5a602bd7563b83f2744
+// Sources SHA256 931a4dcc4a428fb724d556296f394d9810b7d910549387df2ef2999d22589463
 (() => {
   // node_modules/craft-color-codes/data/json/dmc-floss.json
   var dmc_floss_default = {
@@ -1338,7 +1338,7 @@
   var controles = /* @__PURE__ */ new Map();
   for (const d of DIMENSIONS) {
     const div = document.createElement("div");
-    div.className = "reglage";
+    div.className = "broderie-reglage";
     const label = document.createElement("label");
     label.htmlFor = "choix-" + d.cle;
     label.textContent = d.nom;
