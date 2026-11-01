@@ -107,11 +107,11 @@ function montrerApercu(p: Pattern, texte: string) {
 function animer() {
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)$('motif').animate([{opacity:.35,transform:'scale(.985)'},{opacity:1,transform:'scale(1)'}],{duration:320,easing:'ease-out'});
 }
-function apercuDimension(d: typeof DIMENSIONS[number], valeur: Choix) {
+function apercuDimension(d: typeof DIMENSIONS[number], valeur: Choix, redessiner=true) {
   commencerApercu();signature[d.cle]=valeur; synchroniser();
   const resultat=fabriquer(); resultat.pattern.count=apercu!.base.count; resultat.pattern.fabric={...apercu!.base.fabric!};
   $('ajustements').textContent=resultat.controle.ajustements.join(' ');
-  montrerApercu(resultat.pattern,`${d.nom} : ${d.reponses[valeur][0]}. Le motif généré remplace les retouches et le suivi uniquement si vous confirmez.`);couronne();
+  montrerApercu(resultat.pattern,`${d.nom} : ${d.reponses[valeur][0]}. Le motif généré remplace les retouches et le suivi uniquement si vous confirmez.`);if(redessiner)couronne();
 }
 function terminerApercu(confirmer: boolean) {
   if(!apercu)return;
@@ -124,15 +124,15 @@ function terminerApercu(confirmer: boolean) {
 }
 function boutonDisque(nom: string, id: string, faire:()=>void, couleur?: string, choisi=false) {
   const b=document.createElement('button');b.type='button';b.className='disque-choix';b.dataset.choix=id;b.setAttribute('aria-label',nom);b.setAttribute('aria-pressed',String(choisi));
-  if(couleur){const c=document.createElement('i');c.style.background=couleur;b.append(c);}
+  const c=document.createElement('i');if(couleur)c.style.background=couleur;else c.textContent=({structure:'❋',trace:'∿',densite:'⠿',echelle:'↗',palette:'◐',fils:'◉',outils:'✎',fichiers:'↥',affichage:'◈',toile:'▦',aide:'?',retour:'↶'} as Record<string,string>)[id]??'·';b.append(c);
   const texte=document.createElement('span');texte.textContent=nom;b.append(texte);b.onclick=()=>{faire();if(!b.isConnected){const suivant=Array.from(document.querySelectorAll<HTMLButtonElement>('.disque-choix')).find(e=>e.dataset.choix===id)??document.querySelector<HTMLButtonElement>('.disque-choix');suivant?.focus({preventScroll:true});}};return b;
 }
 function couronne() {
   const host=$('disque-couronne');host.replaceChildren();$('disque-pages').replaceChildren();$('disque-retour').hidden=niveau==='racine';
   let boutons: HTMLButtonElement[]=[],titre='Les cinq gestes de la rosace';
   if(niveau==='racine'){
-    boutons=DIMENSIONS.map(d=>boutonDisque(d.nom,d.cle,()=>{dimension=d;niveau='dimension';couronne();}));
-    boutons.push(boutonDisque('Fils DMC','fils',ouvrirFils));
+    boutons=[];
+    boutons=[boutonDisque('Fils DMC','fils',ouvrirFils),boutonDisque('Dessiner','outils',()=>panneau('outils')),boutonDisque('Toile','toile',()=>panneau('toile')),boutonDisque('Affichage','affichage',()=>panneau('affichage')),boutonDisque('Fichiers','fichiers',()=>panneau('fichiers')),boutonDisque('Annuler','retour',()=>{if(apercu)terminerApercu(false);else $('annuler').click();couronne();}),boutonDisque('Guide','aide',()=>panneau('aide')),boutonDisque('Variation','variation',()=>{if(apercu)terminerApercu(false);$<HTMLInputElement>('graine').value=String(1+Math.floor(Math.random()*99999));$('generer').click();})];
   } else if(niveau==='dimension'){
     titre=dimension.nom+' · touchez un choix pour voir la métamorphose';
     boutons=dimension.reponses.map(([nom],i)=>boutonDisque(nom,'valeur-'+i,()=>apercuDimension(dimension,i as Choix),undefined,signature[dimension.cle]===i));
@@ -156,7 +156,8 @@ function couronne() {
     },FLOSS[f].hex,actif===f));paginer(liste.length);
   }
   $('disque-titre').textContent=titre;
-  boutons.forEach((b,i)=>{const angle=(-90+i*360/boutons.length)*Math.PI/180;b.style.left=(50+42*Math.cos(angle))+'%';b.style.top=(50+42*Math.sin(angle))+'%';host.append(b);});
+  boutons.forEach((b,i)=>{const angle=(-90+i*360/boutons.length)*Math.PI/180;b.style.left=(50+46*Math.cos(angle))+'%';b.style.top=(50+46*Math.sin(angle))+'%';host.append(b);});
+  dessinerArcs();
 }
 function paginer(n: number) {
   const pages=Math.ceil(n/PAGE);if(pages<=1)return;
@@ -171,6 +172,61 @@ $('disque-retour').onclick=()=>{if(apercu)terminerApercu(false);niveau=niveau===
 $('apercu-confirmer').onclick=()=>terminerApercu(true);$('apercu-annuler').onclick=()=>terminerApercu(false);
 $('disque-studio').addEventListener('keydown',e=>{if(e.key==='Escape'){if(apercu)terminerApercu(false);else{niveau='racine';couronne();}return;}const b=Array.from(document.querySelectorAll<HTMLButtonElement>('.disque-choix'));const i=b.indexOf(document.activeElement as HTMLButtonElement);if(i<0)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();b[e.key==='Home'?0:e.key==='End'?b.length-1:(i+(e.key==='ArrowRight'?1:b.length-1))%b.length]?.focus();}});
 DIMENSIONS.forEach(d=>controles.get(d.cle)!.addEventListener('change',()=>apercuDimension(d,Number(controles.get(d.cle)!.value) as Choix)));
+/** Cinq curseurs en arc : même recette, aperçu réversible, souris / toucher / clavier. */
+function dessinerArcs() {
+  const host=$('arcs-reglages');host.replaceChildren();host.hidden=niveau!=='racine'&&niveau!=='dimension';if(host.hidden)return;
+  const NS='http://www.w3.org/2000/svg', svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 600 600');
+  const xy=(a:number,r=215)=>[300+r*Math.cos(a*Math.PI/180),300+r*Math.sin(a*Math.PI/180)];
+  DIMENSIONS.forEach((d,i)=>{
+    const start=-121+i*72,end=start+52;
+    const g=document.createElementNS(NS,'g');g.setAttribute('role','slider');g.setAttribute('tabindex','0');g.setAttribute('aria-label',d.nom+' radial');g.setAttribute('aria-valuemin','0');g.setAttribute('aria-valuemax','3');g.dataset.radial=d.cle;
+    const chemin=(a:number,b:number)=>{const [x,y]=xy(a),[X,Y]=xy(b);return `M${x} ${y}A215 215 0 0 1 ${X} ${Y}`;};
+    const rail=document.createElementNS(NS,'path');rail.setAttribute('d',chemin(start,end));rail.setAttribute('class','arc-rail');g.append(rail);
+    for(let j=0;j<4;j++){const [x,y]=xy(start+j*(end-start)/3);const tick=document.createElementNS(NS,'circle');tick.setAttribute('cx',String(x));tick.setAttribute('cy',String(y));tick.setAttribute('r','3');tick.setAttribute('class','arc-repere');g.append(tick);}
+    const suivi=document.createElementNS(NS,'path');suivi.setAttribute('class','arc-actif');g.append(suivi);
+    const boule=document.createElementNS(NS,'circle');boule.setAttribute('r','8');boule.setAttribute('class','arc-poignee');g.append(boule);
+    const texte=document.createElementNS(NS,'text');const [tx,ty]=xy((start+end)/2,245);texte.setAttribute('x',String(tx));texte.setAttribute('y',String(ty));texte.setAttribute('text-anchor','middle');texte.setAttribute('class','arc-legende');g.append(texte);
+    const maj=()=>{const v=signature[d.cle],a=start+v*(end-start)/3,[x,y]=xy(a);boule.setAttribute('cx',String(x));boule.setAttribute('cy',String(y));suivi.setAttribute('d',chemin(start,start+Math.max(.01,v*(end-start)/3)));texte.textContent=d.nom+' · '+(v+1);g.setAttribute('aria-valuenow',String(v));g.setAttribute('aria-valuetext',d.reponses[v][0]);};maj();
+    const changer=(v:number)=>{v=Math.max(0,Math.min(3,v));if(v!==signature[d.cle]){apercuDimension(d,v as Choix,false);document.querySelectorAll<SVGGElement>('[data-radial]').forEach(el=>el.dispatchEvent(new Event('rafraichir')));}};
+    g.addEventListener('rafraichir',maj);
+    const pointer=(e:PointerEvent)=>{const r=svg.getBoundingClientRect(),a=Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI;let delta=((a-start)%360+360)%360;if(delta>180)delta-=360;changer(Math.round(delta/(end-start)*3));};
+    g.addEventListener('pointerdown',e=>{e.preventDefault();g.setPointerCapture(e.pointerId);pointer(e);});g.addEventListener('pointermove',e=>{if(g.hasPointerCapture(e.pointerId))pointer(e);});g.addEventListener('pointerup',e=>{if(g.hasPointerCapture(e.pointerId))g.releasePointerCapture(e.pointerId);});
+    g.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowDown','ArrowRight','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();e.stopPropagation();changer(e.key==='Home'?0:e.key==='End'?3:signature[d.cle]+(['ArrowRight','ArrowUp'].includes(e.key)?1:-1));}});
+    svg.append(g);
+  });host.append(svg);
+}
+function panneau(genre: string) {
+  if(apercu)terminerApercu(false);
+  const h=$('panneau-contenu');h.replaceChildren();
+  const parties:Record<string,HTMLElement[]>={
+    outils:[$('outils-internes')], fichiers:[document.querySelector('.studio-fichiers')!],
+    toile:[$('toile-interne')], affichage:[$('affichage-interne')], aide:[$('aide-interne')]
+  };
+  (parties[genre]??[]).forEach(e=>h.append(e));$('disque-panneau').hidden=false;$('tambour').hidden=true;$('arcs-reglages').hidden=true;$('disque-couronne').hidden=true;
+  $('fermer-panneau').focus({preventScroll:true});
+}
+function fermerPanneau(){ Array.from($('panneau-contenu').children).forEach(e=>$('reserve-studio').append(e));$('disque-panneau').hidden=true;$('tambour').hidden=false;$('disque-couronne').hidden=false;couronne(); }
+function installationObjet() {
+  const disque=$('disque-studio'), reserve=document.createElement('div');reserve.id='reserve-studio';reserve.hidden=true;document.body.append(reserve);
+  const construire=(id:string,nodes:HTMLElement[])=>{const div=document.createElement('div');div.id=id;nodes.forEach(e=>div.append(e));reserve.append(div);return div;};
+  const fils=document.querySelector<HTMLElement>('.fils')!;
+  const outil=$('outil'),coords=document.querySelector<HTMLElement>('.coordonnees')!;
+  construire('outils-internes',[...Array.from(fils.querySelectorAll<HTMLElement>('label')).filter(e=>e.getAttribute('for')==='outil'||e.getAttribute('for')==='nuancier'),$('nuancier'),outil,coords,$('appliquer')]);
+  construire('toile-interne',[fils.querySelector<HTMLElement>('label[for="toile"]')!,$('toile')]);
+  construire('affichage-interne',[document.querySelector<HTMLElement>('.vue-actions')!]);
+  const aide=construire('aide-interne',[]);aide.innerHTML='<h2>Un disque, un ouvrage</h2><p>Faites glisser les cinq curseurs en arc. La rosace change immédiatement ; confirmez pour garder le motif ou annulez pour retrouver votre ouvrage.</p><p>Fils DMC : fil du motif, famille, nuance. Le suivi reste intact. Outils : dessiner, effacer ou marquer comme brodé. Exportez une copie JSON pour conserver votre travail.</p><p>Clavier : Tabulation, flèches, Début / Fin. Échap referme. Les couleurs écran sont approximatives.</p>';
+  const fichiers=document.querySelector<HTMLElement>('.studio-fichiers')!;fichiers.querySelector('.studio-actions')!.append($('export-svg'),$('imprimer'),$('sauver'));reserve.append(fichiers);
+  reserve.append(document.querySelector('.reglages')!,fils,document.querySelector('.studio-actions')!);
+  // Les actions contextuelles restent dans la coque, au pied du même disque.
+  const pied=document.createElement('div');pied.className='disque-console';
+  pied.append(document.querySelector('.disque-navigation')!,$('apercu-actions'),$('mesures'),$('etat'));disque.append(pied);
+  $('fermer-panneau').onclick=fermerPanneau;
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('disque-panneau').hidden)fermerPanneau();});
+  const titre=document.querySelector<HTMLElement>('.studio-intro')!;titre.innerHTML='<h1>Rosace</h1><a href="index.html">ATLAS</a>';
+  $('graine').removeAttribute('required');
+}
+installationObjet();
+
 window.addEventListener('beforeunload',e=>{if(apercu){e.preventDefault();e.returnValue='';}});
 couronne();
 

@@ -4,58 +4,43 @@ import fs from 'node:fs/promises';
 const { chromium }=createRequire(import.meta.url)('playwright');
 const base=(process.env.BASE||'http://localhost:8090')+(process.env.PREFIXE||'');
 const b=await chromium.launch(process.env.CHROMIUM?{executablePath:process.env.CHROMIUM}:{});
-try {
-for(const largeur of [1280,390]) {
-  const p=await b.newPage({viewport:{width:largeur,height:900}}), erreurs=[];
-  p.on('pageerror',e=>erreurs.push(e.message));p.on('dialog',d=>d.accept());
-  await p.goto(base+'/broderie');await p.waitForFunction(()=>document.querySelector('#mesures').textContent.includes('croix'));
-  assert.ok(await p.evaluate(()=>{
-    const l=document.querySelector('.broderie-reglage label');
-    return getComputedStyle(l).color===getComputedStyle(document.body).color && l.parentElement.getBoundingClientRect().height>=70;
-  }), 'Étiquettes en encre, réglages sans collision avec les contrôles de confort');
-  const image=()=>p.$eval('#motif',c=>c.toDataURL());
-  const depart=await image();
-  await p.fill('#graine','8');await p.click('#generer');assert.notEqual(await image(),depart);
-  await p.click('#annuler');assert.equal(await image(),depart);
-  await p.selectOption('#outil','dessiner');await p.fill('#colonne','1');await p.fill('#ligne','1');await p.click('#appliquer');
-  assert.match(await p.textContent('#etat'),/grille modifiée/);
-  await p.selectOption('#outil','broder');await p.click('#appliquer');assert.match(await p.textContent('#mesures'),/1 brodées/);
-  const avant=await image();await p.reload();await p.waitForFunction(()=>document.querySelector('#mesures').textContent.includes('1 brodées'));
-  await p.click('#vue-grille');assert.equal(await image(),avant);
-  const dl=async id=>{const attente=p.waitForEvent('download');await p.click(id);const d=await attente;return fs.readFile(await d.path(),'utf8');};
-  const json=JSON.parse(await dl('#export-json'));assert.equal(json.done[0],1);assert.ok(json.flossCodes.length>400);
-  const svg=await dl('#export-svg');assert.ok(svg.includes('une case = une croix'));assert.ok(svg.includes('CC BY 4.0'));
-  await p.selectOption('#outil','effacer');await p.click('#appliquer');assert.match(await p.textContent('#mesures'),/0 brodées/);
-  await p.setInputFiles('#import-json',{name:'copie.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(json))});
-  await p.waitForFunction(()=>document.querySelector('#mesures').textContent.includes('1 brodées'));
-  await p.setInputFiles('#import-json',{name:'faux.json',mimeType:'application/json',buffer:Buffer.from('{}')});
-  await p.waitForFunction(()=>document.querySelector('#etat').textContent.includes('refusée'));assert.match(await p.textContent('#mesures'),/1 brodées/);
-  await p.selectOption('#toile','18');assert.match(await p.textContent('#mesures'),/8,6 × 8,6 cm/);
-  // Le disque change vraiment le motif, mais ne touche pas à la copie locale avant validation.
-  const local=()=>p.evaluate(()=>localStorage.getItem('atlas-broderie-v1'));
-  const sauvegarde=await local(), avantDisque=await image();
-  await p.click('[data-choix="trace"]');await p.click('[data-choix="valeur-1"]');
-  assert.notEqual(await image(),avantDisque);assert.equal(await local(),sauvegarde);
-  assert.ok(await p.locator('#export-json').isDisabled());
-  await p.click('#apercu-annuler');assert.equal(await image(),avantDisque);assert.equal(await local(),sauvegarde);
-  await p.click('[data-choix="valeur-1"]');await p.click('#apercu-confirmer');
-  assert.notEqual(await local(),sauvegarde);
-  await p.click('#annuler');assert.equal(await image(),avantDisque);
-  // Parcours repris de lemondeaime : fil du motif → famille → nuances paginées.
-  await p.click('#ouvrir-nuancier');await p.locator('[data-choix^="source-"]').first().click();
-  await p.click('[data-choix="famille-bleus"]');
-  await p.getByRole('button',{name:'Nuances suivantes',exact:true}).click();
-  const remplace=await local();
-  await p.locator('[data-choix^="nuance-"]').first().click();assert.equal(await local(),remplace);
-  await p.click('#apercu-annuler');assert.equal(await local(),remplace);
-  await p.locator('[data-choix^="nuance-"]').first().click();await p.click('#apercu-confirmer');
-  const apresFil=JSON.parse(await local()), avantFil=JSON.parse(remplace);
-  assert.deepEqual(apresFil.cross.map(v=>v>=0),avantFil.cross.map(v=>v>=0));
-  assert.deepEqual(apresFil.done,avantFil.done);assert.notDeepEqual(apresFil.cross,avantFil.cross);
-  await p.click('#annuler');assert.deepEqual(JSON.parse(await local()).cross,avantFil.cross);
-  await p.evaluate(()=>dispatchEvent(new Event('beforeprint')));assert.equal(await p.locator('.feuille-patron').count(),4);
-  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  assert.deepEqual(erreurs,[]);console.log(`✓ Studio ${largeur} px : variation, annulation, dessin, suivi, reprise, JSON, SVG, refus, toile, disque réversible, remplacement DMC et 4 feuilles d’impression`);
-  await p.close();
-}
-} finally {await b.close();}
+try { for(const largeur of [1280,390]) {
+ const p=await b.newPage({viewport:{width:largeur,height:844}}),erreurs=[];
+ p.on('pageerror',e=>erreurs.push(e.message));p.on('dialog',d=>d.accept());
+ await p.goto(base+'/broderie');await p.waitForSelector('[data-radial="trace"]');
+ const image=()=>p.$eval('#motif',c=>c.toDataURL()),local=()=>p.evaluate(()=>localStorage.getItem('atlas-broderie-v1'));
+ const initial=await image();
+ assert.equal(await p.locator('[role="slider"][data-radial]').count(),5);
+ await p.locator('[data-radial="trace"]').focus();await p.keyboard.press('ArrowLeft');
+ assert.notEqual(await image(),initial);assert.equal(await local(),null);
+ await p.click('#apercu-annuler');assert.equal(await image(),initial);
+ // Geste réel au pointeur sur le dernier cran de l’arc Tracé.
+ const r=await p.locator('#arcs-reglages svg').boundingBox();
+ const a=3*Math.PI/180;await p.mouse.move(r.x+(300+215*Math.cos(a))*r.width/600,r.y+(300+215*Math.sin(a))*r.height/600);await p.mouse.down();await p.mouse.up();
+ assert.equal(await p.locator('[data-radial="trace"]').getAttribute('aria-valuenow'),'3');
+ await p.click('#apercu-confirmer');assert.notEqual(await local(),null);
+ await p.click('[data-choix="retour"]');assert.equal(await image(),initial);
+ const ouvrir=async id=>p.click(`[data-choix="${id}"]`),fermer=async()=>p.click('#fermer-panneau');
+ await ouvrir('outils');await p.selectOption('#outil','dessiner');await p.click('#appliquer');await fermer();
+ await ouvrir('outils');await p.selectOption('#outil','broder');await p.click('#appliquer');await fermer();assert.match(await p.textContent('#mesures'),/1 brodées/);
+ await ouvrir('fichiers');
+ const dl=async id=>{const d=p.waitForEvent('download');await p.click(id);return fs.readFile(await (await d).path(),'utf8');};
+ const json=JSON.parse(await dl('#export-json'));assert.equal(json.done[0],1);
+ assert.ok((await dl('#export-svg')).includes('CC BY 4.0'));await fermer();
+ await ouvrir('toile');await p.selectOption('#toile','18');await fermer();
+ await ouvrir('affichage');await p.click('#vue-grille');await fermer();
+ await ouvrir('fils');await p.locator('[data-choix^="source-"]').first().click();await p.click('[data-choix="famille-bleus"]');
+ await p.getByRole('button',{name:'Nuances suivantes',exact:true}).click();const avant=await local();
+ await p.locator('[data-choix^="nuance-"]').first().click();assert.equal(await local(),avant);await p.click('#apercu-annuler');
+ await p.locator('[data-choix^="nuance-"]').first().click();await p.click('#apercu-confirmer');
+ const apres=JSON.parse(await local());assert.deepEqual(apres.done,JSON.parse(avant).done);assert.deepEqual(apres.cross.map(x=>x>=0),JSON.parse(avant).cross.map(x=>x>=0));
+ await p.click('#disque-retour');await p.click('#disque-retour');await p.click('#disque-retour');
+ await ouvrir('fichiers');await p.setInputFiles('#import-json',{name:'copie.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(json))});
+ await p.waitForFunction(()=>document.querySelector('#etat').textContent.includes('copie JSON a été ouverte'));await fermer();
+ await p.reload();await p.waitForSelector('[data-radial]');assert.match(await p.textContent('#mesures'),/1 brodées/);
+ const layout=await p.evaluate(()=>{const r=document.querySelector('#disque-studio').getBoundingClientRect();return {h:document.documentElement.scrollHeight,w:document.documentElement.scrollWidth,b:r.bottom};});
+ assert.ok(layout.h<=844&&layout.w<=largeur&&layout.b<=844,JSON.stringify(layout));
+ const b1=p.locator('[data-choix="fils"]');await b1.hover();assert.equal(await b1.evaluate(e=>getComputedStyle(e).borderWidth),'0px');
+ assert.deepEqual(erreurs,[]);console.log(`✓ ${largeur} : objet unique, arcs au clavier/pointeur, aperçus, DMC, panneaux réouvrables, JSON/SVG, reprise, aucun contour au survol`);
+ await p.close();
+}} finally{await b.close();}

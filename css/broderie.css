@@ -58,3 +58,60 @@
 @media(max-width: 620px) { .disque-choix { width: 66px; font-size: 11px; padding: 2px; } .disque-choix i { width: 23px; height: 23px; } .disque-studio .tambour { border-width: 5px; padding: 3px; } .fils, #dimensions { grid-template-columns: minmax(0,1fr); } }
 @media(prefers-reduced-motion: reduce) { .disque-studio * { animation: none !important; transition: none !important; } }
 @media(max-width: 620px) { .studio-broderie .tete { position: relative; } }
+/* L’atelier tient dans un objet : aucune colonne, aucun cadre rectangulaire au survol. */
+.disque-unique { min-height: 100dvh; background: var(--fond); }
+.disque-unique .tete, .disque-unique > .pied { display: none; }
+.disque-unique .studio-page { padding: 0; max-width: none; }
+.disque-unique .studio-intro { height: 42px; margin: 0; display: flex; align-items: center; justify-content: center; gap: var(--espace-3); }
+.disque-unique .studio-intro h1 { font-size: 16px; text-transform: none; letter-spacing: 0; }
+.disque-unique .studio-intro a { font-size: 12px; color: var(--encre-3); }
+.disque-unique .studio-layout { display: block; }
+.disque-unique .ouvrage { margin: 0; }
+.disque-unique .disque-studio { width: min(94vw, calc(100dvh - 50px), 920px); margin: 0 auto; background: radial-gradient(ellipse at 40% 10%,var(--dock-survol),var(--dock) 70%); box-shadow: inset 0 1px 0 var(--dock-trait),var(--ombre-ecran); }
+.disque-unique .tambour { left: 28%; top: 24%; width: 44%; height: 44%; border-radius: 50%; border: 7px double var(--trait-champ); padding: 6px; background: var(--papier); }
+.disque-unique .tambour.grille { border-radius: 50%; }
+.disque-unique #motif { max-height: 100%; object-fit: contain; }
+.disque-unique .disque-couronne { z-index: 2; pointer-events: none; }
+.disque-unique .disque-choix { pointer-events: auto; width: 76px; min-height: 58px; border: none; border-radius: 0; outline: none; background: transparent; padding: 0; font-size: 11px; color: var(--blanc-2); gap: 5px; }
+.disque-unique .disque-choix i { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--dock-trait); background: linear-gradient(145deg,var(--dock-survol),var(--dock)); box-shadow: inset 0 1px 1px var(--blanc-3),0 3px 8px var(--voile); font-style: normal; font-size: 19px; color: var(--blanc); transition: transform .18s,box-shadow .18s; }
+.disque-unique .disque-choix:hover, .disque-unique .disque-choix[aria-pressed="true"] { background: transparent; border: none; }
+.disque-unique .disque-choix:hover i { transform: scale(1.07); box-shadow: inset 0 1px 2px var(--blanc-3),0 0 12px var(--dock-trait); }
+.disque-unique .disque-choix:focus-visible i { outline: 2px solid var(--nacre-lilas); outline-offset: 4px; }
+.disque-unique .disque-choix[aria-pressed="true"]::after { content: ''; position: absolute; bottom: -5px; width: 3px; height: 3px; border-radius: 50%; background: var(--nacre-lilas); }
+.arcs-reglages { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.arcs-reglages svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.arcs-reglages g { pointer-events: auto; touch-action: none; cursor: grab; outline: none; }
+.arc-rail { stroke: var(--dock-trait); stroke-width: 15; stroke-linecap: round; fill: none; }
+.arc-actif { stroke: var(--blanc-3); stroke-width: 2; stroke-linecap: round; fill: none; pointer-events: none; }
+.arc-repere { fill: var(--blanc-3); }
+.arc-poignee { fill: var(--nacre-lilas); stroke: var(--dock); stroke-width: 3; }
+.arc-legende { fill: var(--blanc-2); font: 500 9px var(--font-sans); pointer-events: none; }
+.arcs-reglages g:focus-visible .arc-poignee { stroke: var(--blanc); stroke-width: 3; }
+.disque-console { position: absolute; left: 25%; top: 69%; width: 50%; z-index: 3; font-size: 11px; line-height: 1.25; }
+.disque-unique .disque-navigation { margin: 0; }
+.disque-unique #disque-titre { margin: 0 0 4px; font-weight: 500; font-size: 11px; }
+.disque-unique #mesures { font-size: 9px; margin: 4px 0; color: var(--blanc-3); }
+.disque-unique #etat { min-height: 0; font-size: 10px; line-height: 1.2; margin: 4px 0; color: var(--blanc-2); }
+.disque-unique .bouton { min-height: 30px; height: auto; padding: 7px 10px; font-size: 10px; background: var(--dock-survol); border: 1px solid var(--dock-trait); color: var(--blanc); border-radius: var(--rayon-pilule); }
+.disque-unique .bouton:hover { border-color: var(--dock-trait); background: var(--dock); }
+.disque-unique .apercu-actions { margin: 0; padding: 0; border: none; background: transparent; }
+.disque-unique #apercu-texte { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.disque-unique #apercu-actions:not([hidden]) ~ #etat, .disque-unique #apercu-actions:not([hidden]) ~ #mesures { display: none; }
+.disque-panneau { position: absolute; left: 23%; top: 21%; width: 54%; height: 50%; z-index: 5; border-radius: var(--rayon-carte); background: var(--dock); color: var(--blanc); padding: var(--espace-5); overflow: auto; border: 1px solid var(--dock-trait); text-align: left; }
+.disque-fermer { position: sticky; top: 0; margin-left: auto; display: block; width: 40px; height: 40px; background: var(--dock-survol); color: var(--blanc); border: none; border-radius: 50%; font-size: 24px; cursor: pointer; }
+.disque-panneau h2 { font-size: 16px; margin: var(--espace-2) 0; }
+.disque-panneau p, .disque-panneau .note { font-size: 12px; color: var(--blanc-2); }
+.disque-panneau .champ { background: var(--dock-survol); color: var(--blanc); height: 40px; border-color: var(--dock-trait); margin: var(--espace-2) 0; }
+.disque-panneau .studio-fichiers { margin: 0; padding: 0; border: none; }
+.disque-panneau .studio-actions { margin: var(--espace-2) 0; }
+@media(max-width:620px) {
+ .disque-unique .disque-choix { width: 52px; font-size: 9px; min-height: 44px; }
+ .disque-unique .disque-choix i { width: 28px; height: 28px; font-size: 16px; }
+ .disque-unique .tambour { border-width: 4px; padding: 3px; }
+ .disque-unique #etat { font-size: 8px; } .disque-unique #mesures { display: none; }
+ .disque-unique #disque-titre { font-size: 9px; } .disque-console { left: 22%; width: 56%; top: 69%; }
+ .disque-unique .bouton { font-size: 9px; min-height: 40px; padding: 4px 8px; }
+ .disque-panneau { left: 15%; top: 15%; width: 70%; height: 66%; padding: var(--espace-3); }
+ .disque-unique #disque-pages .bouton { min-height: 26px; }
+}
+@media print { .disque-unique .studio-layout, .disque-unique .studio-intro { display: none !important; } }

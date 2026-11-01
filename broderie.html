@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="css/nuit.css">
 <script src="js/theme.js"></script>
 </head>
-<body class="studio-broderie">
+<body class="studio-broderie disque-unique">
 <a class="lien-evitement" href="#studio">Aller au studio</a>
 <header class="tete">
   <nav class="dock-haut" aria-label="Dock du haut">
@@ -54,6 +54,8 @@
     <section class="ouvrage" aria-labelledby="t-ouvrage"><h2 id="t-ouvrage" class="sr-only">Votre ouvrage</h2>
       <div class="vue-actions" role="group" aria-label="Affichage"><button class="bouton" id="vue-croix" aria-pressed="true">Broderie</button><button class="bouton" id="vue-grille" aria-pressed="false">Patron</button></div>
       <div class="disque-studio" id="disque-studio">
+        <div id="arcs-reglages" class="arcs-reglages"></div>
+        <div id="disque-panneau" class="disque-panneau" hidden><button class="disque-fermer" id="fermer-panneau" aria-label="Fermer le panneau">×</button><div id="panneau-contenu"></div></div>
         <div class="disque-couronne" id="disque-couronne" role="group" aria-label="Réglages circulaires de la rosace"></div>
         <div class="tambour" id="tambour"><canvas id="motif" role="img" aria-label="Aperçu du motif au point de croix"></canvas></div>
       </div>

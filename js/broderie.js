@@ -1,4 +1,4 @@
-// Sources SHA256 034f9e2d358d9f7cb17c703f43e78fefae8138fe57391d75258eae18891b49cc
+// Sources SHA256 db4cef372536326a4c668a86f5d8c6e11db6c3a7c32612e8595dcb66fdc6bc06
 (() => {
   // node_modules/craft-color-codes/data/json/dmc-floss.json
   var dmc_floss_default = {
@@ -1717,7 +1717,7 @@
   function animer() {
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches) $("motif").animate([{ opacity: 0.35, transform: "scale(.985)" }, { opacity: 1, transform: "scale(1)" }], { duration: 320, easing: "ease-out" });
   }
-  function apercuDimension(d, valeur) {
+  function apercuDimension(d, valeur, redessiner = true) {
     commencerApercu();
     signature[d.cle] = valeur;
     synchroniser();
@@ -1726,7 +1726,7 @@
     resultat.pattern.fabric = { ...apercu.base.fabric };
     $("ajustements").textContent = resultat.controle.ajustements.join(" ");
     montrerApercu(resultat.pattern, `${d.nom} : ${d.reponses[valeur][0]}. Le motif g\xE9n\xE9r\xE9 remplace les retouches et le suivi uniquement si vous confirmez.`);
-    couronne();
+    if (redessiner) couronne();
   }
   function terminerApercu(confirmer) {
     if (!apercu) return;
@@ -1759,11 +1759,10 @@
     b.dataset.choix = id;
     b.setAttribute("aria-label", nom);
     b.setAttribute("aria-pressed", String(choisi));
-    if (couleur) {
-      const c = document.createElement("i");
-      c.style.background = couleur;
-      b.append(c);
-    }
+    const c = document.createElement("i");
+    if (couleur) c.style.background = couleur;
+    else c.textContent = { structure: "\u274B", trace: "\u223F", densite: "\u283F", echelle: "\u2197", palette: "\u25D0", fils: "\u25C9", outils: "\u270E", fichiers: "\u21A5", affichage: "\u25C8", toile: "\u25A6", aide: "?", retour: "\u21B6" }[id] ?? "\xB7";
+    b.append(c);
     const texte = document.createElement("span");
     texte.textContent = nom;
     b.append(texte);
@@ -1783,12 +1782,16 @@
     $("disque-retour").hidden = niveau === "racine";
     let boutons = [], titre = "Les cinq gestes de la rosace";
     if (niveau === "racine") {
-      boutons = DIMENSIONS.map((d) => boutonDisque(d.nom, d.cle, () => {
-        dimension = d;
-        niveau = "dimension";
+      boutons = [];
+      boutons = [boutonDisque("Fils DMC", "fils", ouvrirFils), boutonDisque("Dessiner", "outils", () => panneau("outils")), boutonDisque("Toile", "toile", () => panneau("toile")), boutonDisque("Affichage", "affichage", () => panneau("affichage")), boutonDisque("Fichiers", "fichiers", () => panneau("fichiers")), boutonDisque("Annuler", "retour", () => {
+        if (apercu) terminerApercu(false);
+        else $("annuler").click();
         couronne();
-      }));
-      boutons.push(boutonDisque("Fils DMC", "fils", ouvrirFils));
+      }), boutonDisque("Guide", "aide", () => panneau("aide")), boutonDisque("Variation", "variation", () => {
+        if (apercu) terminerApercu(false);
+        $("graine").value = String(1 + Math.floor(Math.random() * 99999));
+        $("generer").click();
+      })];
     } else if (niveau === "dimension") {
       titre = dimension.nom + " \xB7 touchez un choix pour voir la m\xE9tamorphose";
       boutons = dimension.reponses.map(([nom], i) => boutonDisque(nom, "valeur-" + i, () => apercuDimension(dimension, i), void 0, signature[dimension.cle] === i));
@@ -1830,10 +1833,11 @@
     $("disque-titre").textContent = titre;
     boutons.forEach((b, i) => {
       const angle = (-90 + i * 360 / boutons.length) * Math.PI / 180;
-      b.style.left = 50 + 42 * Math.cos(angle) + "%";
-      b.style.top = 50 + 42 * Math.sin(angle) + "%";
+      b.style.left = 50 + 46 * Math.cos(angle) + "%";
+      b.style.top = 50 + 46 * Math.sin(angle) + "%";
       host.append(b);
     });
+    dessinerArcs();
   }
   function paginer(n) {
     const pages = Math.ceil(n / PAGE);
@@ -1892,6 +1896,161 @@
     }
   });
   DIMENSIONS.forEach((d) => controles.get(d.cle).addEventListener("change", () => apercuDimension(d, Number(controles.get(d.cle).value))));
+  function dessinerArcs() {
+    const host = $("arcs-reglages");
+    host.replaceChildren();
+    host.hidden = niveau !== "racine" && niveau !== "dimension";
+    if (host.hidden) return;
+    const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 600 600");
+    const xy = (a, r = 215) => [300 + r * Math.cos(a * Math.PI / 180), 300 + r * Math.sin(a * Math.PI / 180)];
+    DIMENSIONS.forEach((d, i) => {
+      const start = -121 + i * 72, end = start + 52;
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("role", "slider");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("aria-label", d.nom + " radial");
+      g.setAttribute("aria-valuemin", "0");
+      g.setAttribute("aria-valuemax", "3");
+      g.dataset.radial = d.cle;
+      const chemin = (a, b) => {
+        const [x, y] = xy(a), [X, Y] = xy(b);
+        return `M${x} ${y}A215 215 0 0 1 ${X} ${Y}`;
+      };
+      const rail = document.createElementNS(NS, "path");
+      rail.setAttribute("d", chemin(start, end));
+      rail.setAttribute("class", "arc-rail");
+      g.append(rail);
+      for (let j = 0; j < 4; j++) {
+        const [x, y] = xy(start + j * (end - start) / 3);
+        const tick = document.createElementNS(NS, "circle");
+        tick.setAttribute("cx", String(x));
+        tick.setAttribute("cy", String(y));
+        tick.setAttribute("r", "3");
+        tick.setAttribute("class", "arc-repere");
+        g.append(tick);
+      }
+      const suivi = document.createElementNS(NS, "path");
+      suivi.setAttribute("class", "arc-actif");
+      g.append(suivi);
+      const boule = document.createElementNS(NS, "circle");
+      boule.setAttribute("r", "8");
+      boule.setAttribute("class", "arc-poignee");
+      g.append(boule);
+      const texte = document.createElementNS(NS, "text");
+      const [tx, ty] = xy((start + end) / 2, 245);
+      texte.setAttribute("x", String(tx));
+      texte.setAttribute("y", String(ty));
+      texte.setAttribute("text-anchor", "middle");
+      texte.setAttribute("class", "arc-legende");
+      g.append(texte);
+      const maj = () => {
+        const v = signature[d.cle], a = start + v * (end - start) / 3, [x, y] = xy(a);
+        boule.setAttribute("cx", String(x));
+        boule.setAttribute("cy", String(y));
+        suivi.setAttribute("d", chemin(start, start + Math.max(0.01, v * (end - start) / 3)));
+        texte.textContent = d.nom + " \xB7 " + (v + 1);
+        g.setAttribute("aria-valuenow", String(v));
+        g.setAttribute("aria-valuetext", d.reponses[v][0]);
+      };
+      maj();
+      const changer = (v) => {
+        v = Math.max(0, Math.min(3, v));
+        if (v !== signature[d.cle]) {
+          apercuDimension(d, v, false);
+          document.querySelectorAll("[data-radial]").forEach((el) => el.dispatchEvent(new Event("rafraichir")));
+        }
+      };
+      g.addEventListener("rafraichir", maj);
+      const pointer = (e) => {
+        const r = svg.getBoundingClientRect(), a = Math.atan2(e.clientY - r.top - r.height / 2, e.clientX - r.left - r.width / 2) * 180 / Math.PI;
+        let delta = ((a - start) % 360 + 360) % 360;
+        if (delta > 180) delta -= 360;
+        changer(Math.round(delta / (end - start) * 3));
+      };
+      g.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        g.setPointerCapture(e.pointerId);
+        pointer(e);
+      });
+      g.addEventListener("pointermove", (e) => {
+        if (g.hasPointerCapture(e.pointerId)) pointer(e);
+      });
+      g.addEventListener("pointerup", (e) => {
+        if (g.hasPointerCapture(e.pointerId)) g.releasePointerCapture(e.pointerId);
+      });
+      g.addEventListener("keydown", (e) => {
+        if (["ArrowLeft", "ArrowDown", "ArrowRight", "ArrowUp", "Home", "End"].includes(e.key)) {
+          e.preventDefault();
+          e.stopPropagation();
+          changer(e.key === "Home" ? 0 : e.key === "End" ? 3 : signature[d.cle] + (["ArrowRight", "ArrowUp"].includes(e.key) ? 1 : -1));
+        }
+      });
+      svg.append(g);
+    });
+    host.append(svg);
+  }
+  function panneau(genre) {
+    if (apercu) terminerApercu(false);
+    const h = $("panneau-contenu");
+    h.replaceChildren();
+    const parties = {
+      outils: [$("outils-internes")],
+      fichiers: [document.querySelector(".studio-fichiers")],
+      toile: [$("toile-interne")],
+      affichage: [$("affichage-interne")],
+      aide: [$("aide-interne")]
+    };
+    (parties[genre] ?? []).forEach((e) => h.append(e));
+    $("disque-panneau").hidden = false;
+    $("tambour").hidden = true;
+    $("arcs-reglages").hidden = true;
+    $("disque-couronne").hidden = true;
+    $("fermer-panneau").focus({ preventScroll: true });
+  }
+  function fermerPanneau() {
+    Array.from($("panneau-contenu").children).forEach((e) => $("reserve-studio").append(e));
+    $("disque-panneau").hidden = true;
+    $("tambour").hidden = false;
+    $("disque-couronne").hidden = false;
+    couronne();
+  }
+  function installationObjet() {
+    const disque = $("disque-studio"), reserve = document.createElement("div");
+    reserve.id = "reserve-studio";
+    reserve.hidden = true;
+    document.body.append(reserve);
+    const construire = (id, nodes) => {
+      const div = document.createElement("div");
+      div.id = id;
+      nodes.forEach((e) => div.append(e));
+      reserve.append(div);
+      return div;
+    };
+    const fils = document.querySelector(".fils");
+    const outil = $("outil"), coords = document.querySelector(".coordonnees");
+    construire("outils-internes", [...Array.from(fils.querySelectorAll("label")).filter((e) => e.getAttribute("for") === "outil" || e.getAttribute("for") === "nuancier"), $("nuancier"), outil, coords, $("appliquer")]);
+    construire("toile-interne", [fils.querySelector('label[for="toile"]'), $("toile")]);
+    construire("affichage-interne", [document.querySelector(".vue-actions")]);
+    const aide = construire("aide-interne", []);
+    aide.innerHTML = "<h2>Un disque, un ouvrage</h2><p>Faites glisser les cinq curseurs en arc. La rosace change imm\xE9diatement ; confirmez pour garder le motif ou annulez pour retrouver votre ouvrage.</p><p>Fils DMC : fil du motif, famille, nuance. Le suivi reste intact. Outils : dessiner, effacer ou marquer comme brod\xE9. Exportez une copie JSON pour conserver votre travail.</p><p>Clavier : Tabulation, fl\xE8ches, D\xE9but / Fin. \xC9chap referme. Les couleurs \xE9cran sont approximatives.</p>";
+    const fichiers = document.querySelector(".studio-fichiers");
+    fichiers.querySelector(".studio-actions").append($("export-svg"), $("imprimer"), $("sauver"));
+    reserve.append(fichiers);
+    reserve.append(document.querySelector(".reglages"), fils, document.querySelector(".studio-actions"));
+    const pied = document.createElement("div");
+    pied.className = "disque-console";
+    pied.append(document.querySelector(".disque-navigation"), $("apercu-actions"), $("mesures"), $("etat"));
+    disque.append(pied);
+    $("fermer-panneau").onclick = fermerPanneau;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !$("disque-panneau").hidden) fermerPanneau();
+    });
+    const titre = document.querySelector(".studio-intro");
+    titre.innerHTML = '<h1>Rosace</h1><a href="index.html">ATLAS</a>';
+    $("graine").removeAttribute("required");
+  }
+  installationObjet();
   window.addEventListener("beforeunload", (e) => {
     if (apercu) {
       e.preventDefault();
