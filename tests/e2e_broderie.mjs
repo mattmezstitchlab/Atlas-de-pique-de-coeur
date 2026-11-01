@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import fs from 'node:fs/promises';
+const { chromium }=createRequire(import.meta.url)('playwright');
+const base=(process.env.BASE||'http://localhost:8090')+(process.env.PREFIXE||'');
+const b=await chromium.launch(process.env.CHROMIUM?{executablePath:process.env.CHROMIUM}:{});
+try { for(const largeur of [1280,390]) {
+ const p=await b.newPage({viewport:{width:largeur,height:844}}),erreurs=[];
+ p.on('pageerror',e=>erreurs.push(e.message));p.on('dialog',d=>d.accept());
+ await p.goto(base+'/broderie');await p.waitForSelector('[data-radial="trace"]');
+ const image=()=>p.$eval('#motif',c=>c.toDataURL()),local=()=>p.evaluate(()=>localStorage.getItem('atlas-broderie-v1'));
+ const initial=await image();
+ assert.equal(await p.locator('[role="slider"][data-radial]').count(),5);
+ await p.locator('[data-radial="trace"]').focus();await p.keyboard.press('ArrowLeft');
+ assert.notEqual(await image(),initial);assert.equal(await local(),null);
+ await p.click('#apercu-annuler');assert.equal(await image(),initial);
+ // Geste réel au pointeur sur le dernier cran de l’arc Tracé.
+ const r=await p.locator('#arcs-reglages svg').boundingBox();
+ const a=3*Math.PI/180;await p.mouse.move(r.x+(300+215*Math.cos(a))*r.width/600,r.y+(300+215*Math.sin(a))*r.height/600);await p.mouse.down();await p.mouse.up();
+ assert.equal(await p.locator('[data-radial="trace"]').getAttribute('aria-valuenow'),'3');
+ await p.click('#apercu-confirmer');assert.notEqual(await local(),null);
+ await p.click('[data-choix="retour"]');assert.equal(await image(),initial);
+ const ouvrir=async id=>p.click(`[data-choix="${id}"]`),fermer=async()=>p.click('#fermer-panneau');
+ await ouvrir('outils');await p.selectOption('#outil','dessiner');await p.click('#appliquer');await fermer();
+ await ouvrir('outils');await p.selectOption('#outil','broder');await p.click('#appliquer');await fermer();assert.match(await p.textContent('#mesures'),/1 brodées/);
+ await ouvrir('fichiers');
+ const dl=async id=>{const d=p.waitForEvent('download');await p.click(id);return fs.readFile(await (await d).path(),'utf8');};
+ const json=JSON.parse(await dl('#export-json'));assert.equal(json.done[0],1);
+ assert.ok((await dl('#export-svg')).includes('CC BY 4.0'));await fermer();
+ await ouvrir('toile');await p.selectOption('#toile','18');await fermer();
+ await ouvrir('affichage');await p.click('#vue-grille');await fermer();
+ await ouvrir('fils');await p.locator('[data-choix^="source-"]').first().click();await p.click('[data-choix="famille-bleus"]');
+ await p.getByRole('button',{name:'Nuances suivantes',exact:true}).click();const avant=await local();
+ await p.locator('[data-choix^="nuance-"]').first().click();assert.equal(await local(),avant);await p.click('#apercu-annuler');
+ await p.locator('[data-choix^="nuance-"]').first().click();await p.click('#apercu-confirmer');
+ const apres=JSON.parse(await local());assert.deepEqual(apres.done,JSON.parse(avant).done);assert.deepEqual(apres.cross.map(x=>x>=0),JSON.parse(avant).cross.map(x=>x>=0));
+ await p.click('#disque-retour');await p.click('#disque-retour');await p.click('#disque-retour');
+ await ouvrir('fichiers');await p.setInputFiles('#import-json',{name:'copie.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(json))});
+ await p.waitForFunction(()=>document.querySelector('#etat').textContent.includes('copie JSON a été ouverte'));await fermer();
+ await p.reload();await p.waitForSelector('[data-radial]');assert.match(await p.textContent('#mesures'),/1 brodées/);
+ const layout=await p.evaluate(()=>{const r=document.querySelector('#disque-studio').getBoundingClientRect();return {h:document.documentElement.scrollHeight,w:document.documentElement.scrollWidth,b:r.bottom};});
+ assert.ok(layout.h<=844&&layout.w<=largeur&&layout.b<=844,JSON.stringify(layout));
+ const b1=p.locator('[data-choix="fils"]');await b1.hover();assert.equal(await b1.evaluate(e=>getComputedStyle(e).borderWidth),'0px');
+ assert.deepEqual(erreurs,[]);console.log(`✓ ${largeur} : objet unique, arcs au clavier/pointeur, aperçus, DMC, panneaux réouvrables, JSON/SVG, reprise, aucun contour au survol`);
+ await p.close();
+}} finally{await b.close();}

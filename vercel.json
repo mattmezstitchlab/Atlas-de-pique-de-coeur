@@ -84,6 +84,10 @@
   ],
   "rewrites": [
     {
+      "source": "/broderie",
+      "destination": "/broderie.html"
+    },
+    {
       "source": "/composition/:id",
       "destination": "/creation.html"
     },

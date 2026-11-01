@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio de broderie — ATLAS</title>
+<meta name="description" content="Composez une rosace, dessinez vos points et préparez votre patron DMC, sur cet appareil.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="ATLAS">
+<meta property="og:title" content="Studio de broderie — ATLAS">
+<meta property="og:description" content="Composez une rosace, dessinez vos points et préparez votre patron DMC, sur cet appareil.">
+<meta property="og:url" content="https://atlas.lemondeaime.com/broderie">
+<meta property="og:image" content="https://atlas.lemondeaime.com/media/phare.jpg">
+<meta property="og:image:alt" content="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<link rel="preload" href="fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/police.css">
+<!-- Le design system AIME, dans cet ordre : les jetons, les composants du site, puis la mise en page de l'atlas. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/composants.css">
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/broderie.css">
+
+<link rel="stylesheet" href="css/nuit.css">
+<script src="js/theme.js"></script>
+</head>
+<body class="studio-broderie disque-unique">
+<a class="lien-evitement" href="#studio">Aller au studio</a>
+<header class="tete">
+  <nav class="dock-haut" aria-label="Dock du haut">
+    <div class="dock-ligne">
+      <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
+      <span class="separateur" aria-hidden="true"></span>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
+      <div class="rangee"><span class="separateur" aria-hidden="true"></span>
+        <a class="outil" href="chronologie.html">Chronologie</a>
+        <a class="outil" href="composition.html">Composition</a>
+      <a class="outil" href="broderie.html" aria-current="page">Broderie</a></div>
+    </div>
+  </nav>
+</header>
+
+
+<main id="studio" class="studio-page">
+  <div class="studio-intro"><p class="surtitre">ATLAS · Point de croix</p><h1>Rosace</h1><p class="chapeau">Le laboratoire géométrique de la broderie</p></div>
+  <div class="studio-layout">
+    <section class="reglages" aria-labelledby="t-reglages"><h2 id="t-reglages">Réglages accessibles</h2><div id="dimensions"></div>
+      <label for="graine">Graine du motif</label><input class="champ" id="graine" type="number" min="1" max="99999" value="7">
+      <button class="bouton noir" id="generer">Générer une variation</button><p class="note">Le disque montre chaque changement avant validation. Les curseurs proposent les mêmes choix au clavier.</p>
+      <p id="ajustements" class="note"></p>
+    </section>
+    <section class="ouvrage" aria-labelledby="t-ouvrage"><h2 id="t-ouvrage" class="sr-only">Votre ouvrage</h2>
+      <div class="vue-actions" role="group" aria-label="Affichage"><button class="bouton" id="vue-croix" aria-pressed="true">Broderie</button><button class="bouton" id="vue-grille" aria-pressed="false">Patron</button></div>
+      <div class="disque-studio" id="disque-studio">
+        <div id="arcs-reglages" class="arcs-reglages"></div>
+        <div id="disque-panneau" class="disque-panneau" hidden><button class="disque-fermer" id="fermer-panneau" aria-label="Fermer le panneau">×</button><div id="panneau-contenu"></div></div>
+        <div class="disque-couronne" id="disque-couronne" role="group" aria-label="Réglages circulaires de la rosace"></div>
+        <div class="tambour" id="tambour"><canvas id="motif" role="img" aria-label="Aperçu du motif au point de croix"></canvas></div>
+      </div>
+      <div class="disque-navigation"><button class="bouton" id="disque-retour" hidden>Retour au disque</button><p id="disque-titre" aria-live="polite">Les cinq gestes de la rosace</p><div id="disque-pages"></div></div>
+      <div class="apercu-actions" id="apercu-actions" hidden><p id="apercu-texte" role="status"></p><button class="bouton noir" id="apercu-confirmer">Confirmer la métamorphose</button><button class="bouton" id="apercu-annuler">Annuler l’aperçu</button></div>
+      <p id="mesures" class="note"></p><p id="etat" class="note" role="status" aria-live="polite"></p>
+      <div class="studio-actions"><button class="bouton" id="annuler" disabled>Annuler</button><button class="bouton" id="sauver">Sauvegarder</button><button class="bouton" id="export-svg">Exporter le patron SVG</button><button class="bouton" id="imprimer">Imprimer / PDF</button></div>
+    </section>
+    <section class="fils" aria-labelledby="t-fils"><h2 id="t-fils">Nuancier DMC</h2><p>Fil actif : DMC <strong id="fil-actif"></strong></p><button class="bouton" id="ouvrir-nuancier">Ouvrir le nuancier en disque</button>
+      <div id="palette" role="group" aria-label="Fils de l’ouvrage"></div>
+      <label for="nuancier">Choisir un fil pour dessiner</label><select class="champ" id="nuancier"></select>
+      <label for="outil">Geste sur la grille</label><select class="champ" id="outil"><option value="regarder">Regarder</option><option value="dessiner">Dessiner des croix</option><option value="effacer">Effacer des croix</option><option value="broder">Marquer comme brodé</option></select>
+      <p class="note">En mode Patron, touchez une case. Au clavier, choisissez ses coordonnées puis appliquez le geste.</p>
+      <div class="coordonnees"><label>Colonne<input class="champ" id="colonne" type="number" value="1" min="1"></label><label>Ligne<input class="champ" id="ligne" type="number" value="1" min="1"></label></div><button class="bouton" id="appliquer">Appliquer à cette case</button>
+      <label for="toile">Toile Aida (points par pouce)</label><select class="champ" id="toile"><option>11</option><option selected>14</option><option>16</option><option>18</option><option>20</option></select>
+    </section>
+  </div>
+  <section class="studio-fichiers" aria-labelledby="t-fichiers"><h2 id="t-fichiers">Garder votre ouvrage</h2><p>La sauvegarde reste sur ce navigateur, sans compte ni synchronisation. Exportez aussi une copie JSON pour la conserver ou la rouvrir.</p>
+    <div class="studio-actions"><button class="bouton" id="export-json">Exporter la copie JSON</button><label class="bouton" for="import-json">Ouvrir une copie JSON</label><input id="import-json" type="file" accept=".json,application/json"></div>
+    <p class="note">Cette première intégration reprend le moteur 5D et le format Point Zéro pour les croix entières (160 × 160 maximum à l’import). Les projets avec demi-points, ornements ou calques sont refusés, jamais aplatis silencieusement. Pas d’import image ou PDF dans cette page.</p>
+    <p class="note">Données couleur : craft-color-codes par MakeBead (makebead.com), licence CC BY 4.0. Les couleurs écran sont approximatives ; vérifiez vos fils sur une carte physique.</p>
+  </section>
+  <noscript>Activez JavaScript pour composer et modifier les motifs.</noscript>
+  <section id="patron-impression" aria-label="Patron à imprimer"></section>
+</main>
+<footer class="pied">
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <nav class="pied-nav" aria-label="Plan du site">
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="vue-cube.html">La vue Cube</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">L’écosystème AIME</p><a href="https://www.lemondeaime.com/" rel="noopener">Retour à Le Monde AIME</a></div>
+  </nav>
+  <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+</footer>
+
+<script src="js/broderie.js" defer></script>
+</body></html>

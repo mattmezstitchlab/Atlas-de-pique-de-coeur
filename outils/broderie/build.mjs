@@ -1,0 +1,10 @@
+import { build } from 'esbuild';
+import { readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const fichiers=readdirSync('.',{recursive:true}).filter(f=>/\.(ts|mjs)$/.test(f)&&!f.startsWith('node_modules')).sort();
+const digest=createHash('sha256');
+for(const f of fichiers)digest.update(f).update(readFileSync(f));
+digest.update(readFileSync('package-lock.json'));
+const sha=digest.digest('hex');
+await build({entryPoints:['studio.ts'],bundle:true,format:'iife',target:'es2022',outfile:'../../js/broderie.js',legalComments:'inline',banner:{js:'// Sources SHA256 '+sha}});
+await build({entryPoints:['moteur-api.ts'],bundle:true,platform:'node',format:'esm',target:'es2022',outfile:'../../tests/broderie-moteur.mjs',banner:{js:'export const SOURCE_DIGEST = "'+sha+'";'}});
