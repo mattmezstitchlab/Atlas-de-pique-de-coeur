@@ -124,7 +124,10 @@ function terminerApercu(confirmer: boolean) {
 }
 function boutonDisque(nom: string, id: string, faire:()=>void, couleur?: string, choisi=false) {
   const b=document.createElement('button');b.type='button';b.className='disque-choix';b.dataset.choix=id;b.setAttribute('aria-label',nom);b.setAttribute('aria-pressed',String(choisi));
-  const c=document.createElement('i');if(couleur)c.style.background=couleur;else c.textContent=({structure:'❋',trace:'∿',densite:'⠿',echelle:'↗',palette:'◐',fils:'◉',outils:'✎',fichiers:'↥',affichage:'◈',toile:'▦',aide:'?',retour:'↶'} as Record<string,string>)[id]??'·';b.append(c);
+  const c=document.createElement('i');if(couleur)c.style.background=couleur;else {
+    const traits:Record<string,string>={fils:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="8" r="1"/><circle cx="7" cy="14" r="1"/><path d="M16 17q-7 1-3-4q4-2 5 1"/>',outils:'<path d="m5 16 11-11 3 3-11 11-4 1zM14 7l3 3"/>',fichiers:'<path d="M6 3h8l4 4v14H6zM14 3v5h4M12 17v-6m-3 3 3-3 3 3"/>',affichage:'<path d="M2 12q10-14 20 0-10 14-20 0z"/><circle cx="12" cy="12" r="3"/>',toile:'<path d="M4 4h16v16H4zM9 4v16M15 4v16M4 9h16M4 15h16"/>',aide:'<circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 4 3l-1 2m0 3v.1"/>',retour:'<path d="m9 5-5 5 5 5M4 10h10a5 5 0 0 1 0 10"/>',variation:'<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/>'};
+    c.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(traits[id]??'<circle cx="12" cy="12" r="5"/>')+'</svg>';
+  }b.append(c);
   const texte=document.createElement('span');texte.textContent=nom;b.append(texte);b.onclick=()=>{faire();if(!b.isConnected){const suivant=Array.from(document.querySelectorAll<HTMLButtonElement>('.disque-choix')).find(e=>e.dataset.choix===id)??document.querySelector<HTMLButtonElement>('.disque-choix');suivant?.focus({preventScroll:true});}};return b;
 }
 function couronne() {
