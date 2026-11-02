@@ -23,4 +23,6 @@
     ligne.appendChild(btn);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poser); else poser();
+  function rubriques(){if(document.querySelector('script[data-aime-rubriques]'))return;var script=document.createElement('script');script.src='js/aime-rubriques.js';script.defer=true;script.setAttribute('data-aime-rubriques','');document.body.appendChild(script)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',rubriques);else rubriques();
 })();
