@@ -1,0 +1,8 @@
+/* ATLAS — ouverture éditoriale commune, sans moteur dupliqué */
+.atlas-page-hero{position:relative;margin:0 clamp(12px,4vw,64px);border-radius:22px;min-height:76svh;padding:clamp(45px,7vw,110px);display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;color:white;background:linear-gradient(160deg,transparent,#08070d70),radial-gradient(ellipse at 50% 35%,#a997b450,var(--hero-tint,#27324c) 65%,#0f0f18)}
+.atlas-page-hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(120deg,transparent 0,transparent 90px,#ffffff07 92px,transparent 95px)}
+.atlas-page-hero-content{position:relative;z-index:1;width:100%;max-width:1500px}
+.atlas-page-hero h1{font-size:clamp(48px,10.8vw,186px);font-weight:850;line-height:.96;letter-spacing:-.065em;margin:.28em auto;overflow-wrap:anywhere;color:#fff}
+.atlas-page-hero p{color:white}.atlas-page-overline{font-size:12px;letter-spacing:.23em;text-transform:uppercase}.atlas-page-subtitle{font-size:clamp(16px,2.3vw,31px);max-width:58ch;margin:auto}
+.atlas-page-await{min-height:34vh;max-width:1200px;margin:auto;padding:8vh 24px;text-align:center;color:var(--encre);font-size:17px}
+@media(max-width:650px){.atlas-page-hero{border-radius:14px;min-height:68svh;padding:30px 16px}.atlas-page-hero h1{font-size:clamp(43px,11vw,72px)}}
