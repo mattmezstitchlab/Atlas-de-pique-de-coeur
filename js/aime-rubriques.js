@@ -15,7 +15,7 @@ const groups={
 "trier.html":["INVENTAIRE","FILTRES","DOUBLONS","CLASSEMENT"],
 "organiser.html":["ESPACES","ÉTAPES","RÔLES","VUES"],
 "rosace.html":["DÉCOUVRIR","COMPOSER","COMPRENDRE","EXPLORER"],
-"vue-cube.html":["FACES","MOSAÏQUE","RELATIONS","RÉCIT"],
+"vue-cube.html":["PROFIL","CALENDRIER","MÉDIAS","DOCUMENTS"],
 "cube-recit.html":["RÉCIT","FACES","MOSAÏQUE","RELATIONS"],
 "espace.html":["PROFIL","COMPTE","AGENDA","BUREAU"],
 "orbe.html":["RECHERCHE","ASSISTANCE","CONTEXTE","RÉSULTATS"],
