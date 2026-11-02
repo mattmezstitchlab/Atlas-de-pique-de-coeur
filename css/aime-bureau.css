@@ -20,3 +20,6 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 .aime-relations-label{position:absolute;bottom:0;left:0;right:0;z-index:8;margin:0;background:#1a1b22;color:#e5e2ee;padding:10px 17px;font-size:12px;border-top:1px solid #ffffff36;white-space:nowrap;overflow-x:auto}
 .aime-tree-node:focus-visible,.aime-tree-nav a:focus-visible,.aime-tile:focus-visible,.aime-board button:focus-visible{outline:2px solid #d7bfff;outline-offset:2px}
 .aime-board-grid{bottom:36px}.aime-board-toolbar{flex-wrap:wrap}.aime-tree-inventory:empty:after{content:'Aucun bloc pour le moment';display:block;color:#aaaab4;font-size:11px;padding:10px}
+
+/* Bureau = navigation complète avec sous-sections visibles à la demande. */
+.aime-tree-line{display:flex;align-items:center;gap:4px}.aime-tree-page{flex:1;min-width:0}.aime-tree-expand{flex:0 0 30px;border:1px solid #ffffff25;background:#ffffff10;color:#fff;border-radius:8px;min-height:30px;cursor:pointer}.aime-tree-sub{padding:2px 0 10px 19px;border-left:1px solid #ffffff33;margin-left:13px}.aime-tree-sub[hidden]{display:none}.aime-tree-sub a{display:block;padding:8px;color:#c8c8d5;text-decoration:none;font-size:11px;border-radius:7px;overflow-wrap:anywhere}.aime-tree-sub a:hover,.aime-tree-sub a:focus-visible{background:#ffffff20;color:#fff}.aime-tree-inner{scrollbar-width:thin}.aime-tree-nav{gap:1px}
