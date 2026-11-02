@@ -47,3 +47,13 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 .aime-board{left:clamp(275px,22vw,330px)}
 @media(max-width:899px){.aime-tree{width:min(320px,91vw)}.aime-tree-toggle{top:auto;bottom:90px;left:9px}.aime-tree-inner{border-radius:0 16px 16px 0}.aime-board{left:7px}}
 @media(min-width:900px){body:has(.aime-tree.is-open) .tete{padding-left:clamp(246px,20vw,308px)}}
+
+/* Plusieurs grilles : onglets de travail inspirés d'un éditeur, non de navigateur. */
+.aime-board-head{justify-content:flex-start;min-height:54px;box-sizing:border-box;gap:8px}
+.aime-tabs{display:flex;align-items:center;gap:5px;flex:1;min-width:0;overflow:auto;scrollbar-width:thin}
+.aime-board-head .aime-tab{flex:none;min-height:35px;padding:8px 16px;border-radius:11px;background:transparent;border:1px solid transparent;color:#bcbac6;font-size:12px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aime-board-head .aime-tab.is-active{background:#34343d;color:#fff;border-color:#ffffff26}
+.aime-board-head .aime-tab-add{font-size:22px;font-weight:300;min-width:38px;min-height:35px;padding:3px 10px;background:transparent}
+.aime-board-head>button:last-child{margin-left:auto}
+.aime-board-grid{top:108px}
+@media(max-width:650px){.aime-board-head .aime-tab{max-width:115px;padding:8px}.aime-board-head{gap:4px}}
