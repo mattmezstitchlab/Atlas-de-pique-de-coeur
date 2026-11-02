@@ -40,6 +40,8 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bureau);else bureau();
   function ajouterApercus(){var rangee=document.querySelector('.dock-haut .rangee');if(!rangee||rangee.querySelector('a[href="design-system-apercus.html"]'))return;var a=document.createElement('a');a.href='design-system-apercus.html';a.className='outil';a.textContent='APERÇUS';if(location.pathname.endsWith('/design-system-apercus.html'))a.setAttribute('aria-current','page');rangee.appendChild(a)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ajouterApercus);else ajouterApercus();
+  function importContext(){if(document.querySelector('script[data-aime-import]'))return;var style=document.createElement('link');style.rel='stylesheet';style.href='css/aime-import-context.css';document.head.appendChild(style);var script=document.createElement('script');script.src='js/aime-import-context.js';script.setAttribute('data-aime-import','');document.body.appendChild(script)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',importContext);else importContext();
   function rubriques(){if(document.querySelector('script[data-aime-rubriques]'))return;var script=document.createElement('script');script.src='js/aime-rubriques.js';script.defer=true;script.setAttribute('data-aime-rubriques','');document.body.appendChild(script)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',rubriques);else rubriques();
 })();
