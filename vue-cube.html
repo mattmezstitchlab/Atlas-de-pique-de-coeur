@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="css/vue-cube.css">
 <link rel="stylesheet" href="css/nuit.css">
 <script src="js/theme.js"></script>
-</head>
+<style>.vc-simplifie-titre{font-size:clamp(55px,10vw,145px);line-height:1;letter-spacing:-.065em;color:white;margin:0}.vc-mots .vc-face-band{min-height:40vh;grid-template-columns:1fr auto}.vc-mots h2{font-size:clamp(54px,10vw,160px);letter-spacing:-.07em;line-height:1;margin:.1em 0}.vc-mots .vc-face-band button{background:#15151b;color:white;border:0;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer}.vc-mots .vc-face-band button:focus-visible{outline:3px solid #302238;outline-offset:4px}.vc-mots .vc-band-head span{font-size:13px}.vc-mots .vc-face-band{display:flex;justify-content:space-between;align-items:center}.vc-mots .vc-band-head{min-width:0}.vc-mots h2{overflow-wrap:anywhere}</style></head>
 <body class="vue-cube">
 <a class="lien-evitement" href="#vc-panneau">Aller à la liste des faces</a>
 <header class="tete"><nav class="dock-haut" aria-label="Navigation principale"><div class="dock-ligne"><span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span><span class="separateur" aria-hidden="true"></span><a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, accueil"><span class="marque">ATLAS</span></a><div class="rangee"><span class="separateur" aria-hidden="true"></span><a class="outil" href="chronologie.html">CHRONOLOGIE</a><a class="outil" href="composition.html">COMPOSITION</a><a class="outil" href="metamorphose.html">MÉTAMORPHOSE</a><a class="outil" href="reparation.html">RÉPARATION</a><a class="outil" href="demander.html">DEMANDER</a><a class="outil" href="recevoir.html">RECEVOIR</a><a class="outil" href="publier.html">PUBLIER</a><a class="outil" href="relier.html">RELIER</a><a class="outil" href="couleurs.html">COULEURS</a><a class="outil" href="deposer.html">DÉPOSER</a><a class="outil" href="fusionner.html">FUSIONNER</a><a class="outil" href="trier.html">TRIER</a><a class="outil" href="organiser.html">ORGANISER</a><a class="outil" href="rosace.html">ROSACE</a><a class="outil" href="vue-cube.html" aria-current="page">CUBE</a></div></div></nav></header>
@@ -34,9 +34,9 @@
     <div class="vc-projection" id="vc-projection" aria-hidden="true"></div>
     <div class="vc-defile" id="vc-defile" aria-hidden="true"></div>
     <div class="vc-entete">
-      <p class="surtitre">ATLAS · le Cube, à explorer</p>
-      <h1 id="vc-titre" class="sr-only">Le Cube, vu de l’intérieur</h1>
-      <p class="vc-aide">Explorez le Cube librement, ou retrouvez <a href="cube-recit.html">le grand récit immersif du Cube</a>. Glissez pour tourner. Touchez une case : le fond la projette, l’orbe la relie à ce qui la touche. Touchez l’orbe pour revenir au centre.</p>
+      <p class="surtitre">AIME</p>
+      <h1 id="vc-titre" class="vc-simplifie-titre">CUBE</h1>
+      
     </div>
     <div class="vc-scene" id="vc-scene" tabindex="0" role="group" aria-roledescription="cube à tourner" aria-label="Le Cube transparent. Flèches pour tourner ; la liste à côté donne le même contenu." aria-describedby="vc-etat">
       <div class="vc-cube" id="vc-cube"></div>
@@ -44,19 +44,9 @@
     <p class="vc-etat" id="vc-etat" aria-live="polite"></p>
   </section>
 
-  <aside class="vc-panneau" id="vc-panneau" aria-label="La face et le fragment choisis"></aside>
+  <aside class="vc-panneau" id="vc-panneau" aria-label="Détails des fragments" hidden></aside>
 
-<!-- Lecture des six faces : catégories démonstratives, données et cube original conservés -->
-<section class="vc-atlas-faces" id="faces-explication" aria-labelledby="faces-titre">
-  <div class="vc-faces-intro"><p class="surtitre">ATLAS · Comprendre le Cube</p><h2 id="faces-titre">Six faces.<br>Six familles d’informations.</h2><p>Une face = une famille. Chaque case = un fragment. Choisissez une face pour la retrouver sur le Cube au-dessus.</p></div>
-  <div class="vc-face-band vc-b-chrono" id="face-chronologie" data-cube-face="avant"><div class="vc-band-head"><div><span>01 / TEMPS</span><h3>Chronologie</h3><p>Des moments situés dans le temps.</p></div><button type="button" data-voir-face="avant">Voir la face ↗</button></div><div class="vc-mosaique"><div>Dates</div><div>Événements</div><div>Étapes</div><div>Souvenirs</div><div>Époques</div><div>Moments</div></div></div>
-  <div class="vc-face-band vc-b-compo" id="face-composition" data-cube-face="droite"><div class="vc-band-head"><div><span>02 / STRUCTURE</span><h3>Composition</h3><p>Les éléments qui s’assemblent.</p></div><button type="button" data-voir-face="droite">Voir la face ↗</button></div><div class="vc-mosaique"><div>Blocs</div><div>Grilles</div><div>Familles</div><div>Formes</div><div>Assemblages</div><div>Variantes</div></div></div>
-  <div class="vc-face-band vc-b-archives" id="face-archives" data-cube-face="arriere"><div class="vc-band-head"><div><span>03 / MÉMOIRE</span><h3>Archives</h3><p>Ce qui documente une création.</p></div><button type="button" data-voir-face="arriere">Voir la face ↗</button></div><div class="vc-mosaique"><div>Images</div><div>Documents</div><div>Vidéos</div><div>Sources</div><div>Fichiers</div><div>Versions</div></div></div>
-  <div class="vc-face-band vc-b-liens" id="face-relations" data-cube-face="gauche"><div class="vc-band-head"><div><span>04 / LIENS</span><h3>Relations</h3><p>Ce qui relie les fragments entre eux.</p></div><button type="button" data-voir-face="gauche">Voir la face ↗</button></div><div class="vc-mosaique"><div>Personnes</div><div>Connexions</div><div>Origines</div><div>Suites</div><div>Passages</div><div>Dépendances</div></div></div>
-  <div class="vc-face-band vc-b-modules" id="face-modules" data-cube-face="haut"><div class="vc-band-head"><div><span>05 / USAGE</span><h3>Modules</h3><p>Les fonctions que l’on peut utiliser.</p></div><button type="button" data-voir-face="haut">Voir la face ↗</button></div><div class="vc-mosaique"><div>Outils</div><div>Calendrier</div><div>Documents</div><div>Calcul</div><div>Création</div><div>Export</div></div></div>
-  <div class="vc-face-band vc-b-ecosysteme" id="face-ecosysteme" data-cube-face="bas"><div class="vc-band-head"><div><span>06 / ENSEMBLE</span><h3>Écosystème</h3><p>Les projets et leurs états.</p></div><button type="button" data-voir-face="bas">Voir la face ↗</button></div><div class="vc-mosaique"><div>Projets</div><div>Applications</div><div>États</div><div>Domaines</div><div>Collections</div><div>Ensembles</div></div></div>
-  <p class="vc-faces-note">Ces blocs indiquent les types d’informations possibles. Ils ne remplacent pas les cases réelles ni les données du Cube.</p>
-</section>
+<section class="vc-atlas-faces vc-mots" id="faces-explication" aria-label="Les six faces"><div class="vc-face-band vc-b-chrono" data-cube-face="avant"><div class="vc-band-head"><span>01</span><h2>PROFIL</h2></div><button type="button" data-voir-face="avant" aria-label="Voir la face PROFIL">↗</button></div><div class="vc-face-band vc-b-compo" data-cube-face="droite"><div class="vc-band-head"><span>02</span><h2>CALENDRIER</h2></div><button type="button" data-voir-face="droite" aria-label="Voir la face CALENDRIER">↗</button></div><div class="vc-face-band vc-b-archives" data-cube-face="arriere"><div class="vc-band-head"><span>03</span><h2>MÉDIAS</h2></div><button type="button" data-voir-face="arriere" aria-label="Voir la face MÉDIAS">↗</button></div><div class="vc-face-band vc-b-liens" data-cube-face="gauche"><div class="vc-band-head"><span>04</span><h2>DOCUMENTS</h2></div><button type="button" data-voir-face="gauche" aria-label="Voir la face DOCUMENTS">↗</button></div><div class="vc-face-band vc-b-modules" data-cube-face="haut"><div class="vc-band-head"><span>05</span><h2>CONTACT</h2></div><button type="button" data-voir-face="haut" aria-label="Voir la face CONTACT">↗</button></div><div class="vc-face-band vc-b-ecosysteme" data-cube-face="bas"><div class="vc-band-head"><span>06</span><h2>ACTIONS</h2></div><button type="button" data-voir-face="bas" aria-label="Voir la face ACTIONS">↗</button></div></section>
 <script>
 document.querySelectorAll('[data-voir-face]').forEach(function(btn){
   btn.addEventListener('click',function(){
