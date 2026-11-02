@@ -75,8 +75,7 @@
 document.querySelectorAll('[data-voir-face]').forEach(function(btn){
   btn.addEventListener('click',function(){
     var face=btn.getAttribute('data-voir-face');
-    if(window.AIME && window.AIME.vueCube) window.AIME.vueCube.vers(face);
-    else if(window.Atlas && window.Atlas.vueCube) window.Atlas.vueCube.vers(face);
+    if(window.ATLAS && window.ATLAS.vueCube) window.ATLAS.vueCube.vers(face);
     document.querySelector('.vc-scene-zone').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
   });
 });
