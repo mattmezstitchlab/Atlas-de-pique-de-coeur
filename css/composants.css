@@ -364,3 +364,10 @@ html.calme .carte-flip > .dos { opacity: 0; } html.calme .carte-flip.retournee >
 
 .envoi-fichier { display: grid; gap: 10px; padding: 14px; border-radius: 14px; border: 1px dashed #9A9A96; background: #fff; }
 .case-droits { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.4; } .case-droits input { width: 20px; height: 20px; margin-top: 2px; accent-color: #0B0B0C; flex: none; }
+
+/* Navigation ATLAS 2026 : espaces et gestes, accessibles sur écrans étroits */
+.tete .dock-haut{max-width:calc(100vw - 20px);min-width:0}
+.tete .dock-ligne{max-width:100%;min-width:0}
+.tete .rangee{min-width:0;max-width:min(83vw,1100px);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch;white-space:nowrap;flex-wrap:nowrap!important}
+.tete .rangee .outil{white-space:nowrap;flex-shrink:0}
+@media(max-width:760px){.tete .rangee{max-width:calc(100vw - 155px)}}
