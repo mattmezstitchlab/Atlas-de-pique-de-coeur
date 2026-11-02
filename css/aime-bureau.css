@@ -23,3 +23,27 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 
 /* Bureau = navigation complète avec sous-sections visibles à la demande. */
 .aime-tree-line{display:flex;align-items:center;gap:4px}.aime-tree-page{flex:1;min-width:0}.aime-tree-expand{flex:0 0 30px;border:1px solid #ffffff25;background:#ffffff10;color:#fff;border-radius:8px;min-height:30px;cursor:pointer}.aime-tree-sub{padding:2px 0 10px 19px;border-left:1px solid #ffffff33;margin-left:13px}.aime-tree-sub[hidden]{display:none}.aime-tree-sub a{display:block;padding:8px;color:#c8c8d5;text-decoration:none;font-size:11px;border-radius:7px;overflow-wrap:anywhere}.aime-tree-sub a:hover,.aime-tree-sub a:focus-visible{background:#ffffff20;color:#fff}.aime-tree-inner{scrollbar-width:thin}.aime-tree-nav{gap:1px}
+
+/* Panneau Bureau — véritable rail pleine hauteur avec recherche et pied fixe. */
+.aime-tree{left:0;top:0;bottom:0;transform:none;max-height:none;height:100dvh;width:clamp(246px,20vw,308px);display:flex;flex-direction:column;pointer-events:none}
+.aime-tree-toggle{pointer-events:auto;position:absolute;left:10px;top:190px;z-index:2}
+.aime-tree-inner{pointer-events:auto;display:none;width:100%;height:100%;max-height:none;min-height:0;overflow:hidden;box-sizing:border-box;border-radius:0 19px 19px 0;padding:0;background:#17181d;border:1px solid #484852;border-left:0;box-shadow:15px 0 55px #0008;flex-direction:column}
+.aime-tree.is-open .aime-tree-inner{display:flex}.aime-tree.is-open .aime-tree-toggle{display:none}
+.aime-tree-top{height:80px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid #ffffff18}
+.aime-tree-identity{display:flex;gap:11px;align-items:center;font-size:13px;letter-spacing:.03em}
+.aime-tree-symbol{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#303039;font-weight:750;font-size:18px}
+.aime-tree-dismiss{width:32px;height:32px;border:0;border-radius:9px;background:#ffffff13;color:white;font-size:24px;cursor:pointer}
+.aime-tree-search{margin:15px 12px 12px;flex:none;width:calc(100% - 24px);min-height:43px;background:#292a30;border:1px solid #ffffff16;border-radius:12px;padding:0 14px;color:white;font:inherit;font-size:13px;outline-offset:2px}
+.aime-tree-search::placeholder{color:#aaa9b3}
+.aime-tree-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:9px 12px 18px;scrollbar-width:thin}
+.aime-tree-nav{gap:2px;margin-bottom:22px}.aime-tree-group{border-radius:9px}.aime-tree-group[hidden],.aime-tree-node[hidden]{display:none}
+.aime-tree-line{min-height:37px;padding:2px 3px;border-radius:9px}.aime-tree-line:hover{background:#ffffff0b}
+.aime-tree-nav .aime-tree-page{font-size:12px;font-weight:540;padding:9px 7px;letter-spacing:.005em}
+.aime-tree-nav .aime-tree-page[aria-current=page]{background:#ffffff15;font-weight:750}
+.aime-tree-expand{opacity:.75;flex-basis:29px}.aime-tree-line:hover .aime-tree-expand{opacity:1}
+.aime-tree-sub{padding-bottom:8px;margin-bottom:4px}.aime-tree-label{padding:3px 8px;font-size:10px}
+.aime-tree-foot{padding:12px;border-top:1px solid #ffffff21;flex:none;background:#17181d}
+.aime-tree-add,.aime-tree-open,.aime-tree-import{margin:5px 0;min-height:37px;font-size:11px}
+.aime-board{left:clamp(275px,22vw,330px)}
+@media(max-width:899px){.aime-tree{width:min(320px,91vw)}.aime-tree-toggle{top:auto;bottom:90px;left:9px}.aime-tree-inner{border-radius:0 16px 16px 0}.aime-board{left:7px}}
+@media(min-width:900px){body:has(.aime-tree.is-open) .tete{padding-left:clamp(246px,20vw,308px)}}
