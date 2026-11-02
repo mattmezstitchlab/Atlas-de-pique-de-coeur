@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RÉPARATION — ATLAS</title>
+<meta name="description" content="Les 643 projets AIME en fragments à glisser sur une grille magnétique : chacun reprend la forme de la Charte AIME. Et l’achèvement, composé à partir de ce qui a été refait le plus souvent.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="ATLAS">
+<meta property="og:title" content="Composition · Métamorphose — ATLAS">
+<meta property="og:description" content="Les 643 projets AIME en fragments à glisser sur une grille magnétique : chacun reprend la forme de la Charte AIME. Et l’achèvement, composé à partir de ce qui a été refait le plus souvent.">
+<meta property="og:url" content="https://atlas.lemondeaime.com/composition">
+<meta property="og:image" content="https://atlas.lemondeaime.com/media/phare.jpg">
+<meta property="og:image:alt" content="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<link rel="preload" href="fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/police.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/composants.css">
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/metamorphose.css">
+<link rel="stylesheet" href="css/nuit.css">
+<script src="js/theme.js"></script>
+<style>.page-classee section.chapitre{display:none!important}.page-classee #repetitions{display:block!important}.page-classee .premier{padding-top:clamp(40px,7vw,110px)}</style></head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+<header class="tete">
+  <nav class="dock-haut" aria-label="Dock du haut">
+    <div class="dock-ligne">
+      <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
+      <span class="separateur" aria-hidden="true"></span>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
+      <div class="rangee"><span class="separateur" aria-hidden="true"></span><a class="outil" href="chronologie.html">CHRONOLOGIE</a>
+<a class="outil" href="composition.html">COMPOSITION</a>
+<a class="outil" href="metamorphose.html">MÉTAMORPHOSE</a>
+<a class="outil" href="reparation.html" aria-current="page">RÉPARATION</a>
+<a class="outil" href="rosace.html">ROSACE</a>
+<a class="outil" href="vue-cube.html">CUBE</a></div>
+    </div>
+  </nav>
+</header>
+
+<main id="contenu" class="page page-classee">
+  <section id="principe" class="chapitre premier entete-meta" aria-labelledby="titre-meta">
+    <p class="surtitre">Atlas de pique de cœur · Demain</p>
+    <h1 id="titre-meta" class="signature titre-meta">Métamorphose</h1>
+    <p class="chapeau">Les 643 applications de l’écosystème deviennent des fragments, et la photographie de la marque une bibliothèque de visuels. Glissez-les de l’arbre vers la grille : ils s’aimantent aux cases et prennent la forme de la Charte AIME. Touchez un bloc pour l’agrandir par ses coins, changer son style ou lire ce qu’il raconte.</p>
+  </section>
+
+  <section id="repetitions" class="chapitre" aria-labelledby="t-rep">
+    <p class="date-chapitre">Ce qui a été recommencé · 10 nov. 2025 – 4 oct. 2026</p>
+    <h1 id="t-rep" class="grand-mot">RÉPARATION</h1>
+    <p class="chapeau" id="principe-texte"></p>
+    <ul class="barres-familles" id="barres"></ul>
+    <p class="note-source">Familles déduites des mots de chaque nom d’application : un classement à affiner, pas une vérité. Les études de sites existants, les « sans titre » et les jeux sont comptés à part.</p>
+  </section>
+
+  <section id="plus" class="chapitre plus-meta" aria-labelledby="t-plus">
+    <p class="date-chapitre">Recevoir · relier · transformer</p>
+    <h2 id="t-plus" class="grand-mot">Le +</h2>
+    <p class="chapeau">Dites ce que vous voulez faire, avec vos mots. Le moteur lit la demande, garde ce que vous avez dit et signale ce qui manque ; le traducteur propose des fragments et des modules. Vous choisissez, vous confirmez, et ils rejoignent la grille, reliés dans l’ordre de vos demandes.</p>
+    <div class="plus-saisie">
+      <label for="plus-demande" class="etiquette-champ">Votre demande</label>
+      <textarea id="plus-demande" class="champ zone" rows="4" spellcheck="true"></textarea>
+      <div class="carrousel-points" id="plus-exemples" role="group" aria-label="Exemples">
+        <button type="button" data-texte="D’abord prévoir le déroulé de la journée du mariage le 12 septembre à Lyon. Ensuite envoyer les invitations aux 148 invités. Et aussi préparer le devis du DJ, budget 900 €.">Un mariage</button>
+        <button type="button" data-texte="Je veux raconter mes souvenirs de Saint-Luc avec des photos, puis prendre rendez-vous avec l’imprimeur pour l’album.">Des souvenirs</button>
+        <button type="button" data-texte="Fais une affiche pour le concert de saxo du 5 avril à Nantes, ensuite répartir les tâches entre les bénévoles.">Un concert</button>
+      </div>
+      <div class="actions"><button type="button" class="bouton noir" id="plus-lire">Lire la demande</button></div>
+    </div>
+    <p class="resume" id="plus-statut" role="status" aria-live="polite"></p>
+    <ol class="plus-propositions" id="plus-propositions"></ol>
+    <div class="actions"><button type="button" class="bouton noir" id="plus-poser" hidden>Confirmer et poser sur la grille</button></div>
+    <p class="note-source">Le moteur (js/moteur.js) et la table du traducteur (data/traduction.js) tournent dans votre navigateur : rien n’est envoyé. Le résultat est une composition structurée, pas une demande exécutée.</p>
+  </section>
+
+  <section id="atelier" class="chapitre atelier-meta" aria-labelledby="t-atelier">
+    <p class="date-chapitre">Glisser · déposer · composer</p>
+    <h2 id="t-atelier" class="grand-mot">COMPOSITION</h2>
+    <div class="barre-outils" role="toolbar" aria-label="Mises en page" id="mises">
+      <span class="barre-titre">Mises en page</span>
+      <button type="button" class="opt" data-mise="achevement" aria-pressed="false">L’achèvement</button>
+      <button type="button" class="opt" data-mise="une" aria-pressed="false">À la une</button>
+      <button type="button" class="opt" data-mise="magazine" aria-pressed="false">Magazine</button>
+      <button type="button" class="opt" data-mise="bento" aria-pressed="false">Bento</button>
+      <button type="button" class="opt" data-mise="mosaique" aria-pressed="false">Mosaïque</button>
+      <button type="button" class="opt" data-mise="grille" aria-pressed="false">Grille</button>
+      <button type="button" class="opt" data-mise="colonne" aria-pressed="false">Colonne</button>
+    </div>
+    <div class="barre-outils barre-seconde" role="toolbar" aria-label="Composer">
+      <button type="button" class="opt" id="inverser" aria-pressed="false">Le moins important d’abord</button>
+      <button type="button" class="bouton" id="vider">Vider la grille</button>
+      <label class="sr-only" for="recettes">Recettes enregistrées</label><select class="champ select-recettes" id="recettes"></select>
+      <button type="button" class="opt" id="recette-garder">Garder la recette</button>
+      <button type="button" class="opt" id="recette-exporter">Exporter</button>
+      <label class="opt importer-recette">Importer<input type="file" accept="application/json,.json" id="recette-importer" hidden></label>
+      <p class="compte" id="compte" role="status" aria-live="polite"></p>
+    </div>
+    <div class="plan">
+      <aside class="arbre" aria-labelledby="t-arbre">
+        <h3 id="t-arbre" class="arbre-titre">Les 643 <span>les modules, les visuels</span></h3>
+        <label for="filtre" class="sr-only">Filtrer les projets</label>
+        <input id="filtre" class="champ" type="search" placeholder="Filtrer : mariage, sax, mer…" autocomplete="off">
+        <div id="familles" class="familles"></div>
+      </aside>
+      <div class="zone" id="zone">
+        <div class="grille-aimantee" id="grille" aria-label="Grille magnétique" role="region">
+          <div class="aimant" id="aimant" hidden></div>
+        </div>
+        <div class="barre-bloc" id="barre-bloc" role="toolbar" aria-label="Actions du bloc choisi" hidden></div>
+        <p class="aide" id="aide">Glissez un fragment ou un visuel depuis l’arbre, ou touchez-le pour le poser. Touchez un bloc pour le choisir : tirez ses coins pour l’agrandir, ses actions apparaissent dessous ; « Relier » fait passer la lumière et les données d’un module à l’autre, « Fusionner » en fait un seul bloc. Au clavier : Entrée choisit, flèches déplacent, Maj + flèches agrandissent, Suppr retire.</p>
+        <section class="fiche-bloc" id="fiche" aria-live="polite" aria-label="Ce que raconte le bloc choisi" hidden></section>
+      </div>
+    </div>
+  </section>
+
+  <section id="publier" class="chapitre plus-meta publier-meta" aria-labelledby="t-publier">
+    <p class="date-chapitre">Un geste volontaire · lecture seule</p>
+    <h2 id="t-publier" class="grand-mot">Publier</h2>
+    <p class="chapeau">Votre composition reste sur cet appareil. Si vous le choisissez, préparez-en une version publique : seule la forme de la grille est gardée (les blocs, leurs places, leurs liens, les intentions reconnues). Ce que vous avez saisi n’y est jamais : ni les phrases de vos demandes, ni les informations reconnues, ni les données des modules, ni les réglages d’image.</p>
+    <div class="plus-saisie">
+      <label class="etiquette-champ" for="publier-titre">Titre public</label>
+      <input id="publier-titre" class="champ" type="text" maxlength="80" placeholder="Un concert en deux demandes" autocomplete="off">
+      <label class="etiquette-champ" for="publier-description">Description publique (facultative)</label>
+      <textarea id="publier-description" class="champ zone" rows="2" maxlength="280"></textarea>
+      <label class="plus-choix"><input type="checkbox" id="publier-accord"> <span><span><strong>Je choisis de préparer une version publique de cette composition.</strong></span><small>Le fichier est préparé ici et téléchargé ; rien n’est envoyé. Il ne devient public qu’une fois ajouté au dépôt de l’atlas.</small></span></label>
+      <div class="actions"><button type="button" class="bouton noir" id="publier-preparer" disabled>Préparer la version publique</button></div>
+    </div>
+    <p class="resume" id="publier-statut" role="status" aria-live="polite"></p>
+    <div class="publier-resultat" id="publier-resultat" hidden>
+      <dl class="etude-liste">
+        <div><dt>Identifiant</dt><dd><code id="publier-id"></code></dd></div>
+        <div><dt>Adresse, une fois ajoutée</dt><dd><code id="publier-adresse"></code></dd></div>
+        <div><dt>Référence pour .0NE</dt><dd><code id="publier-reference"></code></dd></div>
+      </dl>
+      <details><summary>Le fichier exact, tel qu’il sera public</summary><pre class="publier-apercu" id="publier-apercu"></pre></details>
+      <div class="actions"><button type="button" class="bouton noir" id="publier-telecharger">Télécharger le fichier de publication</button></div>
+      <p class="note-source">Pour publier : ajoutez ce fichier, sans le modifier, dans le dossier <code>creations/</code> du dépôt de l’atlas (voir <code>docs/PUBLICATION.md</code>). Un fichier modifié après sa préparation est refusé à la lecture.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <nav class="pied-nav" aria-label="Plan du site">
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="vue-cube.html">La vue Cube</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">L’écosystème AIME</p><a href="https://www.lemondeaime.com/" rel="noopener">Retour à Le Monde AIME</a></div>
+  </nav>
+  <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+</footer>
+
+<nav class="dock-bas" aria-label="Les lieux de la page">
+  <div id="dock">
+    <a class="lieu" href="#principe">Métamorphose</a>
+    <a class="lieu" href="#repetitions">La réparation</a>
+    <a class="lieu" href="#plus">Le +</a>
+    <a class="lieu" href="#atelier">La grille</a>
+    <a class="lieu" href="#publier">Publier</a>
+    <a class="lieu" href="chronologie.html#demain">Retour à demain</a>
+  </div>
+</nav>
+
+<script src="data/applications.js"></script>
+<script src="data/achevement.js"></script>
+<script src="data/visuels.js"></script>
+<script src="data/modules.js"></script>
+<script src="data/histoire.js"></script>
+<script src="js/briques.js"></script>
+<script src="js/modules.js"></script>
+<script src="js/metamorphose.js"></script>
+<script src="data/lexique.js"></script>
+<script src="js/moteur.js"></script>
+<script src="data/traduction.js"></script>
+<script src="js/traducteur.js"></script>
+<script src="js/publication.js"></script>
+<script src="js/publier.js"></script>
+</body>
+</html>
