@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le Cube — ATLAS</title>
+<meta name="description" content="ATLAS, à la recherche du temps créé : un seul récit, de Saint-Luc à la grille des blocs. Le Cube traverse vingt-cinq ans de fragments et les montre dans ses cases.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="ATLAS">
+<meta property="og:title" content="ATLAS — Voir l’invisible">
+<meta property="og:description" content="ATLAS, à la recherche du temps créé : un seul récit, de Saint-Luc à la grille des blocs. Le Cube traverse vingt-cinq ans de fragments et les montre dans ses cases.">
+<meta property="og:url" content="https://atlas.lemondeaime.com/">
+<meta property="og:image" content="https://atlas.lemondeaime.com/media/phare.jpg">
+<meta property="og:image:alt" content="Un couple au pied d’un phare face à la mer agitée au coucher du soleil">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="design-system/assets/aime-orbe.svg">
+<script>
+  /* les anciens liens « /#chapitre » de l’atlas mènent désormais à la chronologie */
+  (function () { var h = location.hash.slice(1); if (/^(avant|novembre|decembre|hiver|avril|mai|juin|juillet|aout|ecosysteme|octobre|demain|conclusion|achevement|fiches|e-[\w-]+)$/.test(h)) location.replace('chronologie.html' + location.search + location.hash); })();
+  /* les anciennes sections de l’accueil ont rejoint les faces du Cube */
+  (function () { var v = { espaces: 'chronologie', preuves: 'chronologie', fragments: 'composition', 'saint-luc': 'archives', formes: 'relations', instrument: 'relations', essai: 'modules', cube: 'haut-de-page' }[location.hash.slice(1)]; if (v) history.replaceState(null, '', '#' + v); })();
+</script>
+<link rel="preload" href="fonts/inter-tight/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/police.css">
+<!-- Le design system AIME, dans cet ordre : les jetons, les composants, la mise en page de l’atlas ; puis le récit du Cube. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/composants.css">
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/metamorphose.css">
+<link rel="stylesheet" href="css/recit.css">
+<link rel="stylesheet" href="css/nuit.css">
+<script src="js/theme.js"></script>
+</head>
+<body class="recit">
+<a class="lien-evitement" href="#archives">Aller au récit</a>
+<header class="tete">
+  <nav class="dock-haut" aria-label="Dock du haut">
+    <div class="dock-ligne">
+      <span class="carre-orbe" aria-hidden="true"><span class="orbe"></span></span>
+      <span class="separateur" aria-hidden="true"></span>
+      <a class="outil" href="index.html" style="padding:0 10px" aria-label="ATLAS, l’accueil"><span class="marque">ATLAS</span></a>
+      <div class="rangee"><span class="separateur" aria-hidden="true"></span>
+        <a class="outil" href="chronologie.html">Chronologie</a>
+        <a class="outil" href="composition.html">Composition</a>
+        <a class="outil" href="rosace.html">ROSACE</a>
+        <a class="outil" href="vue-cube.html">Cube</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- La scène, collante : la projection (grand visuel, grand titre blanc), « MATT MEZ » et la loupe, le Cube au centre -->
+  <div class="recit-scene" id="scene">
+    <div class="lumieres" aria-hidden="true"></div>
+    <div class="projection" id="projection" aria-hidden="true"></div>
+    <div class="titre-plan" id="titre-plan"><h1 id="titre-page" class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></h1></div>
+    <div class="loupe" id="loupe" aria-hidden="true"><div class="titre-plan"><p class="signature titre-pseudo"><span>MATT</span> <span>MEZ</span></p></div></div>
+    <p class="intro-sous" id="intro-sous">À la recherche du temps créé<small>Faites défiler : le Cube traverse vingt-cinq ans de fragments.</small></p>
+    <div class="cube-scene" id="cube-scene" tabindex="0" role="img" aria-roledescription="cube" aria-label="Le Cube d’ATLAS. Il tourne avec le récit ; on peut aussi le saisir. Ses cases reprennent les fragments de la carte à côté.">
+      <div class="cube" id="le-cube"></div>
+    </div>
+    <p class="cube-legende" id="cube-legende" aria-hidden="true"></p>
+    <div class="patron" id="patron" aria-hidden="true"></div>
+  </div>
+
+  <!-- Le récit : une station par lieu ; chaque station dit, en texte, ce que le Cube montre dans ses cases -->
+  <div class="recit-fil" id="recit">
+    <section class="station intro" id="haut-de-page" data-station="intro" aria-label="Le Cube"></section>
+    <noscript><section class="station"><div class="carte-station"><p class="texte">Le récit du Cube a besoin de JavaScript. <a href="chronologie.html">La chronologie</a> et <a href="composition.html">la Composition</a> restent ouvertes.</p></div></section></noscript>
+  </div>
+
+  <!-- La fin : le Cube déplié devient la grille des blocs -->
+  <section class="plateau" id="grille" aria-labelledby="t-grille">
+    <div class="plateau-tete">
+      <p class="surtitre">Le Cube, déplié</p>
+      <h2 id="t-grille" class="grand-mot">La grille</h2>
+      <p class="chapeau" id="grille-principe"></p>
+    </div>
+    <div class="grille-aimantee recit-grille" id="recit-grille" aria-label="La composition proposée : une brique par famille"></div>
+    <p class="liens"><a class="bouton noir" href="composition.html">Ouvrir la grille dans la Composition</a> <a class="bouton" href="composition.html#plus">Le + : d’une demande à la grille</a> <a class="bouton" href="importer.html">Importer vos fichiers</a></p>
+  </section>
+</main>
+
+<footer class="pied">
+  <a href="index.html" aria-label="ATLAS, l’accueil" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none"><span class="orbe" style="width:28px;height:28px"></span><span class="marque" style="font-size:22px">ATLAS</span></a>
+  <nav class="pied-nav" aria-label="Plan du site">
+    <div><p class="pied-titre">Les trois espaces</p><a href="index.html">Accueil · Comprendre</a><a href="chronologie.html">Chronologie · Explorer</a><a href="composition.html">Composition · Créer</a></div>
+    <div><p class="pied-titre">Aussi</p><a href="importer.html">L’import</a><a href="vue-cube.html">La vue Cube</a><a href="ecosysteme.html">L’écosystème</a><a href="moteur.html">Le moteur</a><a href="administration.html" rel="nofollow">Administration (éditeur local, sans connexion)</a></div>
+    <div><p class="pied-titre">L’écosystème AIME</p><a href="https://www.lemondeaime.com/" rel="noopener">Retour à Le Monde AIME</a></div>
+  </nav>
+  <div class="bas"><p style="margin:0">ATLAS — À la recherche du temps créé. AIME® est la marque mère ; LE MONDE AIME est une association.</p><p style="margin:0">© 2026 AIME®</p></div>
+</footer>
+
+<nav class="dock-bas" aria-label="Les lieux du récit">
+  <div id="dock">
+    <a class="lieu" href="#archives">Archives</a>
+    <a class="lieu" href="#chronologie">Chronologie</a>
+    <a class="lieu" href="#composition">Composition</a>
+    <a class="lieu" href="#relations">Relations</a>
+    <a class="lieu" href="#modules">Modules</a>
+    <a class="lieu" href="#projets">Écosystème</a>
+    <a class="lieu" href="#grille">La grille</a>
+  </div>
+</nav>
+
+<script src="data/applications.js"></script>
+<script src="data/achevement.js"></script>
+<script src="data/modules.js"></script>
+<script src="data/chronologie.js"></script>
+<script src="data/histoire.js"></script>
+<script src="data/visuels.js"></script>
+<script src="data/projets.js"></script>
+<script src="js/briques.js"></script>
+<script src="js/recit.js"></script>
+</body>
+</html>
