@@ -290,8 +290,22 @@
   }
   A.vueCube = { charger: charger, sourceAtlas: sourceAtlas, faces: function () { return FACES; }, items: function () { return items; }, liens: function () { return liens; },
     choisir: choisir, vers: function (id) { vers(PAR_ID[id]); }, visible: function () { return actuelle && actuelle.id; }, choisi: function () { return choisi; } };
+  /* Six faces universelles : lecture démonstrative sans données personnelles.
+     La source historique demeure accessible via sourceAtlas() et le récit séparé. */
+  function sourceUniverselle(){
+    var spec=[
+      ['avant','PROFIL','Informations personnelles','temps',['Nom','Prénom','Ville','Rôle']],
+      ['droite','CALENDRIER','Dates et rendez-vous','structure',['Date','Heure','Événement','Échéance']],
+      ['arriere','MÉDIAS','Contenus visuels et sonores','temps',['Photo','Vidéo','Audio','Visuel']],
+      ['gauche','DOCUMENTS','Pièces et fichiers','structure',['Fiche','PDF','Contrat','Document']],
+      ['haut','CONTACT','Échanges et coordonnées','usage',['Adresse','Message','Téléphone','E-mail']],
+      ['bas','ACTIONS','Gestes possibles','usage',['Demander','Envoyer','Publier','Payer']]
+    ];var rotations={avant:[0,0],droite:[0,-90],arriere:[0,-180],gauche:[0,-270],haut:[-90,0],bas:[90,0]};
+    var items={},liens={};var faces=spec.map(function(g){var rotation=rotations[g[0]];var liste=g[4].map(function(n,i){var id='exemple-'+g[0]+'-'+i;var it={id:id,court:n,titre:n,sous:g[1]+' · exemple',date:g[1],fiche:[['Type',n]],texte:'',href:null};items[id]=it;liens[id]={};return it});return{id:g[0],mot:g[1],sous:g[2],axe:g[3],liste:liste,rx:rotation[0],ry:rotation[1],visuel:null}});
+    return{faces:faces,items:items,liens:liens,textes:{sansLien:'Exemple sans données liées.'}};
+  }
   /* la page d’import charge sa propre source ; sinon, l’atlas */
-  if (document.body.getAttribute('data-source') !== 'import') charger(sourceAtlas());
+  if (document.body.getAttribute('data-source') !== 'import') charger(document.body.getAttribute('data-source') === 'universel' ? sourceUniverselle() : sourceAtlas());
   /* venir d’une face du récit (accueil) : vue-cube.html#chronologie, #composition, #archives, #relations, #modules, #ecosysteme */
   var ANCRE = { chronologie: 'avant', composition: 'droite', archives: 'arriere', relations: 'gauche', modules: 'haut', ecosysteme: 'bas' };
   function suivreAncre() { var h = location.hash.slice(1), id = ANCRE[h] || h; if (PAR_ID[id]) vers(PAR_ID[id]); }
