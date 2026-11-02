@@ -89,3 +89,10 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 .aime-tool-dock .aime-picto{width:25px;height:25px}
 .aime-tool-dock button.is-active{background:#ffffff1d}
 .aime-board-grid{background-size:64px 64px}
+
+/* Correctif prioritaire : les icônes du Bureau ne peuvent jamais agrandir leurs boutons. */
+.aime-tree .aime-tree-foot{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;align-items:center!important}
+.aime-tree .aime-tree-foot>.aime-icon-action{display:flex!important;position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;height:42px!important;min-height:42px!important;max-height:42px!important;margin:0!important;padding:0!important;flex:none!important;overflow:hidden!important;box-sizing:border-box!important}
+.aime-tree .aime-tree-foot>.aime-icon-action .aime-picto,.aime-tree .aime-tree-foot>.aime-icon-action .aime-picto svg{display:block!important;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;max-width:22px!important;max-height:22px!important;flex:none!important}
+.aime-tree .aime-tree-foot>.aime-icon-action svg{position:static!important;transform:none!important;overflow:visible!important}
+.aime-tree .aime-tree-foot>.aime-icon-action input{display:none!important}
