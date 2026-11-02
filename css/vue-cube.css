@@ -125,3 +125,22 @@ button.lieu { font: inherit; font-size: 15px; font-weight: 500; }
 .vc-entete { position: relative; z-index: 1; }
 @media (max-width: 960px) { .vc-etat { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; } .vc-proj-texte { bottom: var(--espace-6); } .vc-proj-titre { font-size: clamp(36px, 10vw, 64px); } .vc-proj-recit { display: none; } }
 @media (prefers-reduced-motion: reduce) { .vc-proj { animation: none; clip-path: none; transition: none; } .vc-defile-piste { animation: none; } }
+
+
+/* ATLAS : six faces, six lectures colorées — sans toucher au moteur 3D */
+.vc-atlas-faces{grid-column:1/-1;width:100%;background:#faf9f7;color:#19181d;padding:clamp(22px,5vw,80px) clamp(16px,5vw,80px);display:grid;gap:16px}
+.vc-faces-intro{max-width:1000px;margin:0 auto 35px;width:100%}
+.vc-faces-intro h2{font-size:clamp(40px,7.5vw,108px);line-height:.96;letter-spacing:-.065em;margin:20px 0 24px}
+.vc-faces-intro>p:last-child{font-size:clamp(16px,2vw,22px);max-width:52ch;line-height:1.45}
+.vc-face-band{max-width:1500px;width:100%;margin:auto;min-height:360px;padding:clamp(25px,5vw,68px);border-radius:22px;display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr);gap:35px;align-items:center}
+.vc-b-chrono{background:#e6ddf1}.vc-b-compo{background:#dce9e9}.vc-b-archives{background:#f1e6d8}.vc-b-liens{background:#efdde4}.vc-b-modules{background:#e4e9d6}.vc-b-ecosysteme{background:#e1e4ef}
+.vc-band-head span{font-size:12px;letter-spacing:.18em;font-weight:650}
+.vc-band-head h3{font-size:clamp(44px,5.5vw,84px);line-height:1;margin:15px 0;letter-spacing:-.06em}
+.vc-band-head p{font-size:clamp(16px,1.5vw,20px);line-height:1.5;max-width:28ch}
+.vc-band-head button{background:#18171c;color:white;border:0;border-radius:999px;padding:12px 20px;font:inherit;font-size:14px;cursor:pointer;margin-top:18px}
+.vc-band-head button:focus-visible{outline:3px solid #765b83;outline-offset:3px}
+.vc-mosaique{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;align-self:stretch;min-height:250px}
+.vc-mosaique>div{display:flex;align-items:flex-end;padding:17px;background:#ffffffa8;border:1px solid #ffffffb0;border-radius:13px;font-size:clamp(12px,1.3vw,17px);font-weight:600;overflow-wrap:anywhere}
+.vc-mosaique>div:nth-child(2),.vc-mosaique>div:nth-child(5){background:#ffffff65}
+.vc-faces-note{max-width:1200px;width:100%;margin:15px auto 0;color:#56515b;font-size:13px}
+@media(max-width:760px){.vc-face-band{grid-template-columns:1fr;gap:22px;min-height:auto}.vc-mosaique{min-height:210px}.vc-mosaique>div{padding:12px}.vc-faces-intro{margin-bottom:10px}}
