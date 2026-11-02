@@ -38,6 +38,8 @@
   /* Bureau universel commun : une couche visible, sans déplacer les moteurs en place. */
   function bureau(){if(document.querySelector('script[data-aime-bureau]'))return;var style=document.createElement('link');style.rel='stylesheet';style.href='css/aime-bureau.css';document.head.appendChild(style);var script=document.createElement('script');script.src='js/aime-bureau.js';script.setAttribute('data-aime-bureau','');document.body.appendChild(script)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bureau);else bureau();
+  function ajouterApercus(){var rangee=document.querySelector('.dock-haut .rangee');if(!rangee||rangee.querySelector('a[href="design-system-apercus.html"]'))return;var a=document.createElement('a');a.href='design-system-apercus.html';a.className='outil';a.textContent='APERÇUS';if(location.pathname.endsWith('/design-system-apercus.html'))a.setAttribute('aria-current','page');rangee.appendChild(a)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ajouterApercus);else ajouterApercus();
   function rubriques(){if(document.querySelector('script[data-aime-rubriques]'))return;var script=document.createElement('script');script.src='js/aime-rubriques.js';script.defer=true;script.setAttribute('data-aime-rubriques','');document.body.appendChild(script)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',rubriques);else rubriques();
 })();
