@@ -6,17 +6,21 @@
   var sombre = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
   function mode() { h.setAttribute('data-theme', choix); h.setAttribute('data-mode', choix === 'nuit' || (choix === 'auto' && sombre && sombre.matches) ? 'nuit' : 'jour'); }
   mode(); if (sombre && sombre.addEventListener) sombre.addEventListener('change', mode);
-  var NOMS = { auto: 'Auto', jour: 'Jour', nuit: 'Nuit' };
   function poser() {
-    var ligne = document.querySelector('.dock-haut .dock-ligne'); if (!ligne || ligne.querySelector('.theme-choix')) return;
-    ligne.insertAdjacentHTML('beforeend', '<span class="separateur" aria-hidden="true"></span><div class="theme-choix" role="group" aria-label="Apparence">' +
-      Object.keys(NOMS).map(function (k) { return '<button type="button" class="theme-btn" data-theme-choix="' + k + '" aria-pressed="' + (k === choix) + '">' + NOMS[k] + '</button>'; }).join('') + '</div>');
-    ligne.querySelector('.theme-choix').addEventListener('click', function (ev) {
-      var b = ev.target.closest('[data-theme-choix]'); if (!b) return;
-      choix = b.getAttribute('data-theme-choix'); mode();
-      try { localStorage.setItem(CLE, choix); } catch (e) { /* le choix vaut pour la séance */ }
-      Array.prototype.forEach.call(this.querySelectorAll('[data-theme-choix]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    var ligne = document.querySelector('.dock-haut .dock-ligne'); if (!ligne || ligne.querySelector('.theme-picto')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'theme-picto'; btn.title = 'Changer le thème : automatique, jour, nuit';
+    function etiquette() {
+      var nom = choix === 'auto' ? 'Automatique' : choix === 'jour' ? 'Jour' : 'Nuit';
+      btn.setAttribute('aria-label', 'Apparence : ' + nom + '. Activer le mode suivant');
+      btn.innerHTML = choix === 'nuit' ? '&#9790;' : choix === 'jour' ? '&#9728;' : '&#9681;';
+    }
+    etiquette();
+    btn.addEventListener('click',function(){
+      choix = choix === 'auto' ? 'jour' : choix === 'jour' ? 'nuit' : 'auto';
+      mode(); etiquette(); try { localStorage.setItem(CLE,choix); } catch(e) {}
     });
+    ligne.appendChild(btn);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poser); else poser();
 })();
