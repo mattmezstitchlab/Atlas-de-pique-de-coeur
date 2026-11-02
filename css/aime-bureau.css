@@ -96,3 +96,13 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 .aime-tree .aime-tree-foot>.aime-icon-action .aime-picto,.aime-tree .aime-tree-foot>.aime-icon-action .aime-picto svg{display:block!important;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;max-width:22px!important;max-height:22px!important;flex:none!important}
 .aime-tree .aime-tree-foot>.aime-icon-action svg{position:static!important;transform:none!important;overflow:visible!important}
 .aime-tree .aime-tree-foot>.aime-icon-action input{display:none!important}
+
+/* AIME — un seul repère de navigation visible : le Bureau.
+   La navigation historique reste dans le DOM comme source temporaire des liens. */
+body:has(.aime-tree) .tete,
+body:has(.aime-tree) .dock-haut,
+body:has(.aime-tree) .dock-bas.atlas-dock-essentiel{display:none!important}
+@media(min-width:900px){
+ body:has(.aime-tree.is-open) main{margin-left:clamp(246px,20vw,308px)}
+ body:has(.aime-tree.is-open) .aime-board{left:clamp(246px,20vw,308px)}
+}
