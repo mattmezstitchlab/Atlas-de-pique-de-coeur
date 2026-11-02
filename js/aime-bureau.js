@@ -15,7 +15,7 @@ const inventory=el('div','aime-tree-inventory');inner.append(inventory);
 const create=el('button','aime-tree-add','+ AJOUTER UN BLOC');create.type='button';inner.append(create);
 const importLabel=el('label','aime-tree-import','IMPORTER UN FICHIER');const file=el('input');file.type='file';file.accept='image/*,video/*,audio/*,.pdf,.txt,.md';file.hidden=true;importLabel.append(file);inner.append(importLabel);
 const open=el('button','aime-tree-open','OUVRIR LA GRILLE');open.type='button';inner.append(open);
-aside.append(trigger,inner);document.body.append(aside);
+aside.append(trigger,inner);document.body.append(aside);if(window.matchMedia('(min-width: 900px)').matches){aside.classList.add('is-open');trigger.setAttribute('aria-expanded','true')}
 const board=el('section','aime-board');board.id='aime-board';board.setAttribute('aria-label','Grille de blocs');board.hidden=true;
 const head=el('div','aime-board-head');head.append(el('strong','', 'GRILLE · AIME'));const close=el('button','','FERMER');close.type='button';head.append(close);board.append(head);
 const toolbar=el('div','aime-board-toolbar');const select=el('select');select.setAttribute('aria-label','Type de bloc');kinds.forEach(k=>{let o=el('option','',k);o.value=k;select.append(o)});const add=el('button','','+ BLOC');add.type='button';toolbar.append(select,add);board.append(toolbar);
@@ -32,5 +32,6 @@ function render(){inventory.replaceChildren();grid.replaceChildren();blocks.forE
 function newBlock(type='CARTE',title){push({id:id(),type,title:title||'Nouveau bloc',status:'À TRIER',x:5+(blocks.length%4)*8,y:25+blocks.length*28})}
 trigger.addEventListener('click',()=>{aside.classList.toggle('is-open');trigger.setAttribute('aria-expanded',String(aside.classList.contains('is-open')))});create.addEventListener('click',()=>newBlock());add.addEventListener('click',()=>newBlock(select.value));open.addEventListener('click',()=>{board.hidden=false;render()});close.addEventListener('click',()=>{board.hidden=true});file.addEventListener('change',()=>{const f=file.files&&file.files[0];if(!f)return;const type=f.type.startsWith('image/')?'IMAGE':f.type.startsWith('video/')?'VIDÉO':'DOCUMENT';const url=URL.createObjectURL(f);newBlock(type,f.name);update({description:'Fichier local · aperçu temporaire (non téléversé)',preview:type==='IMAGE'?url:null});file.value=''});
 let drag=null;grid.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;const t=e.target.closest('.aime-tile');if(!t)return;drag={id:t.dataset.id,x:e.clientX,y:e.clientY,ox:parseFloat(t.style.left)||0,oy:parseFloat(t.style.top)||0};t.setPointerCapture(e.pointerId)});grid.addEventListener('pointermove',e=>{if(!drag)return;const b=blocks.find(x=>x.id===drag.id);if(!b)return;b.x=Math.max(0,Math.min(80,drag.ox+(e.clientX-drag.x)/grid.clientWidth*100));b.y=Math.max(0,drag.oy+e.clientY-drag.y);const t=grid.querySelector('[data-id="'+b.id+'"]');if(t){t.style.left=b.x+'%';t.style.top=b.y+'px'}});function stop(){if(drag){save();drag=null}}grid.addEventListener('pointerup',stop);grid.addEventListener('pointercancel',stop);
+if(path==='espace.html')board.hidden=false;
 render();
 })();
