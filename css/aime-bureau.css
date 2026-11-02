@@ -15,3 +15,8 @@ body{background-image:linear-gradient(to right,rgba(135,135,155,.105) 1px,transp
 .aime-block-menu{position:relative;display:flex;flex-wrap:wrap;gap:5px;background:#12121aed;border-top:1px solid #ffffff38;padding:8px;margin:10px -9px -9px;border-radius:10px;touch-action:auto;user-select:auto}.aime-block-menu button{font-size:10px;padding:7px;touch-action:manipulation}
 @media(max-width:650px){.aime-tree{top:auto;bottom:85px;transform:none;left:9px;max-height:78dvh}.aime-board{inset:75px 5px 72px 5px}.aime-board-grid{inset:107px 0 0}.aime-tree-inner{max-height:53dvh}.aime-tile{width:145px}}
 @media(prefers-reduced-motion:reduce){.aime-board,.aime-tree{scroll-behavior:auto}}
+
+/* Lisibilité des relations et navigation constante */
+.aime-relations-label{position:absolute;bottom:0;left:0;right:0;z-index:8;margin:0;background:#1a1b22;color:#e5e2ee;padding:10px 17px;font-size:12px;border-top:1px solid #ffffff36;white-space:nowrap;overflow-x:auto}
+.aime-tree-node:focus-visible,.aime-tree-nav a:focus-visible,.aime-tile:focus-visible,.aime-board button:focus-visible{outline:2px solid #d7bfff;outline-offset:2px}
+.aime-board-grid{bottom:36px}.aime-board-toolbar{flex-wrap:wrap}.aime-tree-inventory:empty:after{content:'Aucun bloc pour le moment';display:block;color:#aaaab4;font-size:11px;padding:10px}
