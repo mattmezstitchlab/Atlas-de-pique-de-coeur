@@ -380,3 +380,10 @@ html.calme .carte-flip > .dos { opacity: 0; } html.calme .carte-flip.retournee >
 .atlas-dock-actions{pointer-events:auto;display:flex;gap:6px;align-items:center;justify-content:center;margin:auto;width:max-content;max-width:calc(100vw - 25px);padding:7px;border-radius:999px;background:#151419ee;box-shadow:0 12px 35px #0003;border:1px solid #ffffff30}
 .atlas-dock-actions a{display:grid;place-items:center;width:45px;height:43px;font-size:23px;text-decoration:none;color:#fff;border-radius:100%;font-weight:400}
 .atlas-dock-actions a:hover,.atlas-dock-actions a:focus-visible{background:#ffffff23;color:#fff}
+
+/* ATLAS — dock essentiel à trois destinations explicites */
+.atlas-dock-essentiel .atlas-dock-actions{gap:5px;padding:6px 9px;max-width:calc(100vw - 20px)}
+.atlas-dock-essentiel .atlas-dock-actions a{width:auto;min-width:70px;height:43px;border-radius:999px;padding:0 15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:650;white-space:nowrap;letter-spacing:.035em}
+.atlas-dock-essentiel .atlas-dock-actions .atlas-dock-orb{padding-left:9px}
+.atlas-dock-essentiel .atlas-dock-orb img{display:block;width:27px;height:27px;flex:0 0 27px}
+@media(max-width:420px){.atlas-dock-essentiel .atlas-dock-actions a{min-width:0;padding:0 10px;font-size:11px}.atlas-dock-essentiel .atlas-dock-orb img{width:23px;height:23px;flex-basis:23px}}
